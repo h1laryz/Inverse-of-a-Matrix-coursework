@@ -35,37 +35,37 @@ namespace CourseWork
             this.label3 = new System.Windows.Forms.Label();
             this.method = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.elem11 = new System.Windows.Forms.TextBox();
+            this.elem00 = new System.Windows.Forms.TextBox();
             this.solve = new System.Windows.Forms.Button();
-            this.elem12 = new System.Windows.Forms.TextBox();
-            this.elem13 = new System.Windows.Forms.TextBox();
-            this.elem14 = new System.Windows.Forms.TextBox();
-            this.elem15 = new System.Windows.Forms.TextBox();
+            this.elem01 = new System.Windows.Forms.TextBox();
+            this.elem02 = new System.Windows.Forms.TextBox();
+            this.elem03 = new System.Windows.Forms.TextBox();
+            this.elem04 = new System.Windows.Forms.TextBox();
             this.row1 = new System.Windows.Forms.GroupBox();
             this.row2 = new System.Windows.Forms.GroupBox();
-            this.elem25 = new System.Windows.Forms.TextBox();
-            this.elem24 = new System.Windows.Forms.TextBox();
-            this.elem21 = new System.Windows.Forms.TextBox();
-            this.elem23 = new System.Windows.Forms.TextBox();
-            this.elem22 = new System.Windows.Forms.TextBox();
+            this.elem14 = new System.Windows.Forms.TextBox();
+            this.elem13 = new System.Windows.Forms.TextBox();
+            this.elem10 = new System.Windows.Forms.TextBox();
+            this.elem12 = new System.Windows.Forms.TextBox();
+            this.elem11 = new System.Windows.Forms.TextBox();
             this.row3 = new System.Windows.Forms.GroupBox();
-            this.elem35 = new System.Windows.Forms.TextBox();
-            this.elem34 = new System.Windows.Forms.TextBox();
-            this.elem31 = new System.Windows.Forms.TextBox();
-            this.elem33 = new System.Windows.Forms.TextBox();
-            this.elem32 = new System.Windows.Forms.TextBox();
+            this.elem24 = new System.Windows.Forms.TextBox();
+            this.elem23 = new System.Windows.Forms.TextBox();
+            this.elem20 = new System.Windows.Forms.TextBox();
+            this.elem22 = new System.Windows.Forms.TextBox();
+            this.elem21 = new System.Windows.Forms.TextBox();
             this.row4 = new System.Windows.Forms.GroupBox();
-            this.elem45 = new System.Windows.Forms.TextBox();
-            this.elem44 = new System.Windows.Forms.TextBox();
-            this.elem41 = new System.Windows.Forms.TextBox();
-            this.elem43 = new System.Windows.Forms.TextBox();
-            this.elem42 = new System.Windows.Forms.TextBox();
+            this.elem34 = new System.Windows.Forms.TextBox();
+            this.elem33 = new System.Windows.Forms.TextBox();
+            this.elem30 = new System.Windows.Forms.TextBox();
+            this.elem32 = new System.Windows.Forms.TextBox();
+            this.elem31 = new System.Windows.Forms.TextBox();
             this.row5 = new System.Windows.Forms.GroupBox();
-            this.elem55 = new System.Windows.Forms.TextBox();
-            this.elem54 = new System.Windows.Forms.TextBox();
-            this.elem51 = new System.Windows.Forms.TextBox();
-            this.elem53 = new System.Windows.Forms.TextBox();
-            this.elem52 = new System.Windows.Forms.TextBox();
+            this.elem44 = new System.Windows.Forms.TextBox();
+            this.elem43 = new System.Windows.Forms.TextBox();
+            this.elem40 = new System.Windows.Forms.TextBox();
+            this.elem42 = new System.Windows.Forms.TextBox();
+            this.elem41 = new System.Windows.Forms.TextBox();
             this.row1.SuspendLayout();
             this.row2.SuspendLayout();
             this.row3.SuspendLayout();
@@ -130,12 +130,12 @@ namespace CourseWork
             this.label4.TabIndex = 5;
             this.label4.Text = "A = ";
             // 
-            // elem11
+            // elem00
             // 
-            this.elem11.Location = new System.Drawing.Point(3, 9);
-            this.elem11.Name = "elem11";
-            this.elem11.Size = new System.Drawing.Size(33, 20);
-            this.elem11.TabIndex = 6;
+            this.elem00.Location = new System.Drawing.Point(3, 9);
+            this.elem00.Name = "elem00";
+            this.elem00.Size = new System.Drawing.Size(33, 20);
+            this.elem00.TabIndex = 6;
             // 
             // solve
             // 
@@ -143,44 +143,45 @@ namespace CourseWork
             this.solve.Name = "solve";
             this.solve.Size = new System.Drawing.Size(110, 35);
             this.solve.TabIndex = 7;
-            this.solve.Text = "button1";
+            this.solve.Text = "Розв\'язати";
             this.solve.UseVisualStyleBackColor = true;
+            this.solve.Click += new System.EventHandler(this.solve_Click);
             // 
-            // elem12
+            // elem01
             // 
-            this.elem12.Location = new System.Drawing.Point(42, 9);
-            this.elem12.Name = "elem12";
-            this.elem12.Size = new System.Drawing.Size(33, 20);
-            this.elem12.TabIndex = 8;
+            this.elem01.Location = new System.Drawing.Point(42, 9);
+            this.elem01.Name = "elem01";
+            this.elem01.Size = new System.Drawing.Size(33, 20);
+            this.elem01.TabIndex = 8;
             // 
-            // elem13
+            // elem02
             // 
-            this.elem13.Location = new System.Drawing.Point(81, 9);
-            this.elem13.Name = "elem13";
-            this.elem13.Size = new System.Drawing.Size(33, 20);
-            this.elem13.TabIndex = 9;
+            this.elem02.Location = new System.Drawing.Point(81, 9);
+            this.elem02.Name = "elem02";
+            this.elem02.Size = new System.Drawing.Size(33, 20);
+            this.elem02.TabIndex = 9;
             // 
-            // elem14
+            // elem03
             // 
-            this.elem14.Location = new System.Drawing.Point(120, 9);
-            this.elem14.Name = "elem14";
-            this.elem14.Size = new System.Drawing.Size(33, 20);
-            this.elem14.TabIndex = 10;
+            this.elem03.Location = new System.Drawing.Point(120, 9);
+            this.elem03.Name = "elem03";
+            this.elem03.Size = new System.Drawing.Size(33, 20);
+            this.elem03.TabIndex = 10;
             // 
-            // elem15
+            // elem04
             // 
-            this.elem15.Location = new System.Drawing.Point(158, 9);
-            this.elem15.Name = "elem15";
-            this.elem15.Size = new System.Drawing.Size(33, 20);
-            this.elem15.TabIndex = 11;
+            this.elem04.Location = new System.Drawing.Point(158, 9);
+            this.elem04.Name = "elem04";
+            this.elem04.Size = new System.Drawing.Size(33, 20);
+            this.elem04.TabIndex = 11;
             // 
             // row1
             // 
-            this.row1.Controls.Add(this.elem15);
-            this.row1.Controls.Add(this.elem14);
-            this.row1.Controls.Add(this.elem11);
-            this.row1.Controls.Add(this.elem13);
-            this.row1.Controls.Add(this.elem12);
+            this.row1.Controls.Add(this.elem04);
+            this.row1.Controls.Add(this.elem03);
+            this.row1.Controls.Add(this.elem00);
+            this.row1.Controls.Add(this.elem02);
+            this.row1.Controls.Add(this.elem01);
             this.row1.Location = new System.Drawing.Point(54, 104);
             this.row1.Name = "row1";
             this.row1.Size = new System.Drawing.Size(197, 33);
@@ -189,195 +190,195 @@ namespace CourseWork
             // 
             // row2
             // 
-            this.row2.Controls.Add(this.elem25);
-            this.row2.Controls.Add(this.elem24);
-            this.row2.Controls.Add(this.elem21);
-            this.row2.Controls.Add(this.elem23);
-            this.row2.Controls.Add(this.elem22);
+            this.row2.Controls.Add(this.elem14);
+            this.row2.Controls.Add(this.elem13);
+            this.row2.Controls.Add(this.elem10);
+            this.row2.Controls.Add(this.elem12);
+            this.row2.Controls.Add(this.elem11);
             this.row2.Location = new System.Drawing.Point(54, 134);
             this.row2.Name = "row2";
             this.row2.Size = new System.Drawing.Size(197, 33);
             this.row2.TabIndex = 33;
             this.row2.TabStop = false;
             // 
-            // elem25
+            // elem14
             // 
-            this.elem25.Location = new System.Drawing.Point(159, 9);
-            this.elem25.Name = "elem25";
-            this.elem25.Size = new System.Drawing.Size(33, 20);
-            this.elem25.TabIndex = 11;
+            this.elem14.Location = new System.Drawing.Point(158, 9);
+            this.elem14.Name = "elem14";
+            this.elem14.Size = new System.Drawing.Size(33, 20);
+            this.elem14.TabIndex = 11;
             // 
-            // elem24
+            // elem13
             // 
-            this.elem24.Location = new System.Drawing.Point(120, 9);
-            this.elem24.Name = "elem24";
-            this.elem24.Size = new System.Drawing.Size(33, 20);
-            this.elem24.TabIndex = 10;
+            this.elem13.Location = new System.Drawing.Point(120, 9);
+            this.elem13.Name = "elem13";
+            this.elem13.Size = new System.Drawing.Size(33, 20);
+            this.elem13.TabIndex = 10;
             // 
-            // elem21
+            // elem10
             // 
-            this.elem21.Location = new System.Drawing.Point(3, 9);
-            this.elem21.Name = "elem21";
-            this.elem21.Size = new System.Drawing.Size(33, 20);
-            this.elem21.TabIndex = 6;
+            this.elem10.Location = new System.Drawing.Point(3, 9);
+            this.elem10.Name = "elem10";
+            this.elem10.Size = new System.Drawing.Size(33, 20);
+            this.elem10.TabIndex = 6;
             // 
-            // elem23
+            // elem12
             // 
-            this.elem23.Location = new System.Drawing.Point(81, 9);
-            this.elem23.Name = "elem23";
-            this.elem23.Size = new System.Drawing.Size(33, 20);
-            this.elem23.TabIndex = 9;
+            this.elem12.Location = new System.Drawing.Point(81, 9);
+            this.elem12.Name = "elem12";
+            this.elem12.Size = new System.Drawing.Size(33, 20);
+            this.elem12.TabIndex = 9;
             // 
-            // elem22
+            // elem11
             // 
-            this.elem22.Location = new System.Drawing.Point(42, 9);
-            this.elem22.Name = "elem22";
-            this.elem22.Size = new System.Drawing.Size(33, 20);
-            this.elem22.TabIndex = 8;
+            this.elem11.Location = new System.Drawing.Point(42, 9);
+            this.elem11.Name = "elem11";
+            this.elem11.Size = new System.Drawing.Size(33, 20);
+            this.elem11.TabIndex = 8;
             // 
             // row3
             // 
-            this.row3.Controls.Add(this.elem35);
-            this.row3.Controls.Add(this.elem34);
-            this.row3.Controls.Add(this.elem31);
-            this.row3.Controls.Add(this.elem33);
-            this.row3.Controls.Add(this.elem32);
+            this.row3.Controls.Add(this.elem24);
+            this.row3.Controls.Add(this.elem23);
+            this.row3.Controls.Add(this.elem20);
+            this.row3.Controls.Add(this.elem22);
+            this.row3.Controls.Add(this.elem21);
             this.row3.Location = new System.Drawing.Point(54, 165);
             this.row3.Name = "row3";
             this.row3.Size = new System.Drawing.Size(197, 33);
             this.row3.TabIndex = 33;
             this.row3.TabStop = false;
             // 
-            // elem35
+            // elem24
             // 
-            this.elem35.Location = new System.Drawing.Point(158, 9);
-            this.elem35.Name = "elem35";
-            this.elem35.Size = new System.Drawing.Size(33, 20);
-            this.elem35.TabIndex = 11;
+            this.elem24.Location = new System.Drawing.Point(158, 9);
+            this.elem24.Name = "elem24";
+            this.elem24.Size = new System.Drawing.Size(33, 20);
+            this.elem24.TabIndex = 11;
             // 
-            // elem34
+            // elem23
             // 
-            this.elem34.Location = new System.Drawing.Point(120, 9);
-            this.elem34.Name = "elem34";
-            this.elem34.Size = new System.Drawing.Size(33, 20);
-            this.elem34.TabIndex = 10;
+            this.elem23.Location = new System.Drawing.Point(120, 9);
+            this.elem23.Name = "elem23";
+            this.elem23.Size = new System.Drawing.Size(33, 20);
+            this.elem23.TabIndex = 10;
             // 
-            // elem31
+            // elem20
             // 
-            this.elem31.Location = new System.Drawing.Point(3, 9);
-            this.elem31.Name = "elem31";
-            this.elem31.Size = new System.Drawing.Size(33, 20);
-            this.elem31.TabIndex = 6;
+            this.elem20.Location = new System.Drawing.Point(3, 9);
+            this.elem20.Name = "elem20";
+            this.elem20.Size = new System.Drawing.Size(33, 20);
+            this.elem20.TabIndex = 6;
             // 
-            // elem33
+            // elem22
             // 
-            this.elem33.Location = new System.Drawing.Point(81, 9);
-            this.elem33.Name = "elem33";
-            this.elem33.Size = new System.Drawing.Size(33, 20);
-            this.elem33.TabIndex = 9;
+            this.elem22.Location = new System.Drawing.Point(81, 9);
+            this.elem22.Name = "elem22";
+            this.elem22.Size = new System.Drawing.Size(33, 20);
+            this.elem22.TabIndex = 9;
             // 
-            // elem32
+            // elem21
             // 
-            this.elem32.Location = new System.Drawing.Point(42, 9);
-            this.elem32.Name = "elem32";
-            this.elem32.Size = new System.Drawing.Size(33, 20);
-            this.elem32.TabIndex = 8;
+            this.elem21.Location = new System.Drawing.Point(42, 9);
+            this.elem21.Name = "elem21";
+            this.elem21.Size = new System.Drawing.Size(33, 20);
+            this.elem21.TabIndex = 8;
             // 
             // row4
             // 
-            this.row4.Controls.Add(this.elem45);
-            this.row4.Controls.Add(this.elem44);
-            this.row4.Controls.Add(this.elem41);
-            this.row4.Controls.Add(this.elem43);
-            this.row4.Controls.Add(this.elem42);
+            this.row4.Controls.Add(this.elem34);
+            this.row4.Controls.Add(this.elem33);
+            this.row4.Controls.Add(this.elem30);
+            this.row4.Controls.Add(this.elem32);
+            this.row4.Controls.Add(this.elem31);
             this.row4.Location = new System.Drawing.Point(54, 199);
             this.row4.Name = "row4";
             this.row4.Size = new System.Drawing.Size(197, 33);
             this.row4.TabIndex = 33;
             this.row4.TabStop = false;
             // 
-            // elem45
+            // elem34
             // 
-            this.elem45.Location = new System.Drawing.Point(158, 9);
-            this.elem45.Name = "elem45";
-            this.elem45.Size = new System.Drawing.Size(33, 20);
-            this.elem45.TabIndex = 11;
+            this.elem34.Location = new System.Drawing.Point(158, 9);
+            this.elem34.Name = "elem34";
+            this.elem34.Size = new System.Drawing.Size(33, 20);
+            this.elem34.TabIndex = 11;
             // 
-            // elem44
+            // elem33
             // 
-            this.elem44.Location = new System.Drawing.Point(120, 9);
-            this.elem44.Name = "elem44";
-            this.elem44.Size = new System.Drawing.Size(33, 20);
-            this.elem44.TabIndex = 10;
+            this.elem33.Location = new System.Drawing.Point(120, 9);
+            this.elem33.Name = "elem33";
+            this.elem33.Size = new System.Drawing.Size(33, 20);
+            this.elem33.TabIndex = 10;
             // 
-            // elem41
+            // elem30
             // 
-            this.elem41.Location = new System.Drawing.Point(3, 9);
-            this.elem41.Name = "elem41";
-            this.elem41.Size = new System.Drawing.Size(33, 20);
-            this.elem41.TabIndex = 6;
+            this.elem30.Location = new System.Drawing.Point(3, 9);
+            this.elem30.Name = "elem30";
+            this.elem30.Size = new System.Drawing.Size(33, 20);
+            this.elem30.TabIndex = 6;
             // 
-            // elem43
+            // elem32
             // 
-            this.elem43.Location = new System.Drawing.Point(81, 9);
-            this.elem43.Name = "elem43";
-            this.elem43.Size = new System.Drawing.Size(33, 20);
-            this.elem43.TabIndex = 9;
+            this.elem32.Location = new System.Drawing.Point(81, 9);
+            this.elem32.Name = "elem32";
+            this.elem32.Size = new System.Drawing.Size(33, 20);
+            this.elem32.TabIndex = 9;
             // 
-            // elem42
+            // elem31
             // 
-            this.elem42.Location = new System.Drawing.Point(42, 9);
-            this.elem42.Name = "elem42";
-            this.elem42.Size = new System.Drawing.Size(33, 20);
-            this.elem42.TabIndex = 8;
+            this.elem31.Location = new System.Drawing.Point(42, 9);
+            this.elem31.Name = "elem31";
+            this.elem31.Size = new System.Drawing.Size(33, 20);
+            this.elem31.TabIndex = 8;
             // 
             // row5
             // 
-            this.row5.Controls.Add(this.elem55);
-            this.row5.Controls.Add(this.elem54);
-            this.row5.Controls.Add(this.elem51);
-            this.row5.Controls.Add(this.elem53);
-            this.row5.Controls.Add(this.elem52);
+            this.row5.Controls.Add(this.elem44);
+            this.row5.Controls.Add(this.elem43);
+            this.row5.Controls.Add(this.elem40);
+            this.row5.Controls.Add(this.elem42);
+            this.row5.Controls.Add(this.elem41);
             this.row5.Location = new System.Drawing.Point(54, 234);
             this.row5.Name = "row5";
             this.row5.Size = new System.Drawing.Size(197, 33);
             this.row5.TabIndex = 34;
             this.row5.TabStop = false;
             // 
-            // elem55
+            // elem44
             // 
-            this.elem55.Location = new System.Drawing.Point(158, 9);
-            this.elem55.Name = "elem55";
-            this.elem55.Size = new System.Drawing.Size(33, 20);
-            this.elem55.TabIndex = 11;
+            this.elem44.Location = new System.Drawing.Point(158, 9);
+            this.elem44.Name = "elem44";
+            this.elem44.Size = new System.Drawing.Size(33, 20);
+            this.elem44.TabIndex = 11;
             // 
-            // elem54
+            // elem43
             // 
-            this.elem54.Location = new System.Drawing.Point(120, 9);
-            this.elem54.Name = "elem54";
-            this.elem54.Size = new System.Drawing.Size(33, 20);
-            this.elem54.TabIndex = 10;
+            this.elem43.Location = new System.Drawing.Point(120, 9);
+            this.elem43.Name = "elem43";
+            this.elem43.Size = new System.Drawing.Size(33, 20);
+            this.elem43.TabIndex = 10;
             // 
-            // elem51
+            // elem40
             // 
-            this.elem51.Location = new System.Drawing.Point(3, 9);
-            this.elem51.Name = "elem51";
-            this.elem51.Size = new System.Drawing.Size(33, 20);
-            this.elem51.TabIndex = 6;
+            this.elem40.Location = new System.Drawing.Point(3, 9);
+            this.elem40.Name = "elem40";
+            this.elem40.Size = new System.Drawing.Size(33, 20);
+            this.elem40.TabIndex = 6;
             // 
-            // elem53
+            // elem42
             // 
-            this.elem53.Location = new System.Drawing.Point(81, 9);
-            this.elem53.Name = "elem53";
-            this.elem53.Size = new System.Drawing.Size(33, 20);
-            this.elem53.TabIndex = 9;
+            this.elem42.Location = new System.Drawing.Point(81, 9);
+            this.elem42.Name = "elem42";
+            this.elem42.Size = new System.Drawing.Size(33, 20);
+            this.elem42.TabIndex = 9;
             // 
-            // elem52
+            // elem41
             // 
-            this.elem52.Location = new System.Drawing.Point(42, 9);
-            this.elem52.Name = "elem52";
-            this.elem52.Size = new System.Drawing.Size(33, 20);
-            this.elem52.TabIndex = 8;
+            this.elem41.Location = new System.Drawing.Point(42, 9);
+            this.elem41.Name = "elem41";
+            this.elem41.Size = new System.Drawing.Size(33, 20);
+            this.elem41.TabIndex = 8;
             // 
             // Form1
             // 
@@ -421,37 +422,37 @@ namespace CourseWork
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox method;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox elem11;
+        private System.Windows.Forms.TextBox elem00;
         private System.Windows.Forms.Button solve;
-        private System.Windows.Forms.TextBox elem12;
-        private System.Windows.Forms.TextBox elem13;
-        private System.Windows.Forms.TextBox elem14;
-        private System.Windows.Forms.TextBox elem15;
+        private System.Windows.Forms.TextBox elem01;
+        private System.Windows.Forms.TextBox elem02;
+        private System.Windows.Forms.TextBox elem03;
+        private System.Windows.Forms.TextBox elem04;
         private System.Windows.Forms.GroupBox row1;
         private System.Windows.Forms.GroupBox row2;
-        private System.Windows.Forms.TextBox elem25;
-        private System.Windows.Forms.TextBox elem24;
-        private System.Windows.Forms.TextBox elem21;
-        private System.Windows.Forms.TextBox elem23;
-        private System.Windows.Forms.TextBox elem22;
+        private System.Windows.Forms.TextBox elem14;
+        private System.Windows.Forms.TextBox elem13;
+        private System.Windows.Forms.TextBox elem10;
+        private System.Windows.Forms.TextBox elem12;
+        private System.Windows.Forms.TextBox elem11;
         private System.Windows.Forms.GroupBox row3;
-        private System.Windows.Forms.TextBox elem35;
-        private System.Windows.Forms.TextBox elem34;
-        private System.Windows.Forms.TextBox elem31;
-        private System.Windows.Forms.TextBox elem33;
-        private System.Windows.Forms.TextBox elem32;
+        private System.Windows.Forms.TextBox elem24;
+        private System.Windows.Forms.TextBox elem23;
+        private System.Windows.Forms.TextBox elem20;
+        private System.Windows.Forms.TextBox elem22;
+        private System.Windows.Forms.TextBox elem21;
         private System.Windows.Forms.GroupBox row4;
-        private System.Windows.Forms.TextBox elem45;
-        private System.Windows.Forms.TextBox elem44;
-        private System.Windows.Forms.TextBox elem41;
-        private System.Windows.Forms.TextBox elem43;
-        private System.Windows.Forms.TextBox elem42;
+        private System.Windows.Forms.TextBox elem34;
+        private System.Windows.Forms.TextBox elem33;
+        private System.Windows.Forms.TextBox elem30;
+        private System.Windows.Forms.TextBox elem32;
+        private System.Windows.Forms.TextBox elem31;
         private System.Windows.Forms.GroupBox row5;
-        private System.Windows.Forms.TextBox elem55;
-        private System.Windows.Forms.TextBox elem54;
-        private System.Windows.Forms.TextBox elem51;
-        private System.Windows.Forms.TextBox elem53;
-        private System.Windows.Forms.TextBox elem52;
+        private System.Windows.Forms.TextBox elem44;
+        private System.Windows.Forms.TextBox elem43;
+        private System.Windows.Forms.TextBox elem40;
+        private System.Windows.Forms.TextBox elem42;
+        private System.Windows.Forms.TextBox elem41;
     }
 }
 
