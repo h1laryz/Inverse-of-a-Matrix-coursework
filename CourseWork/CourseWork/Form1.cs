@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace CourseWork
 {
     public partial class Form1 : Form
@@ -109,6 +110,93 @@ namespace CourseWork
             HideExtra();
         }
 
+        
+
+        private void FillMatrix(double[,] Matrix, int size)
+        {
+            try
+            {
+                Matrix[0, 0] = Convert.ToDouble(elem00.Text);
+                Matrix[0, 1] = Convert.ToDouble(elem01.Text);
+                Matrix[1, 0] = Convert.ToDouble(elem10.Text);
+                Matrix[1, 1] = Convert.ToDouble(elem11.Text);
+                if (size > 2)
+                {
+                    Matrix[0, 2] = Convert.ToDouble(elem02.Text);
+                    Matrix[1, 2] = Convert.ToDouble(elem12.Text);
+                    Matrix[2, 0] = Convert.ToDouble(elem20.Text);
+                    Matrix[2, 1] = Convert.ToDouble(elem21.Text);
+                    Matrix[2, 2] = Convert.ToDouble(elem22.Text);
+                    if (size > 3)
+                    {
+                        Matrix[0, 3] = Convert.ToDouble(elem03.Text);
+                        Matrix[1, 3] = Convert.ToDouble(elem13.Text);
+                        Matrix[2, 3] = Convert.ToDouble(elem23.Text);
+                        Matrix[3, 0] = Convert.ToDouble(elem30.Text);
+                        Matrix[3, 1] = Convert.ToDouble(elem31.Text);
+                        Matrix[3, 2] = Convert.ToDouble(elem32.Text);
+                        Matrix[3, 3] = Convert.ToDouble(elem33.Text);
+                        if (size > 4)
+                        {
+                            Matrix[0, 4] = Convert.ToDouble(elem04.Text);
+                            Matrix[1, 4] = Convert.ToDouble(elem14.Text);
+                            Matrix[2, 4] = Convert.ToDouble(elem24.Text);
+                            Matrix[3, 4] = Convert.ToDouble(elem34.Text);
+                            Matrix[4, 0] = Convert.ToDouble(elem40.Text);
+                            Matrix[4, 1] = Convert.ToDouble(elem41.Text);
+                            Matrix[4, 2] = Convert.ToDouble(elem42.Text);
+                            Matrix[4, 3] = Convert.ToDouble(elem43.Text);
+                            Matrix[4, 4] = Convert.ToDouble(elem44.Text);
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Введіть коректні дані");
+            }
+        }
+
+        private void SaveResultMatrixToFile()
+        {
+
+        }
+
+        private double[,] GenerateMatrix(int size)
+        {
+            Random random = new Random();
+            double[,] Matrix;
+            Matrix = new double[size, size];
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    Matrix[i,j] = random.Next(20);
+                }
+            }
+            if (!ReversedExist(Matrix, size))
+            {
+                Matrix = GenerateMatrix(size);
+            }
+            return Matrix;
+        }
+
+        private void solve_Click(object sender, EventArgs e)
+        {
+            double[,] Matrix;
+            if (sizebox.SelectedItem != null && method.SelectedItem != null)
+            {
+                Matrix = InputProblem();
+            }
+        }
+
+        private bool ReversedExist(double[,] Matrix, int size)
+        {
+            bool check = false;
+            
+            return check;
+        }
+
         private double[,] InputProblem()
         {
             double[,] Matrix;
@@ -139,55 +227,52 @@ namespace CourseWork
             return null;
         }
 
-        private void FillMatrix(double[,] Matrix, int size)
+        private void FillElements(double[,] Matrix, int size)
         {
-            Matrix[0, 0] = Convert.ToDouble(elem00);
-            Matrix[0, 1] = Convert.ToDouble(elem01);
-            Matrix[1, 0] = Convert.ToDouble(elem10);
-            Matrix[1, 1] = Convert.ToDouble(elem11);
-            if(size > 2)
+            elem00.Text = Convert.ToString(Matrix[0, 0]);
+            elem01.Text = Convert.ToString(Matrix[0, 1]);
+            elem10.Text = Convert.ToString(Matrix[1, 0]);
+            elem11.Text = Convert.ToString(Matrix[1, 1]);
+            if (size > 2)
             {
-                Matrix[0, 2] = Convert.ToDouble(elem02);
-                Matrix[1, 2] = Convert.ToDouble(elem12);
-                Matrix[2, 0] = Convert.ToDouble(elem20);
-                Matrix[2, 1] = Convert.ToDouble(elem21);
-                Matrix[2, 2] = Convert.ToDouble(elem22);
+                elem02.Text = Convert.ToString(Matrix[0, 2]);
+                elem12.Text = Convert.ToString(Matrix[1, 2]);
+                elem20.Text = Convert.ToString(Matrix[2, 0]);
+                elem21.Text = Convert.ToString(Matrix[2, 1]);
+                elem22.Text = Convert.ToString(Matrix[2, 2]);
                 if (size > 3)
                 {
-                    Matrix[0, 3] = Convert.ToDouble(elem03);
-                    Matrix[1, 3] = Convert.ToDouble(elem13);
-                    Matrix[2, 3] = Convert.ToDouble(elem23);
-                    Matrix[3, 0] = Convert.ToDouble(elem30);
-                    Matrix[3, 1] = Convert.ToDouble(elem31);
-                    Matrix[3, 2] = Convert.ToDouble(elem32);
-                    Matrix[3, 3] = Convert.ToDouble(elem33);
+                    elem03.Text = Convert.ToString(Matrix[0, 3]);
+                    elem13.Text = Convert.ToString(Matrix[1, 3]);
+                    elem23.Text = Convert.ToString(Matrix[2, 3]);
+                    elem30.Text = Convert.ToString(Matrix[3, 0]);
+                    elem31.Text = Convert.ToString(Matrix[3, 1]);
+                    elem32.Text = Convert.ToString(Matrix[3, 2]);
+                    elem33.Text = Convert.ToString(Matrix[3, 3]);
                     if (size > 4)
                     {
-                        Matrix[0, 4] = Convert.ToDouble(elem04);
-                        Matrix[1, 4] = Convert.ToDouble(elem14);
-                        Matrix[2, 4] = Convert.ToDouble(elem24);
-                        Matrix[3, 4] = Convert.ToDouble(elem34);
-                        Matrix[4, 0] = Convert.ToDouble(elem40);
-                        Matrix[4, 1] = Convert.ToDouble(elem41);
-                        Matrix[4, 2] = Convert.ToDouble(elem42);
-                        Matrix[4, 3] = Convert.ToDouble(elem43);
-                        Matrix[4, 4] = Convert.ToDouble(elem44);
+                        elem04.Text = Convert.ToString(Matrix[0, 4]);
+                        elem14.Text = Convert.ToString(Matrix[1, 4]);
+                        elem24.Text = Convert.ToString(Matrix[2, 4]);
+                        elem34.Text = Convert.ToString(Matrix[3, 4]);
+                        elem40.Text = Convert.ToString(Matrix[4, 0]);
+                        elem41.Text = Convert.ToString(Matrix[4, 1]);
+                        elem42.Text = Convert.ToString(Matrix[4, 2]);
+                        elem43.Text = Convert.ToString(Matrix[4, 3]);
+                        elem44.Text = Convert.ToString(Matrix[4, 4]);
                     }
                 }
             }
         }
 
-        private void SaveResultMatrixToFile()
-        {
-
-        }
-
-        private void solve_Click(object sender, EventArgs e)
+        private void generate_Click(object sender, EventArgs e)
         {
             double[,] Matrix;
-            if (sizebox.SelectedItem != null && method.SelectedItem != null)
+            if (sizebox.SelectedItem != null)
             {
-                Matrix = InputProblem();
+                int size = Convert.ToInt32(sizebox.SelectedItem.ToString().Substring(0, 1));
+                Matrix = GenerateMatrix(size);
+                FillElements(Matrix, size);
             }
         }
     }

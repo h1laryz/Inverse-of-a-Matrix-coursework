@@ -66,6 +66,7 @@ namespace CourseWork
             this.elem40 = new System.Windows.Forms.TextBox();
             this.elem42 = new System.Windows.Forms.TextBox();
             this.elem41 = new System.Windows.Forms.TextBox();
+            this.generate = new System.Windows.Forms.Button();
             this.row1.SuspendLayout();
             this.row2.SuspendLayout();
             this.row3.SuspendLayout();
@@ -380,11 +381,22 @@ namespace CourseWork
             this.elem41.Size = new System.Drawing.Size(33, 20);
             this.elem41.TabIndex = 8;
             // 
+            // generate
+            // 
+            this.generate.Location = new System.Drawing.Point(184, 43);
+            this.generate.Name = "generate";
+            this.generate.Size = new System.Drawing.Size(92, 32);
+            this.generate.TabIndex = 35;
+            this.generate.Text = "Згенерувати";
+            this.generate.UseVisualStyleBackColor = true;
+            this.generate.Click += new System.EventHandler(this.generate_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.generate);
             this.Controls.Add(this.row5);
             this.Controls.Add(this.row4);
             this.Controls.Add(this.row3);
@@ -453,6 +465,7 @@ namespace CourseWork
         private System.Windows.Forms.TextBox elem40;
         private System.Windows.Forms.TextBox elem42;
         private System.Windows.Forms.TextBox elem41;
+        private System.Windows.Forms.Button generate;
     }
 }
 
