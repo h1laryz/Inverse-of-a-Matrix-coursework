@@ -67,6 +67,8 @@ namespace CourseWork
             this.elem42 = new System.Windows.Forms.TextBox();
             this.elem41 = new System.Windows.Forms.TextBox();
             this.generate = new System.Windows.Forms.Button();
+            this.buttonDet = new System.Windows.Forms.Button();
+            this.labelDet = new System.Windows.Forms.Label();
             this.row1.SuspendLayout();
             this.row2.SuspendLayout();
             this.row3.SuspendLayout();
@@ -391,11 +393,31 @@ namespace CourseWork
             this.generate.UseVisualStyleBackColor = true;
             this.generate.Click += new System.EventHandler(this.generate_Click);
             // 
+            // buttonDet
+            // 
+            this.buttonDet.Location = new System.Drawing.Point(549, 24);
+            this.buttonDet.Name = "buttonDet";
+            this.buttonDet.Size = new System.Drawing.Size(75, 23);
+            this.buttonDet.TabIndex = 36;
+            this.buttonDet.Text = "FindDet";
+            this.buttonDet.UseVisualStyleBackColor = true;
+            this.buttonDet.Click += new System.EventHandler(this.buttonDet_Click);
+            // 
+            // labelDet
+            // 
+            this.labelDet.AutoSize = true;
+            this.labelDet.Location = new System.Drawing.Point(646, 29);
+            this.labelDet.Name = "labelDet";
+            this.labelDet.Size = new System.Drawing.Size(0, 13);
+            this.labelDet.TabIndex = 37;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.labelDet);
+            this.Controls.Add(this.buttonDet);
             this.Controls.Add(this.generate);
             this.Controls.Add(this.row5);
             this.Controls.Add(this.row4);
@@ -466,6 +488,8 @@ namespace CourseWork
         private System.Windows.Forms.TextBox elem42;
         private System.Windows.Forms.TextBox elem41;
         private System.Windows.Forms.Button generate;
+        private System.Windows.Forms.Button buttonDet;
+        private System.Windows.Forms.Label labelDet;
     }
 }
 

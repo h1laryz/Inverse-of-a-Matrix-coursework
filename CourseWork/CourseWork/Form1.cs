@@ -193,8 +193,226 @@ namespace CourseWork
         private bool ReversedExist(double[,] Matrix, int size)
         {
             bool check = false;
-            
+            double det = FindDet(Matrix, size);
+            if (det != 0)
+            {
+                check = true;
+            }
             return check;
+        }
+
+        private double FindDet(double[,] Matrix, int size)
+        {
+            double det = 0;
+            if (size == 2)
+            {
+                det = Matrix[0, 0] * Matrix[1, 1] - Matrix[1, 0] * Matrix[0, 1];
+            }
+            else if (size == 3)
+            {
+                double[,] Minor = new double[2, 2];
+                /*for (int i = 0; i < 2; i++)
+                {
+                    for (int j = 0; j < 2; j++)
+                    {
+                        Minor[i, j] = Matrix[i + 1, j + 1];
+                    }
+                }*/
+                Minor[0, 0] = Matrix[1, 1];
+                Minor[0, 1] = Matrix[1, 2];
+                Minor[1, 0] = Matrix[2, 1];
+                Minor[1, 1] = Matrix[2, 2];
+                double C00 = FindDet(Minor, 2);
+                /*for (int i = 0; i < 2; i++)
+                {
+                    for (int j = 0; j < 2; j++)
+                    {
+                        if (j == 1)
+                        {
+                            Minor[i, j] = Matrix[i + 1, j + 1];
+                        }
+                        else
+                        {
+                            Minor[i, j] = Matrix[i + 1, j];
+                        }
+                        
+                    }
+                }*/
+                Minor[0, 0] = Matrix[1, 0];
+                Minor[0, 1] = Matrix[1, 2];
+                Minor[1, 0] = Matrix[2, 0];
+                Minor[1, 1] = Matrix[2, 2];
+                double C01 = FindDet(Minor, 2);
+                /*for (int i = 0; i < 2; i++)
+                {
+                    for (int j = 0; j < 2; j++)
+                    {
+                        Minor[i, j] = Matrix[i + 1, j];
+                    }
+                }*/
+                Minor[0, 0] = Matrix[1, 0];
+                Minor[0, 1] = Matrix[1, 1];
+                Minor[1, 0] = Matrix[2, 0];
+                Minor[1, 1] = Matrix[2, 1];
+                double C02 = FindDet(Minor, 2);
+
+                det = Matrix[0, 0] * C00 + Matrix[0, 1] * C01 + Matrix[0, 2] * C02;
+            }
+            else if (size == 4)
+            {
+                double[,] Minor = new double[3, 3];
+                for (int i = 0; i < 3; i++)
+                {
+                    for (int j = 0; j < 3; j++)
+                    {
+                        Minor[i, j] = Matrix[i + 1, j + 1];
+                    }
+                }
+                Minor[0, 0] = Matrix[1, 1];
+                Minor[0, 1] = Matrix[1, 2];
+                Minor[0, 2] = Matrix[1, 3];
+                Minor[1, 0] = Matrix[2, 1];
+                Minor[1, 1] = Matrix[2, 2];
+                Minor[1, 2] = Matrix[2, 3];
+                Minor[2, 0] = Matrix[3, 1];
+                Minor[2, 1] = Matrix[3, 2];
+                Minor[2, 2] = Matrix[3, 3];
+                double C00 = FindDet(Minor, 3);
+                /*for (int i = 0; i < 3; i++)
+                {
+                    for (int j = 0; j < 3; j++)
+                    {
+                        if (j == 0)
+                        {
+                            Minor[i, j] = Matrix[i + 1, j];
+                        }
+                        else
+                        {
+                            Minor[i, j] = Matrix[i + 1, j + 1];
+                        }
+                    }
+                }*/
+                Minor[0, 0] = Matrix[1, 0];
+                Minor[0, 1] = Matrix[1, 2];
+                Minor[0, 2] = Matrix[1, 3];
+                Minor[1, 0] = Matrix[2, 0];
+                Minor[1, 1] = Matrix[2, 2];
+                Minor[1, 2] = Matrix[2, 3];
+                Minor[2, 0] = Matrix[3, 0];
+                Minor[2, 1] = Matrix[3, 2];
+                Minor[2, 2] = Matrix[3, 3];
+                double C01 = FindDet(Minor, 3);
+                /*for (int i = 0; i < 3; i++)
+                {
+                    for (int j = 0; j < 3; j++)
+                    {
+                        if (j == 2)
+                        {
+                            Minor[i, j] = Matrix[i + 1, j + 1];
+                        }
+                        else
+                        {
+                            Minor[i, j] = Matrix[i + 1, j];
+                        }
+                    }
+                }*/
+                Minor[0, 0] = Matrix[1, 0];
+                Minor[0, 1] = Matrix[1, 1];
+                Minor[0, 2] = Matrix[1, 3];
+                Minor[1, 0] = Matrix[2, 0];
+                Minor[1, 1] = Matrix[2, 1];
+                Minor[1, 2] = Matrix[2, 3];
+                Minor[2, 0] = Matrix[3, 0];
+                Minor[2, 1] = Matrix[3, 1];
+                Minor[2, 2] = Matrix[3, 3];
+                double C02 = FindDet(Minor, 3);
+                /*for (int i = 0; i < 3; i++)
+                {
+                    for (int j = 0; j < 3; j++)
+                    {
+                        Minor[i, j] = Matrix[i + 1, j];
+                    }
+                }*/
+                Minor[0, 0] = Matrix[1, 0];
+                Minor[0, 1] = Matrix[1, 1];
+                Minor[0, 2] = Matrix[1, 2];
+                Minor[1, 0] = Matrix[2, 0];
+                Minor[1, 1] = Matrix[2, 1];
+                Minor[1, 2] = Matrix[2, 2];
+                Minor[2, 0] = Matrix[3, 0];
+                Minor[2, 1] = Matrix[3, 1];
+                Minor[2, 2] = Matrix[3, 2];
+                double C03 = FindDet(Minor, 3);
+                det = C00 * Matrix[0, 0] + C01 * Matrix[0, 1] + C02 * Matrix[0, 2] + C03 * Matrix[0, 3]; 
+            }
+            else if (size==5)
+            {
+                double[,] Minor = new double[4, 4];
+                for (int i = 0; i < 4; i++)
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                        Minor[i, j] = Matrix[i + 1, j + 1];
+                    }
+                }
+                double C00 = FindDet(Minor, 4);
+
+                for (int i = 0; i < 4; i++)
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                        if (j == 0)
+                        {
+                            Minor[i, j] = Matrix[i + 1, j];
+                        }
+                        else
+                        {
+                            Minor[i, j] = Matrix[i + 1, j + 1];
+                        }
+                    }
+                }
+                double C01 = FindDet(Minor, 4);
+                for (int i = 0; i < 4; i++)
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                        if (j >= 2)
+                        {
+                            Minor[i, j] = Matrix[i + 1, j + 1];
+                        }
+                        else
+                        {
+                            Minor[i, j] = Matrix[i + 1, j];
+                        }
+                    }
+                }
+                double C02 = FindDet(Minor, 4);
+                for (int i = 0; i < 4; i++)
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                        if (j==4)
+                        {
+                            Minor[i, j] = Matrix[i + 1, j + 1];
+                        }
+                        else
+                        {
+                            Minor[i, j] = Matrix[i + 1, j];
+                        }
+                    }
+                }
+                double C03 = FindDet(Minor, 4);
+                for (int i = 0; i < 4; i++)
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                        Minor[i, j] = Matrix[i + 1, j];
+                    }
+                }
+                double C04 = FindDet(Minor, 4);
+                det = C00 * Matrix[0, 0] + C01 * Matrix[0, 1] + C02 * Matrix[0, 2] + C03 * Matrix[0, 3] + C04 * Matrix[0, 4];
+            }
+            return det;
         }
 
         private double[,] InputProblem()
@@ -274,6 +492,14 @@ namespace CourseWork
                 Matrix = GenerateMatrix(size);
                 FillElements(Matrix, size);
             }
+        }
+
+        private void buttonDet_Click(object sender, EventArgs e)
+        {
+            double[,] Matrix = InputProblem();
+            int size = Convert.ToInt32(sizebox.SelectedItem.ToString().Substring(0, 1));
+            double det = FindDet(Matrix, size);
+            labelDet.Text = det.ToString();
         }
     }
 }
