@@ -432,7 +432,7 @@ namespace CourseWork
             this.Controls.Add(this.label1);
             this.Controls.Add(this.sizebox);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Обернення матриці";
             this.row1.ResumeLayout(false);
             this.row1.PerformLayout();
             this.row2.ResumeLayout(false);

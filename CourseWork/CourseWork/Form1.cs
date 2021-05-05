@@ -211,19 +211,19 @@ namespace CourseWork
             else if (size == 3)
             {
                 double[,] Minor = new double[2, 2];
-                /*for (int i = 0; i < 2; i++)
+                for (int i = 0; i < 2; i++)
                 {
                     for (int j = 0; j < 2; j++)
                     {
                         Minor[i, j] = Matrix[i + 1, j + 1];
                     }
-                }*/
-                Minor[0, 0] = Matrix[1, 1];
+                }
+                /*Minor[0, 0] = Matrix[1, 1];
                 Minor[0, 1] = Matrix[1, 2];
                 Minor[1, 0] = Matrix[2, 1];
-                Minor[1, 1] = Matrix[2, 2];
-                double C00 = FindDet(Minor, 2);
-                /*for (int i = 0; i < 2; i++)
+                Minor[1, 1] = Matrix[2, 2];*/
+                double C00 = Math.Pow(-1, 2)*FindDet(Minor, 2);
+                for (int i = 0; i < 2; i++)
                 {
                     for (int j = 0; j < 2; j++)
                     {
@@ -235,26 +235,26 @@ namespace CourseWork
                         {
                             Minor[i, j] = Matrix[i + 1, j];
                         }
-                        
+
                     }
-                }*/
-                Minor[0, 0] = Matrix[1, 0];
+                }
+                /*Minor[0, 0] = Matrix[1, 0];
                 Minor[0, 1] = Matrix[1, 2];
                 Minor[1, 0] = Matrix[2, 0];
-                Minor[1, 1] = Matrix[2, 2];
-                double C01 = FindDet(Minor, 2);
-                /*for (int i = 0; i < 2; i++)
+                Minor[1, 1] = Matrix[2, 2];*/
+                double C01 = Math.Pow(-1, 3) * FindDet(Minor, 2);
+                for (int i = 0; i < 2; i++)
                 {
                     for (int j = 0; j < 2; j++)
                     {
                         Minor[i, j] = Matrix[i + 1, j];
                     }
-                }*/
-                Minor[0, 0] = Matrix[1, 0];
+                }
+                /*Minor[0, 0] = Matrix[1, 0];
                 Minor[0, 1] = Matrix[1, 1];
                 Minor[1, 0] = Matrix[2, 0];
-                Minor[1, 1] = Matrix[2, 1];
-                double C02 = FindDet(Minor, 2);
+                Minor[1, 1] = Matrix[2, 1];*/
+                double C02 = Math.Pow(-1, 4) * FindDet(Minor, 2);
 
                 det = Matrix[0, 0] * C00 + Matrix[0, 1] * C01 + Matrix[0, 2] * C02;
             }
@@ -268,7 +268,7 @@ namespace CourseWork
                         Minor[i, j] = Matrix[i + 1, j + 1];
                     }
                 }
-                Minor[0, 0] = Matrix[1, 1];
+                /*Minor[0, 0] = Matrix[1, 1];
                 Minor[0, 1] = Matrix[1, 2];
                 Minor[0, 2] = Matrix[1, 3];
                 Minor[1, 0] = Matrix[2, 1];
@@ -276,9 +276,9 @@ namespace CourseWork
                 Minor[1, 2] = Matrix[2, 3];
                 Minor[2, 0] = Matrix[3, 1];
                 Minor[2, 1] = Matrix[3, 2];
-                Minor[2, 2] = Matrix[3, 3];
-                double C00 = FindDet(Minor, 3);
-                /*for (int i = 0; i < 3; i++)
+                Minor[2, 2] = Matrix[3, 3];*/
+                double C00 = Math.Pow(-1, 2) * FindDet(Minor, 3);
+                for (int i = 0; i < 3; i++)
                 {
                     for (int j = 0; j < 3; j++)
                     {
@@ -291,8 +291,8 @@ namespace CourseWork
                             Minor[i, j] = Matrix[i + 1, j + 1];
                         }
                     }
-                }*/
-                Minor[0, 0] = Matrix[1, 0];
+                }
+                /*Minor[0, 0] = Matrix[1, 0];
                 Minor[0, 1] = Matrix[1, 2];
                 Minor[0, 2] = Matrix[1, 3];
                 Minor[1, 0] = Matrix[2, 0];
@@ -300,9 +300,9 @@ namespace CourseWork
                 Minor[1, 2] = Matrix[2, 3];
                 Minor[2, 0] = Matrix[3, 0];
                 Minor[2, 1] = Matrix[3, 2];
-                Minor[2, 2] = Matrix[3, 3];
-                double C01 = FindDet(Minor, 3);
-                /*for (int i = 0; i < 3; i++)
+                Minor[2, 2] = Matrix[3, 3];*/
+                double C01 = Math.Pow(-1, 3) * FindDet(Minor, 3);
+                for (int i = 0; i < 3; i++)
                 {
                     for (int j = 0; j < 3; j++)
                     {
@@ -315,8 +315,8 @@ namespace CourseWork
                             Minor[i, j] = Matrix[i + 1, j];
                         }
                     }
-                }*/
-                Minor[0, 0] = Matrix[1, 0];
+                }
+                /*Minor[0, 0] = Matrix[1, 0];
                 Minor[0, 1] = Matrix[1, 1];
                 Minor[0, 2] = Matrix[1, 3];
                 Minor[1, 0] = Matrix[2, 0];
@@ -324,16 +324,16 @@ namespace CourseWork
                 Minor[1, 2] = Matrix[2, 3];
                 Minor[2, 0] = Matrix[3, 0];
                 Minor[2, 1] = Matrix[3, 1];
-                Minor[2, 2] = Matrix[3, 3];
-                double C02 = FindDet(Minor, 3);
-                /*for (int i = 0; i < 3; i++)
+                Minor[2, 2] = Matrix[3, 3];*/
+                double C02 = Math.Pow(-1, 4) * FindDet(Minor, 3);
+                for (int i = 0; i < 3; i++)
                 {
                     for (int j = 0; j < 3; j++)
                     {
                         Minor[i, j] = Matrix[i + 1, j];
                     }
-                }*/
-                Minor[0, 0] = Matrix[1, 0];
+                }
+                /*Minor[0, 0] = Matrix[1, 0];
                 Minor[0, 1] = Matrix[1, 1];
                 Minor[0, 2] = Matrix[1, 2];
                 Minor[1, 0] = Matrix[2, 0];
@@ -341,11 +341,11 @@ namespace CourseWork
                 Minor[1, 2] = Matrix[2, 2];
                 Minor[2, 0] = Matrix[3, 0];
                 Minor[2, 1] = Matrix[3, 1];
-                Minor[2, 2] = Matrix[3, 2];
-                double C03 = FindDet(Minor, 3);
+                Minor[2, 2] = Matrix[3, 2];*/
+                double C03 = Math.Pow(-1, 5) * FindDet(Minor, 3);
                 det = C00 * Matrix[0, 0] + C01 * Matrix[0, 1] + C02 * Matrix[0, 2] + C03 * Matrix[0, 3]; 
             }
-            else if (size==5)
+            else if (size == 5)
             {
                 double[,] Minor = new double[4, 4];
                 for (int i = 0; i < 4; i++)
@@ -355,7 +355,7 @@ namespace CourseWork
                         Minor[i, j] = Matrix[i + 1, j + 1];
                     }
                 }
-                double C00 = FindDet(Minor, 4);
+                double C00 = Math.Pow(-1, 2) * FindDet(Minor, 4);
 
                 for (int i = 0; i < 4; i++)
                 {
@@ -371,7 +371,7 @@ namespace CourseWork
                         }
                     }
                 }
-                double C01 = FindDet(Minor, 4);
+                double C01 = Math.Pow(-1, 3) * FindDet(Minor, 4);
                 for (int i = 0; i < 4; i++)
                 {
                     for (int j = 0; j < 4; j++)
@@ -386,12 +386,12 @@ namespace CourseWork
                         }
                     }
                 }
-                double C02 = FindDet(Minor, 4);
+                double C02 = Math.Pow(-1, 4) * FindDet(Minor, 4);
                 for (int i = 0; i < 4; i++)
                 {
                     for (int j = 0; j < 4; j++)
                     {
-                        if (j==4)
+                        if (j == 3)
                         {
                             Minor[i, j] = Matrix[i + 1, j + 1];
                         }
@@ -401,7 +401,7 @@ namespace CourseWork
                         }
                     }
                 }
-                double C03 = FindDet(Minor, 4);
+                double C03 = Math.Pow(-1, 5) * FindDet(Minor, 4);
                 for (int i = 0; i < 4; i++)
                 {
                     for (int j = 0; j < 4; j++)
@@ -409,7 +409,7 @@ namespace CourseWork
                         Minor[i, j] = Matrix[i + 1, j];
                     }
                 }
-                double C04 = FindDet(Minor, 4);
+                double C04 = Math.Pow(-1, 6) * FindDet(Minor, 4);
                 det = C00 * Matrix[0, 0] + C01 * Matrix[0, 1] + C02 * Matrix[0, 2] + C03 * Matrix[0, 3] + C04 * Matrix[0, 4];
             }
             return det;
