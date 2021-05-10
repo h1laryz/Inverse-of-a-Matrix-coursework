@@ -199,6 +199,7 @@ namespace CourseWork
             return null;
         }
 
+        
         private void FillElements(Matrix matrix, int size)
         {
             elem00.Text = Convert.ToString(matrix.GetData(0,0));
@@ -236,7 +237,6 @@ namespace CourseWork
                 }
             }
         }
-
         private void generate_Click(object sender, EventArgs e)
         {
             Matrix matrix;
@@ -252,7 +252,6 @@ namespace CourseWork
         private void buttonDet_Click(object sender, EventArgs e)
         {
             Matrix matrix = InputMatrixFromForm();
-            int size = Convert.ToInt32(sizebox.SelectedItem.ToString().Substring(0, 1));
             double det = matrix.FindDet();
             labelDet.Text = det.ToString();
         }
