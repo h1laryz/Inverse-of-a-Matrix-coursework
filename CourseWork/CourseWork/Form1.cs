@@ -20,6 +20,7 @@ namespace CourseWork
             sizebox.Items.Add("3x3");
             sizebox.Items.Add("4x4");
             sizebox.Items.Add("5x5");
+            sizebox.SelectedItem = "5x5";
             method.Items.Add("Шульца");
             method.Items.Add("Гауса-Жордана");
             if(sizebox.SelectedIndex != -1)
@@ -110,43 +111,41 @@ namespace CourseWork
             HideExtra();
         }
 
-        
-
-        private void FillMatrix(double[,] Matrix, int size)
+        public void FillMatrix(Matrix matrix, int size)
         {
             try
             {
-                Matrix[0, 0] = Convert.ToDouble(elem00.Text);
-                Matrix[0, 1] = Convert.ToDouble(elem01.Text);
-                Matrix[1, 0] = Convert.ToDouble(elem10.Text);
-                Matrix[1, 1] = Convert.ToDouble(elem11.Text);
+                matrix.SetData(0, 0, Convert.ToDouble(elem00.Text));
+                matrix.SetData(0, 1, Convert.ToDouble(elem01.Text));
+                matrix.SetData(1, 0, Convert.ToDouble(elem10.Text));
+                matrix.SetData(1, 1, Convert.ToDouble(elem11.Text));
                 if (size > 2)
                 {
-                    Matrix[0, 2] = Convert.ToDouble(elem02.Text);
-                    Matrix[1, 2] = Convert.ToDouble(elem12.Text);
-                    Matrix[2, 0] = Convert.ToDouble(elem20.Text);
-                    Matrix[2, 1] = Convert.ToDouble(elem21.Text);
-                    Matrix[2, 2] = Convert.ToDouble(elem22.Text);
+                    matrix.SetData(0, 2, Convert.ToDouble(elem02.Text));
+                    matrix.SetData(1, 2, Convert.ToDouble(elem12.Text));
+                    matrix.SetData(2, 0, Convert.ToDouble(elem20.Text));
+                    matrix.SetData(2, 1, Convert.ToDouble(elem21.Text));
+                    matrix.SetData(2, 2, Convert.ToDouble(elem22.Text));
                     if (size > 3)
                     {
-                        Matrix[0, 3] = Convert.ToDouble(elem03.Text);
-                        Matrix[1, 3] = Convert.ToDouble(elem13.Text);
-                        Matrix[2, 3] = Convert.ToDouble(elem23.Text);
-                        Matrix[3, 0] = Convert.ToDouble(elem30.Text);
-                        Matrix[3, 1] = Convert.ToDouble(elem31.Text);
-                        Matrix[3, 2] = Convert.ToDouble(elem32.Text);
-                        Matrix[3, 3] = Convert.ToDouble(elem33.Text);
+                        matrix.SetData(0, 3, Convert.ToDouble(elem03.Text));
+                        matrix.SetData(1, 3, Convert.ToDouble(elem13.Text));
+                        matrix.SetData(2, 3, Convert.ToDouble(elem23.Text));
+                        matrix.SetData(3, 0, Convert.ToDouble(elem30.Text));
+                        matrix.SetData(3, 1, Convert.ToDouble(elem31.Text));
+                        matrix.SetData(3, 2, Convert.ToDouble(elem32.Text));
+                        matrix.SetData(3, 3, Convert.ToDouble(elem33.Text));
                         if (size > 4)
                         {
-                            Matrix[0, 4] = Convert.ToDouble(elem04.Text);
-                            Matrix[1, 4] = Convert.ToDouble(elem14.Text);
-                            Matrix[2, 4] = Convert.ToDouble(elem24.Text);
-                            Matrix[3, 4] = Convert.ToDouble(elem34.Text);
-                            Matrix[4, 0] = Convert.ToDouble(elem40.Text);
-                            Matrix[4, 1] = Convert.ToDouble(elem41.Text);
-                            Matrix[4, 2] = Convert.ToDouble(elem42.Text);
-                            Matrix[4, 3] = Convert.ToDouble(elem43.Text);
-                            Matrix[4, 4] = Convert.ToDouble(elem44.Text);
+                            matrix.SetData(0, 4, Convert.ToDouble(elem04.Text));
+                            matrix.SetData(1, 4, Convert.ToDouble(elem14.Text));
+                            matrix.SetData(2, 4, Convert.ToDouble(elem24.Text));
+                            matrix.SetData(3, 4, Convert.ToDouble(elem34.Text));
+                            matrix.SetData(4, 0, Convert.ToDouble(elem40.Text));
+                            matrix.SetData(4, 1, Convert.ToDouble(elem41.Text));
+                            matrix.SetData(4, 2, Convert.ToDouble(elem42.Text));
+                            matrix.SetData(4, 3, Convert.ToDouble(elem43.Text));
+                            matrix.SetData(4, 4, Convert.ToDouble(elem44.Text));
                         }
                     }
                 }
@@ -162,322 +161,77 @@ namespace CourseWork
 
         }
 
-        private double[,] GenerateMatrix(int size)
-        {
-            Random random = new Random();
-            double[,] Matrix;
-            Matrix = new double[size, size];
-            for (int i = 0; i < size; i++)
-            {
-                for (int j = 0; j < size; j++)
-                {
-                    Matrix[i,j] = random.Next(20);
-                }
-            }
-            if (!ReversedExist(Matrix, size))
-            {
-                Matrix = GenerateMatrix(size);
-            }
-            return Matrix;
-        }
-
         private void solve_Click(object sender, EventArgs e)
         {
-            double[,] Matrix;
+            Matrix matrix;
             if (sizebox.SelectedItem != null && method.SelectedItem != null)
             {
-                Matrix = InputProblem();
+                matrix = InputMatrixFromForm();
             }
         }
 
-        private bool ReversedExist(double[,] Matrix, int size)
+        private Matrix InputMatrixFromForm()
         {
-            bool check = false;
-            double det = FindDet(Matrix, size);
-            if (det != 0)
-            {
-                check = true;
-            }
-            return check;
-        }
-
-        private double FindDet(double[,] Matrix, int size)
-        {
-            double det = 0;
-            if (size == 2)
-            {
-                det = Matrix[0, 0] * Matrix[1, 1] - Matrix[1, 0] * Matrix[0, 1];
-            }
-            else if (size == 3)
-            {
-                double[,] Minor = new double[2, 2];
-                for (int i = 0; i < 2; i++)
-                {
-                    for (int j = 0; j < 2; j++)
-                    {
-                        Minor[i, j] = Matrix[i + 1, j + 1];
-                    }
-                }
-                /*Minor[0, 0] = Matrix[1, 1];
-                Minor[0, 1] = Matrix[1, 2];
-                Minor[1, 0] = Matrix[2, 1];
-                Minor[1, 1] = Matrix[2, 2];*/
-                double C00 = Math.Pow(-1, 2)*FindDet(Minor, 2);
-                for (int i = 0; i < 2; i++)
-                {
-                    for (int j = 0; j < 2; j++)
-                    {
-                        if (j == 1)
-                        {
-                            Minor[i, j] = Matrix[i + 1, j + 1];
-                        }
-                        else
-                        {
-                            Minor[i, j] = Matrix[i + 1, j];
-                        }
-
-                    }
-                }
-                /*Minor[0, 0] = Matrix[1, 0];
-                Minor[0, 1] = Matrix[1, 2];
-                Minor[1, 0] = Matrix[2, 0];
-                Minor[1, 1] = Matrix[2, 2];*/
-                double C01 = Math.Pow(-1, 3) * FindDet(Minor, 2);
-                for (int i = 0; i < 2; i++)
-                {
-                    for (int j = 0; j < 2; j++)
-                    {
-                        Minor[i, j] = Matrix[i + 1, j];
-                    }
-                }
-                /*Minor[0, 0] = Matrix[1, 0];
-                Minor[0, 1] = Matrix[1, 1];
-                Minor[1, 0] = Matrix[2, 0];
-                Minor[1, 1] = Matrix[2, 1];*/
-                double C02 = Math.Pow(-1, 4) * FindDet(Minor, 2);
-
-                det = Matrix[0, 0] * C00 + Matrix[0, 1] * C01 + Matrix[0, 2] * C02;
-            }
-            else if (size == 4)
-            {
-                double[,] Minor = new double[3, 3];
-                for (int i = 0; i < 3; i++)
-                {
-                    for (int j = 0; j < 3; j++)
-                    {
-                        Minor[i, j] = Matrix[i + 1, j + 1];
-                    }
-                }
-                /*Minor[0, 0] = Matrix[1, 1];
-                Minor[0, 1] = Matrix[1, 2];
-                Minor[0, 2] = Matrix[1, 3];
-                Minor[1, 0] = Matrix[2, 1];
-                Minor[1, 1] = Matrix[2, 2];
-                Minor[1, 2] = Matrix[2, 3];
-                Minor[2, 0] = Matrix[3, 1];
-                Minor[2, 1] = Matrix[3, 2];
-                Minor[2, 2] = Matrix[3, 3];*/
-                double C00 = Math.Pow(-1, 2) * FindDet(Minor, 3);
-                for (int i = 0; i < 3; i++)
-                {
-                    for (int j = 0; j < 3; j++)
-                    {
-                        if (j == 0)
-                        {
-                            Minor[i, j] = Matrix[i + 1, j];
-                        }
-                        else
-                        {
-                            Minor[i, j] = Matrix[i + 1, j + 1];
-                        }
-                    }
-                }
-                /*Minor[0, 0] = Matrix[1, 0];
-                Minor[0, 1] = Matrix[1, 2];
-                Minor[0, 2] = Matrix[1, 3];
-                Minor[1, 0] = Matrix[2, 0];
-                Minor[1, 1] = Matrix[2, 2];
-                Minor[1, 2] = Matrix[2, 3];
-                Minor[2, 0] = Matrix[3, 0];
-                Minor[2, 1] = Matrix[3, 2];
-                Minor[2, 2] = Matrix[3, 3];*/
-                double C01 = Math.Pow(-1, 3) * FindDet(Minor, 3);
-                for (int i = 0; i < 3; i++)
-                {
-                    for (int j = 0; j < 3; j++)
-                    {
-                        if (j == 2)
-                        {
-                            Minor[i, j] = Matrix[i + 1, j + 1];
-                        }
-                        else
-                        {
-                            Minor[i, j] = Matrix[i + 1, j];
-                        }
-                    }
-                }
-                /*Minor[0, 0] = Matrix[1, 0];
-                Minor[0, 1] = Matrix[1, 1];
-                Minor[0, 2] = Matrix[1, 3];
-                Minor[1, 0] = Matrix[2, 0];
-                Minor[1, 1] = Matrix[2, 1];
-                Minor[1, 2] = Matrix[2, 3];
-                Minor[2, 0] = Matrix[3, 0];
-                Minor[2, 1] = Matrix[3, 1];
-                Minor[2, 2] = Matrix[3, 3];*/
-                double C02 = Math.Pow(-1, 4) * FindDet(Minor, 3);
-                for (int i = 0; i < 3; i++)
-                {
-                    for (int j = 0; j < 3; j++)
-                    {
-                        Minor[i, j] = Matrix[i + 1, j];
-                    }
-                }
-                /*Minor[0, 0] = Matrix[1, 0];
-                Minor[0, 1] = Matrix[1, 1];
-                Minor[0, 2] = Matrix[1, 2];
-                Minor[1, 0] = Matrix[2, 0];
-                Minor[1, 1] = Matrix[2, 1];
-                Minor[1, 2] = Matrix[2, 2];
-                Minor[2, 0] = Matrix[3, 0];
-                Minor[2, 1] = Matrix[3, 1];
-                Minor[2, 2] = Matrix[3, 2];*/
-                double C03 = Math.Pow(-1, 5) * FindDet(Minor, 3);
-                det = C00 * Matrix[0, 0] + C01 * Matrix[0, 1] + C02 * Matrix[0, 2] + C03 * Matrix[0, 3]; 
-            }
-            else if (size == 5)
-            {
-                double[,] Minor = new double[4, 4];
-                for (int i = 0; i < 4; i++)
-                {
-                    for (int j = 0; j < 4; j++)
-                    {
-                        Minor[i, j] = Matrix[i + 1, j + 1];
-                    }
-                }
-                double C00 = Math.Pow(-1, 2) * FindDet(Minor, 4);
-
-                for (int i = 0; i < 4; i++)
-                {
-                    for (int j = 0; j < 4; j++)
-                    {
-                        if (j == 0)
-                        {
-                            Minor[i, j] = Matrix[i + 1, j];
-                        }
-                        else
-                        {
-                            Minor[i, j] = Matrix[i + 1, j + 1];
-                        }
-                    }
-                }
-                double C01 = Math.Pow(-1, 3) * FindDet(Minor, 4);
-                for (int i = 0; i < 4; i++)
-                {
-                    for (int j = 0; j < 4; j++)
-                    {
-                        if (j >= 2)
-                        {
-                            Minor[i, j] = Matrix[i + 1, j + 1];
-                        }
-                        else
-                        {
-                            Minor[i, j] = Matrix[i + 1, j];
-                        }
-                    }
-                }
-                double C02 = Math.Pow(-1, 4) * FindDet(Minor, 4);
-                for (int i = 0; i < 4; i++)
-                {
-                    for (int j = 0; j < 4; j++)
-                    {
-                        if (j == 3)
-                        {
-                            Minor[i, j] = Matrix[i + 1, j + 1];
-                        }
-                        else
-                        {
-                            Minor[i, j] = Matrix[i + 1, j];
-                        }
-                    }
-                }
-                double C03 = Math.Pow(-1, 5) * FindDet(Minor, 4);
-                for (int i = 0; i < 4; i++)
-                {
-                    for (int j = 0; j < 4; j++)
-                    {
-                        Minor[i, j] = Matrix[i + 1, j];
-                    }
-                }
-                double C04 = Math.Pow(-1, 6) * FindDet(Minor, 4);
-                det = C00 * Matrix[0, 0] + C01 * Matrix[0, 1] + C02 * Matrix[0, 2] + C03 * Matrix[0, 3] + C04 * Matrix[0, 4];
-            }
-            return det;
-        }
-
-        private double[,] InputProblem()
-        {
-            double[,] Matrix;
             if (sizebox.SelectedItem.ToString() == "2x2")
             {
-                Matrix = new double[2, 2];
-                FillMatrix(Matrix, 2);
-                return Matrix;
+                Matrix matrix = new Matrix(2);
+                FillMatrix(matrix, 2);
+                return matrix;
             }
             else if (sizebox.SelectedItem.ToString() == "3x3")
             {
-                Matrix = new double[3, 3];
-                FillMatrix(Matrix, 3);
-                return Matrix;
+                Matrix matrix = new Matrix(3);
+                FillMatrix(matrix, 3);
+                return matrix;
             }
             else if (sizebox.SelectedItem.ToString() == "4x4")
             {
-                Matrix = new double[4, 4];
-                FillMatrix(Matrix, 4);
-                return Matrix;
+                Matrix matrix = new Matrix(4);
+                FillMatrix(matrix, 4);
+                return matrix;
             }
             else if (sizebox.SelectedItem.ToString() == "5x5")
             {
-                Matrix = new double[5, 5];
-                FillMatrix(Matrix, 5);
-                return Matrix;
+                Matrix matrix = new Matrix(5);
+                FillMatrix(matrix, 5);
+                return matrix;
             }
             return null;
         }
 
-        private void FillElements(double[,] Matrix, int size)
+        private void FillElements(Matrix matrix, int size)
         {
-            elem00.Text = Convert.ToString(Matrix[0, 0]);
-            elem01.Text = Convert.ToString(Matrix[0, 1]);
-            elem10.Text = Convert.ToString(Matrix[1, 0]);
-            elem11.Text = Convert.ToString(Matrix[1, 1]);
+            elem00.Text = Convert.ToString(matrix.GetData(0,0));
+            elem01.Text = Convert.ToString(matrix.GetData(0, 1));
+            elem10.Text = Convert.ToString(matrix.GetData(1, 0));
+            elem11.Text = Convert.ToString(matrix.GetData(1, 1));
             if (size > 2)
             {
-                elem02.Text = Convert.ToString(Matrix[0, 2]);
-                elem12.Text = Convert.ToString(Matrix[1, 2]);
-                elem20.Text = Convert.ToString(Matrix[2, 0]);
-                elem21.Text = Convert.ToString(Matrix[2, 1]);
-                elem22.Text = Convert.ToString(Matrix[2, 2]);
+                elem02.Text = Convert.ToString(matrix.GetData(0, 2));
+                elem12.Text = Convert.ToString(matrix.GetData(1, 2));
+                elem20.Text = Convert.ToString(matrix.GetData(2, 0));
+                elem21.Text = Convert.ToString(matrix.GetData(2, 1));
+                elem22.Text = Convert.ToString(matrix.GetData(2, 2));
                 if (size > 3)
                 {
-                    elem03.Text = Convert.ToString(Matrix[0, 3]);
-                    elem13.Text = Convert.ToString(Matrix[1, 3]);
-                    elem23.Text = Convert.ToString(Matrix[2, 3]);
-                    elem30.Text = Convert.ToString(Matrix[3, 0]);
-                    elem31.Text = Convert.ToString(Matrix[3, 1]);
-                    elem32.Text = Convert.ToString(Matrix[3, 2]);
-                    elem33.Text = Convert.ToString(Matrix[3, 3]);
+                    elem03.Text = Convert.ToString(matrix.GetData(0, 3));
+                    elem13.Text = Convert.ToString(matrix.GetData(1, 3));
+                    elem23.Text = Convert.ToString(matrix.GetData(2, 3));
+                    elem30.Text = Convert.ToString(matrix.GetData(3, 0));
+                    elem31.Text = Convert.ToString(matrix.GetData(3, 1));
+                    elem32.Text = Convert.ToString(matrix.GetData(3, 2));
+                    elem33.Text = Convert.ToString(matrix.GetData(3, 3));
                     if (size > 4)
                     {
-                        elem04.Text = Convert.ToString(Matrix[0, 4]);
-                        elem14.Text = Convert.ToString(Matrix[1, 4]);
-                        elem24.Text = Convert.ToString(Matrix[2, 4]);
-                        elem34.Text = Convert.ToString(Matrix[3, 4]);
-                        elem40.Text = Convert.ToString(Matrix[4, 0]);
-                        elem41.Text = Convert.ToString(Matrix[4, 1]);
-                        elem42.Text = Convert.ToString(Matrix[4, 2]);
-                        elem43.Text = Convert.ToString(Matrix[4, 3]);
-                        elem44.Text = Convert.ToString(Matrix[4, 4]);
+                        elem04.Text = Convert.ToString(matrix.GetData(0, 4));
+                        elem14.Text = Convert.ToString(matrix.GetData(1, 4));
+                        elem24.Text = Convert.ToString(matrix.GetData(2, 4));
+                        elem34.Text = Convert.ToString(matrix.GetData(3, 4));
+                        elem40.Text = Convert.ToString(matrix.GetData(4, 0));
+                        elem41.Text = Convert.ToString(matrix.GetData(4, 1));
+                        elem42.Text = Convert.ToString(matrix.GetData(4, 2));
+                        elem43.Text = Convert.ToString(matrix.GetData(4, 3));
+                        elem44.Text = Convert.ToString(matrix.GetData(4, 4));
                     }
                 }
             }
@@ -485,20 +239,21 @@ namespace CourseWork
 
         private void generate_Click(object sender, EventArgs e)
         {
-            double[,] Matrix;
+            Matrix matrix;
             if (sizebox.SelectedItem != null)
             {
                 int size = Convert.ToInt32(sizebox.SelectedItem.ToString().Substring(0, 1));
-                Matrix = GenerateMatrix(size);
-                FillElements(Matrix, size);
+                matrix = new Matrix(size);
+                matrix.GenerateData();
+                FillElements(matrix, size);
             }
         }
 
         private void buttonDet_Click(object sender, EventArgs e)
         {
-            double[,] Matrix = InputProblem();
+            Matrix matrix = InputMatrixFromForm();
             int size = Convert.ToInt32(sizebox.SelectedItem.ToString().Substring(0, 1));
-            double det = FindDet(Matrix, size);
+            double det = matrix.FindDet();
             labelDet.Text = det.ToString();
         }
     }
