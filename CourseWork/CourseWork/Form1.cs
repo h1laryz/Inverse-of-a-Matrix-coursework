@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 
 namespace CourseWork
@@ -200,20 +201,20 @@ namespace CourseWork
         }
 
         
-        private void FillElements(Matrix matrix, int size)
+        private void FillElements(Matrix matrix)
         {
             elem00.Text = Convert.ToString(matrix.GetData(0,0));
             elem01.Text = Convert.ToString(matrix.GetData(0, 1));
             elem10.Text = Convert.ToString(matrix.GetData(1, 0));
             elem11.Text = Convert.ToString(matrix.GetData(1, 1));
-            if (size > 2)
+            if (matrix.GetSize() > 2)
             {
                 elem02.Text = Convert.ToString(matrix.GetData(0, 2));
                 elem12.Text = Convert.ToString(matrix.GetData(1, 2));
                 elem20.Text = Convert.ToString(matrix.GetData(2, 0));
                 elem21.Text = Convert.ToString(matrix.GetData(2, 1));
                 elem22.Text = Convert.ToString(matrix.GetData(2, 2));
-                if (size > 3)
+                if (matrix.GetSize() > 3)
                 {
                     elem03.Text = Convert.ToString(matrix.GetData(0, 3));
                     elem13.Text = Convert.ToString(matrix.GetData(1, 3));
@@ -222,7 +223,7 @@ namespace CourseWork
                     elem31.Text = Convert.ToString(matrix.GetData(3, 1));
                     elem32.Text = Convert.ToString(matrix.GetData(3, 2));
                     elem33.Text = Convert.ToString(matrix.GetData(3, 3));
-                    if (size > 4)
+                    if (matrix.GetSize() > 4)
                     {
                         elem04.Text = Convert.ToString(matrix.GetData(0, 4));
                         elem14.Text = Convert.ToString(matrix.GetData(1, 4));
@@ -245,7 +246,7 @@ namespace CourseWork
                 int size = Convert.ToInt32(sizebox.SelectedItem.ToString().Substring(0, 1));
                 matrix = new Matrix(size);
                 matrix.GenerateData();
-                FillElements(matrix, size);
+                FillElements(matrix);
             }
         }
 
@@ -254,6 +255,36 @@ namespace CourseWork
             Matrix matrix = InputMatrixFromForm();
             double det = matrix.FindDet();
             labelDet.Text = det.ToString();
+        }
+
+        private void importButton_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                if (new FileInfo(openFileDialog1.FileName).Length != 0)
+                {
+                    String[] str = File.ReadAllLines(openFileDialog1.FileName);
+                    Matrix matrix = new Matrix(str.Length);
+                    for (int i = 0; i < str.Length; i++)
+                    {
+                        string curr = str[i];
+                        for (int j = 0; j < str.Length; j++)
+                        {
+                            if (curr.IndexOf(' ') >= 0)
+                            {
+                                matrix.SetData(i, j, Convert.ToDouble(curr.Substring(0, curr.IndexOf(' '))));
+                                curr = curr.Remove(0, curr.IndexOf(' ') + 1);
+                            }
+                            else
+                            {
+                                matrix.SetData(i, j, Convert.ToDouble(curr.Substring(0, curr.Length)));
+                                curr = curr.Remove(0, curr.Length);
+                            }
+                        }
+                    }
+                    FillElements(matrix);
+                }
+            }
         }
     }
 }

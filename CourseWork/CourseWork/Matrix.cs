@@ -194,7 +194,7 @@ namespace CourseWork
                         Minor.SetData(i, j, GetData(i + 1, j + 1));
                     }
                 }
-                double C00 = Math.Pow(-1, 2) * FindDet();
+                double C00 = Math.Pow(-1, 2) * Minor.FindDet();
 
                 for (int i = 0; i < 4; i++)
                 {
@@ -210,7 +210,7 @@ namespace CourseWork
                         }
                     }
                 }
-                double C01 = Math.Pow(-1, 3) * FindDet();
+                double C01 = Math.Pow(-1, 3) * Minor.FindDet();
                 for (int i = 0; i < 4; i++)
                 {
                     for (int j = 0; j < 4; j++)
@@ -225,7 +225,7 @@ namespace CourseWork
                         }
                     }
                 }
-                double C02 = Math.Pow(-1, 4) * FindDet();
+                double C02 = Math.Pow(-1, 4) * Minor.FindDet();
                 for (int i = 0; i < 4; i++)
                 {
                     for (int j = 0; j < 4; j++)
@@ -240,7 +240,7 @@ namespace CourseWork
                         }
                     }
                 }
-                double C03 = Math.Pow(-1, 5) * FindDet();
+                double C03 = Math.Pow(-1, 5) * Minor.FindDet();
                 for (int i = 0; i < 4; i++)
                 {
                     for (int j = 0; j < 4; j++)
@@ -248,7 +248,7 @@ namespace CourseWork
                         Minor.SetData(i, j, GetData(i + 1, j));
                     }
                 }
-                double C04 = Math.Pow(-1, 6) * FindDet();
+                double C04 = Math.Pow(-1, 6) * Minor.FindDet();
                 det = C00 * GetData(0, 0) + C01 * GetData(0, 1) + C02 * GetData(0, 2) + C03 * GetData(0, 3) + C04 * GetData(0, 4);
             }
             return det;

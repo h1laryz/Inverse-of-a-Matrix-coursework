@@ -69,6 +69,8 @@ namespace CourseWork
             this.generate = new System.Windows.Forms.Button();
             this.buttonDet = new System.Windows.Forms.Button();
             this.labelDet = new System.Windows.Forms.Label();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.importButton = new System.Windows.Forms.Button();
             this.row1.SuspendLayout();
             this.row2.SuspendLayout();
             this.row3.SuspendLayout();
@@ -411,11 +413,26 @@ namespace CourseWork
             this.labelDet.Size = new System.Drawing.Size(0, 13);
             this.labelDet.TabIndex = 37;
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // importButton
+            // 
+            this.importButton.Location = new System.Drawing.Point(713, 415);
+            this.importButton.Name = "importButton";
+            this.importButton.Size = new System.Drawing.Size(75, 23);
+            this.importButton.TabIndex = 38;
+            this.importButton.Text = "Імпорт";
+            this.importButton.UseVisualStyleBackColor = true;
+            this.importButton.Click += new System.EventHandler(this.importButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.importButton);
             this.Controls.Add(this.labelDet);
             this.Controls.Add(this.buttonDet);
             this.Controls.Add(this.generate);
@@ -490,6 +507,8 @@ namespace CourseWork
         private System.Windows.Forms.Button generate;
         private System.Windows.Forms.Button buttonDet;
         private System.Windows.Forms.Label labelDet;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Button importButton;
     }
 }
 
