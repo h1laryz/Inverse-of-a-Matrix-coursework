@@ -17,6 +17,7 @@ namespace CourseWork
         public Form1()
         {
             InitializeComponent();
+
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -29,6 +30,12 @@ namespace CourseWork
             gridResultMatrix.BorderStyle = BorderStyle.None;
             gridInputMatrix.RowHeadersWidth = 54;
             gridResultMatrix.RowHeadersWidth = 54;
+            method.Items.Add("Жордана-Гауса");
+            method.Items.Add("Шульца");
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            StartPosition = FormStartPosition.CenterScreen;
             //gridInputMatrix.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             /*gridInputMatrix.Width = 153;
             gridInputMatrix.Height = 65;*/
@@ -105,29 +112,33 @@ namespace CourseWork
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                if (new FileInfo(openFileDialog1.FileName).Length != 0)
+                InputMatrixFromFile(openFileDialog1.FileName);
+            }
+        }
+        private void InputMatrixFromFile(string path)
+        {
+            if (new FileInfo(path).Length != 0)
+            {
+                String[] str = File.ReadAllLines(path);
+                Matrix matrix = new Matrix(str.Length);
+                for (int i = 0; i < str.Length; i++)
                 {
-                    String[] str = File.ReadAllLines(openFileDialog1.FileName);
-                    Matrix matrix = new Matrix(str.Length);
-                    for (int i = 0; i < str.Length; i++)
+                    string curr = str[i];
+                    for (int j = 0; j < str.Length; j++)
                     {
-                        string curr = str[i];
-                        for (int j = 0; j < str.Length; j++)
+                        if (curr.IndexOf(' ') >= 0)
                         {
-                            if (curr.IndexOf(' ') >= 0)
-                            {
-                                matrix.SetData(i, j, Convert.ToDouble(curr.Substring(0, curr.IndexOf(' '))));
-                                curr = curr.Remove(0, curr.IndexOf(' ') + 1);
-                            }
-                            else
-                            {
-                                matrix.SetData(i, j, Convert.ToDouble(curr.Substring(0, curr.Length)));
-                                curr = curr.Remove(0, curr.Length);
-                            }
+                            matrix.SetData(i, j, Convert.ToDouble(curr.Substring(0, curr.IndexOf(' '))));
+                            curr = curr.Remove(0, curr.IndexOf(' ') + 1);
+                        }
+                        else
+                        {
+                            matrix.SetData(i, j, Convert.ToDouble(curr.Substring(0, curr.Length)));
+                            curr = curr.Remove(0, curr.Length);
                         }
                     }
-                    FillElements(matrix);
                 }
+                FillElements(matrix);
             }
         }
         private void SaveResultMatrixToFile()
@@ -146,7 +157,7 @@ namespace CourseWork
                     {
                         matrix.Schultz();
                     }
-                    else if (method.SelectedItem.ToString() == "Гауса-Жордана")
+                    else if (method.SelectedItem.ToString() == "Жордана-Гауса")
                     {
                         matrix.JordanGauss();
                         FillElements(matrix);
@@ -161,10 +172,19 @@ namespace CourseWork
         private void buttonDet_Click(object sender, EventArgs e)
         {
             Matrix matrix = InputMatrixFromForm();
-            //double det = matrix.FindDet();
-            //labelDet.Text = det.ToString();
+            double det = matrix.Determinant();
+            labelDeterminant.Text = det.ToString();
         }
 
-        
+        private void Form1_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.All;
+        }
+
+        private void Form1_DragDrop(object sender, DragEventArgs e)
+        {
+            string filePath = ((string[])(e.Data.GetData(DataFormats.FileDrop)))[0];
+            InputMatrixFromFile(filePath);
+        }
     }
 }
