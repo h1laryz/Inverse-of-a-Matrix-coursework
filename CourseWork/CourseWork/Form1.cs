@@ -34,8 +34,9 @@ namespace CourseWork
             method.Items.Add("Шульца");
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
-            MinimizeBox = false;
+            //MinimizeBox = false;
             StartPosition = FormStartPosition.CenterScreen;
+            richTextBox1.BorderStyle = BorderStyle.None;
             //gridInputMatrix.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             /*gridInputMatrix.Width = 153;
             gridInputMatrix.Height = 65;*/
@@ -80,14 +81,14 @@ namespace CourseWork
                 }
             }
         }
-        private void FillElements(Matrix matrix)
+        private void FillElements(DataGridView dataGrid, Matrix matrix)
         {
             numericSize.Value = matrix.GetSize();
             for (int i = 0; i < matrix.GetSize(); i++)
             {
                 for (int j = 0; j < matrix.GetSize(); j++)
                 {
-                    gridInputMatrix[i, j].Value = matrix.GetData(i, j).ToString();
+                    dataGrid[i, j].Value = matrix.GetData(i, j).ToString();
                 }
             }
         }
@@ -105,7 +106,7 @@ namespace CourseWork
                 int size = Convert.ToInt32(numericSize.Value);
                 matrix = new Matrix(size);
                 matrix.GenerateData();
-                FillElements(matrix);
+                FillElements(gridInputMatrix, matrix);
             }
         }
         private void importButton_Click(object sender, EventArgs e)
@@ -138,10 +139,10 @@ namespace CourseWork
                         }
                     }
                 }
-                FillElements(matrix);
+                FillElements(gridInputMatrix, matrix);
             }
         }
-        private void SaveResultMatrixToFile()
+        private void SaveSolutionToFile()
         {
 
         }
@@ -156,11 +157,13 @@ namespace CourseWork
                     if (method.SelectedItem.ToString() == "Шульца")
                     {
                         matrix.Schultz();
+                        FillElements(gridResultMatrix, matrix);
                     }
                     else if (method.SelectedItem.ToString() == "Жордана-Гауса")
                     {
+                        /*List<string> Text;*/
                         matrix.JordanGauss();
-                        FillElements(matrix);
+                        FillElements(gridResultMatrix, matrix);
                     }
                 }
                 else

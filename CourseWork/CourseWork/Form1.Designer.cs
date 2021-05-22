@@ -44,11 +44,14 @@ namespace CourseWork
             this.gridResultMatrix = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.gridInputMatrix)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridResultMatrix)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -93,7 +96,7 @@ namespace CourseWork
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(12, 464);
+            this.label4.Location = new System.Drawing.Point(19, 184);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(66, 16);
             this.label4.TabIndex = 5;
@@ -123,7 +126,7 @@ namespace CourseWork
             // 
             this.labelDeterminant.AutoSize = true;
             this.labelDeterminant.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelDeterminant.Location = new System.Drawing.Point(79, 467);
+            this.labelDeterminant.Location = new System.Drawing.Point(86, 187);
             this.labelDeterminant.Name = "labelDeterminant";
             this.labelDeterminant.Size = new System.Drawing.Size(0, 16);
             this.labelDeterminant.TabIndex = 37;
@@ -134,7 +137,7 @@ namespace CourseWork
             // 
             // importButton
             // 
-            this.importButton.Location = new System.Drawing.Point(627, 502);
+            this.importButton.Location = new System.Drawing.Point(608, 523);
             this.importButton.Name = "importButton";
             this.importButton.Size = new System.Drawing.Size(75, 23);
             this.importButton.TabIndex = 38;
@@ -177,7 +180,7 @@ namespace CourseWork
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.generate);
-            this.groupBox1.Location = new System.Drawing.Point(28, 12);
+            this.groupBox1.Location = new System.Drawing.Point(10, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(348, 146);
             this.groupBox1.TabIndex = 42;
@@ -187,18 +190,37 @@ namespace CourseWork
             // 
             this.groupBox2.Controls.Add(this.gridInputMatrix);
             this.groupBox2.Controls.Add(this.gridResultMatrix);
-            this.groupBox2.Location = new System.Drawing.Point(11, 160);
+            this.groupBox2.Location = new System.Drawing.Point(12, 225);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(672, 292);
             this.groupBox2.TabIndex = 43;
             this.groupBox2.TabStop = false;
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.richTextBox1.Location = new System.Drawing.Point(7, 12);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(305, 194);
+            this.richTextBox1.TabIndex = 45;
+            this.richTextBox1.Text = "";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.richTextBox1);
+            this.groupBox3.Location = new System.Drawing.Point(365, 12);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(319, 213);
+            this.groupBox3.TabIndex = 46;
+            this.groupBox3.TabStop = false;
             // 
             // Form1
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(758, 569);
+            this.ClientSize = new System.Drawing.Size(692, 554);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.importButton);
@@ -216,6 +238,7 @@ namespace CourseWork
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -237,6 +260,8 @@ namespace CourseWork
         private System.Windows.Forms.DataGridView gridResultMatrix;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.GroupBox groupBox3;
     }
 }
 
