@@ -17,265 +17,90 @@ namespace CourseWork
         public Form1()
         {
             InitializeComponent();
-            sizebox.Items.Add("2x2");
-            sizebox.Items.Add("3x3");
-            sizebox.Items.Add("4x4");
-            sizebox.Items.Add("5x5");
-            sizebox.SelectedItem = "5x5";
-            method.Items.Add("Шульца");
-            method.Items.Add("Гауса-Жордана");
-            if(sizebox.SelectedIndex != -1)
+        }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            gridInputMatrix.AllowUserToAddRows = false;
+            gridResultMatrix.AllowUserToAddRows = false;
+            numericSize.Value = 2;
+            gridInputMatrix.BackgroundColor = SystemColors.Control;
+            gridResultMatrix.BackgroundColor = SystemColors.Control;
+            gridInputMatrix.BorderStyle = BorderStyle.None;
+            gridResultMatrix.BorderStyle = BorderStyle.None;
+            gridInputMatrix.RowHeadersWidth = 54;
+            gridResultMatrix.RowHeadersWidth = 54;
+            //gridInputMatrix.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            /*gridInputMatrix.Width = 153;
+            gridInputMatrix.Height = 65;*/
+        }
+        private void numericSize_ValueChanged(object sender, EventArgs e)
+        {
+            gridInputMatrix.Columns.Clear();
+            gridResultMatrix.Columns.Clear();
+            gridInputMatrix.Rows.Clear();
+            gridResultMatrix.Rows.Clear();
+            for (int i = 0; i < numericSize.Value; i++)
             {
-                HideExtra();
+                gridInputMatrix.Columns.Add(Convert.ToString(i), Convert.ToString(i + 1));
+                gridResultMatrix.Columns.Add(Convert.ToString(i), Convert.ToString(i + 1));
+                //gridInputMatrix.Columns[i].Width = 30;
+                gridInputMatrix.Columns[i].Width = 40;
+                gridResultMatrix.Columns[i].Width = 40;
+                gridInputMatrix.Rows.Add();
+                gridResultMatrix.Rows.Add();
+            }
+            for (int i = 0; i < numericSize.Value; i++)
+            {
+                gridInputMatrix.Rows[i].HeaderCell.Value = (i + 1).ToString();
+                gridResultMatrix.Rows[i].HeaderCell.Value = (i + 1).ToString();
             }
         }
-        private void HideExtra()
+        public void FillMatrix(Matrix matrix)
         {
-            if (sizebox.SelectedItem.ToString() == "2x2")
+            for (int i = 0; i < numericSize.Value; i++)
             {
-                elem02.Hide();
-                elem03.Hide();
-                elem04.Hide();
-                elem12.Hide();
-                elem13.Hide();
-                elem14.Hide();
-                row3.Hide();
-                row4.Hide();
-                row5.Hide();
-            }
-            else if (sizebox.SelectedItem.ToString() == "3x3")
-            {
-                if (!elem02.Visible)
+                for (int j = 0; j < numericSize.Value; j++)
                 {
-                    elem02.Show();
-                    elem12.Show();
-                    row3.Show();
-                }
-                elem03.Hide();
-                elem04.Hide();
-                elem13.Hide();
-                elem14.Hide();
-                elem23.Hide();
-                elem24.Hide();
-                row4.Hide();
-                row5.Hide();
-            }
-            else if (sizebox.SelectedItem.ToString() == "4x4")
-            {
-                if (!elem02.Visible)
-                {
-                    elem02.Show();
-                    elem12.Show();
-                    row3.Show();
-                }
-                if (!elem03.Visible)
-                {
-                    elem03.Show();
-                    elem13.Show();
-                    elem23.Show();
-                    row4.Show();
-                }
-                elem04.Hide();
-                elem14.Hide();
-                elem24.Hide();
-                elem34.Hide();
-                row5.Hide();
-            }
-            else if (sizebox.SelectedItem.ToString() == "5x5")
-            {
-                if (!elem02.Visible)
-                {
-                    elem02.Show();
-                    elem12.Show();
-                    row3.Show();
-                }
-                if (!elem03.Visible)
-                {
-                    elem03.Show();
-                    elem13.Show();
-                    elem23.Show();
-                    row4.Show();
-                }
-                if (!elem04.Visible)
-                {
-                    elem04.Show();
-                    elem14.Show();
-                    elem24.Show();
-                    elem34.Show();
-                    row5.Show();
-                }
-            }
-        }
-
-        private void sizebox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            HideExtra();
-        }
-
-        public void FillMatrix(Matrix matrix, int size)
-        {
-            try
-            {
-                matrix.SetData(0, 0, Convert.ToDouble(elem00.Text));
-                matrix.SetData(0, 1, Convert.ToDouble(elem01.Text));
-                matrix.SetData(1, 0, Convert.ToDouble(elem10.Text));
-                matrix.SetData(1, 1, Convert.ToDouble(elem11.Text));
-                if (size > 2)
-                {
-                    matrix.SetData(0, 2, Convert.ToDouble(elem02.Text));
-                    matrix.SetData(1, 2, Convert.ToDouble(elem12.Text));
-                    matrix.SetData(2, 0, Convert.ToDouble(elem20.Text));
-                    matrix.SetData(2, 1, Convert.ToDouble(elem21.Text));
-                    matrix.SetData(2, 2, Convert.ToDouble(elem22.Text));
-                    if (size > 3)
+                    try
                     {
-                        matrix.SetData(0, 3, Convert.ToDouble(elem03.Text));
-                        matrix.SetData(1, 3, Convert.ToDouble(elem13.Text));
-                        matrix.SetData(2, 3, Convert.ToDouble(elem23.Text));
-                        matrix.SetData(3, 0, Convert.ToDouble(elem30.Text));
-                        matrix.SetData(3, 1, Convert.ToDouble(elem31.Text));
-                        matrix.SetData(3, 2, Convert.ToDouble(elem32.Text));
-                        matrix.SetData(3, 3, Convert.ToDouble(elem33.Text));
-                        if (size > 4)
-                        {
-                            matrix.SetData(0, 4, Convert.ToDouble(elem04.Text));
-                            matrix.SetData(1, 4, Convert.ToDouble(elem14.Text));
-                            matrix.SetData(2, 4, Convert.ToDouble(elem24.Text));
-                            matrix.SetData(3, 4, Convert.ToDouble(elem34.Text));
-                            matrix.SetData(4, 0, Convert.ToDouble(elem40.Text));
-                            matrix.SetData(4, 1, Convert.ToDouble(elem41.Text));
-                            matrix.SetData(4, 2, Convert.ToDouble(elem42.Text));
-                            matrix.SetData(4, 3, Convert.ToDouble(elem43.Text));
-                            matrix.SetData(4, 4, Convert.ToDouble(elem44.Text));
-                        }
+                        double temp = Convert.ToDouble(gridInputMatrix[i, j].Value);
+                        matrix.SetData(i, j, temp);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Введіть коректні дані, будь ласка");
                     }
                 }
             }
-            catch
-            {
-                MessageBox.Show("Введіть коректні дані");
-            }
         }
-
-        private void SaveResultMatrixToFile()
+        private void FillElements(Matrix matrix)
         {
-
-        }
-
-        private void solve_Click(object sender, EventArgs e)
-        {
-            Matrix matrix;
-            if (sizebox.SelectedItem != null && method.SelectedItem != null)
+            numericSize.Value = matrix.GetSize();
+            for (int i = 0; i < matrix.GetSize(); i++)
             {
-                matrix = InputMatrixFromForm();
-                if (matrix.ReversedExist())
+                for (int j = 0; j < matrix.GetSize(); j++)
                 {
-                    if (method.SelectedItem.ToString() == "Шульца")
-                    {
-                        matrix.Schultz();
-                    }
-                    else if (method.SelectedItem.ToString() == "Гауса-Жордана")
-                    {
-                        matrix.JordanGauss();
-                        FillElements(matrix);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Матрица не имеет решения");
+                    gridInputMatrix[i, j].Value = matrix.GetData(i, j).ToString();
                 }
             }
         }
         private Matrix InputMatrixFromForm()
         {
-            if (sizebox.SelectedItem.ToString() == "2x2")
-            {
-                Matrix matrix = new Matrix(2);
-                FillMatrix(matrix, 2);
-                return matrix;
-            }
-            else if (sizebox.SelectedItem.ToString() == "3x3")
-            {
-                Matrix matrix = new Matrix(3);
-                FillMatrix(matrix, 3);
-                return matrix;
-            }
-            else if (sizebox.SelectedItem.ToString() == "4x4")
-            {
-                Matrix matrix = new Matrix(4);
-                FillMatrix(matrix, 4);
-                return matrix;
-            }
-            else if (sizebox.SelectedItem.ToString() == "5x5")
-            {
-                Matrix matrix = new Matrix(5);
-                FillMatrix(matrix, 5);
-                return matrix;
-            }
-            return null;
-        }
-
-        
-        private void FillElements(Matrix matrix)
-        {
-            sizebox.SelectedItem = "2x2";
-            elem00.Text = Convert.ToString(matrix.GetData(0, 0));
-            elem01.Text = Convert.ToString(matrix.GetData(0, 1));
-            elem10.Text = Convert.ToString(matrix.GetData(1, 0));
-            elem11.Text = Convert.ToString(matrix.GetData(1, 1));
-            if (matrix.GetSize() > 2)
-            {
-                sizebox.SelectedItem = "3x3";
-                elem02.Text = Convert.ToString(matrix.GetData(0, 2));
-                elem12.Text = Convert.ToString(matrix.GetData(1, 2));
-                elem20.Text = Convert.ToString(matrix.GetData(2, 0));
-                elem21.Text = Convert.ToString(matrix.GetData(2, 1));
-                elem22.Text = Convert.ToString(matrix.GetData(2, 2));
-                if (matrix.GetSize() > 3)
-                {
-                    sizebox.SelectedItem = "4x4";
-                    elem03.Text = Convert.ToString(matrix.GetData(0, 3));
-                    elem13.Text = Convert.ToString(matrix.GetData(1, 3));
-                    elem23.Text = Convert.ToString(matrix.GetData(2, 3));
-                    elem30.Text = Convert.ToString(matrix.GetData(3, 0));
-                    elem31.Text = Convert.ToString(matrix.GetData(3, 1));
-                    elem32.Text = Convert.ToString(matrix.GetData(3, 2));
-                    elem33.Text = Convert.ToString(matrix.GetData(3, 3));
-                    if (matrix.GetSize() > 4)
-                    {
-                        sizebox.SelectedItem = "5x5";
-                        elem04.Text = Convert.ToString(matrix.GetData(0, 4));
-                        elem14.Text = Convert.ToString(matrix.GetData(1, 4));
-                        elem24.Text = Convert.ToString(matrix.GetData(2, 4));
-                        elem34.Text = Convert.ToString(matrix.GetData(3, 4));
-                        elem40.Text = Convert.ToString(matrix.GetData(4, 0));
-                        elem41.Text = Convert.ToString(matrix.GetData(4, 1));
-                        elem42.Text = Convert.ToString(matrix.GetData(4, 2));
-                        elem43.Text = Convert.ToString(matrix.GetData(4, 3));
-                        elem44.Text = Convert.ToString(matrix.GetData(4, 4));
-                    }
-                }
-            }
+            Matrix matrix = new Matrix(Convert.ToInt32(numericSize.Value));
+            FillMatrix(matrix);
+            return matrix;
         }
         private void generate_Click(object sender, EventArgs e)
         {
             Matrix matrix;
-            if (sizebox.SelectedItem != null)
+            if (Convert.ToInt32(numericSize.Value) != 0)
             {
-                int size = Convert.ToInt32(sizebox.SelectedItem.ToString().Substring(0, 1));
+                int size = Convert.ToInt32(numericSize.Value);
                 matrix = new Matrix(size);
                 matrix.GenerateData();
                 FillElements(matrix);
             }
         }
-
-        private void buttonDet_Click(object sender, EventArgs e)
-        {
-            Matrix matrix = InputMatrixFromForm();
-            double det = matrix.FindDet();
-            labelDet.Text = det.ToString();
-        }
-
         private void importButton_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -305,5 +130,41 @@ namespace CourseWork
                 }
             }
         }
+        private void SaveResultMatrixToFile()
+        {
+
+        }
+        private void solve_Click(object sender, EventArgs e)
+        {
+            Matrix matrix;
+            if (Convert.ToInt32(numericSize.Value) != 0 && method.SelectedItem != null)
+            {
+                matrix = InputMatrixFromForm();
+                if (matrix.ReversedExist())
+                {
+                    if (method.SelectedItem.ToString() == "Шульца")
+                    {
+                        matrix.Schultz();
+                    }
+                    else if (method.SelectedItem.ToString() == "Гауса-Жордана")
+                    {
+                        matrix.JordanGauss();
+                        FillElements(matrix);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Матрица не имеет решения");
+                }
+            }
+        }
+        private void buttonDet_Click(object sender, EventArgs e)
+        {
+            Matrix matrix = InputMatrixFromForm();
+            //double det = matrix.FindDet();
+            //labelDet.Text = det.ToString();
+        }
+
+        
     }
 }
