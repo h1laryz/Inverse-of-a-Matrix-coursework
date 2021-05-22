@@ -9,12 +9,116 @@ namespace CourseWork
     public class Matrix
     {
         double[,] data;
-        readonly int size;
+        int rows;
+        int columns;
+        int size;
         public Matrix() { }
-        public Matrix(int size) { data = new double[size, size]; this.size = size; }
+        public Matrix(int size) { data = new double[size, size]; this.size = size; rows = size; columns = size; }
+        public Matrix(int rows, int columns) { data = new double[rows, columns]; size = -1; this.rows = rows; this.columns = columns; }
         public void SetData(int i, int j, double value) { data[i, j] = value; }
         public double GetData(int i, int j) { return data[i, j]; }
+        private void SwapRows(int firstrow, int secondrow)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                double temp = data[firstrow, j];
+                data[firstrow, j] = data[secondrow, j];
+                data[secondrow, j] = temp;
+            }
+        }
         public int GetSize() { return size; }
+        public void Schultz()
+        {
+            int k = 0;
+            double eps = 1e-5;
+            int m = 1;
+            Indentity E = new Indentity(size);
+            
+        }
+        public void JordanGauss()
+        {
+            Matrix I = new Matrix(size, size * 2);
+            // слева обычная матрица
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    I.data[i, j] = data[i, j];
+                }
+            }
+            // справа единичная (I)
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    if (i == j)
+                    {
+                        I.data[i, j + size] = 1;
+                    }
+                    else
+                    {
+                        I.data[i, j + size] = 0;
+                    }
+                }
+            }
+            double diagelem;
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    if (i==j)
+                    {
+                        diagelem = I.data[i, j];
+                        if (diagelem == 0)
+                        {
+                            int m;
+                            for (m = i+1; m < size; m++)
+                            {
+                                SwapRows(i, m);
+                                diagelem = I.data[i, j];
+                                if (diagelem != 0)
+                                {
+                                    break;
+                                }
+                                else
+                                {
+                                    SwapRows(i, m);
+                                }
+                            }
+                            if (diagelem == 0)
+                            {
+                                return;
+                            }
+                        }
+                        for (int k = 0; k < size*2; k++)
+                        {
+                             I.data[i, k] = I.data[i, k] / diagelem;
+                        }
+
+                        for (int currrow = 0; currrow < size; currrow++)
+                        {
+                            if (currrow != i)
+                            {
+                                double ratio = I.data[currrow, j] / I.data[i, j];
+                                for (int currcolumn = 0; currcolumn < size * 2; currcolumn++)
+                                {
+                                    I.data[currrow, currcolumn] = I.data[currrow, currcolumn] - I.data[i, currcolumn] * ratio;
+                                }
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+            // return inversed matrix
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    data[i, j] = I.data[i, j + size];
+                }
+            }
+        }
         public void GenerateData()
         {
             Random random = new Random();
@@ -252,6 +356,29 @@ namespace CourseWork
                 det = C00 * GetData(0, 0) + C01 * GetData(0, 1) + C02 * GetData(0, 2) + C03 * GetData(0, 3) + C04 * GetData(0, 4);
             }
             return det;
+        }
+        public class Indentity : Matrix
+        {
+            public Indentity(int size)
+            {
+                data = new double[size, size]; this.size = size;
+                for (int i = 0; i < size; i++)
+                {
+                    for (int j = 0; j < size; j++)
+                    {
+                        if (i == j)
+                        {
+                            data[i, j] = 1;
+                        }
+                        else
+                        {
+                            data[i, j] = 0;
+                        }
+                    }
+                }
+                columns = size;
+                rows = size;
+            }
         }
     }
 }

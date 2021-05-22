@@ -168,9 +168,24 @@ namespace CourseWork
             if (sizebox.SelectedItem != null && method.SelectedItem != null)
             {
                 matrix = InputMatrixFromForm();
+                if (matrix.ReversedExist())
+                {
+                    if (method.SelectedItem.ToString() == "Шульца")
+                    {
+                        matrix.Schultz();
+                    }
+                    else if (method.SelectedItem.ToString() == "Гауса-Жордана")
+                    {
+                        matrix.JordanGauss();
+                        FillElements(matrix);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Матрица не имеет решения");
+                }
             }
         }
-
         private Matrix InputMatrixFromForm()
         {
             if (sizebox.SelectedItem.ToString() == "2x2")
@@ -203,12 +218,14 @@ namespace CourseWork
         
         private void FillElements(Matrix matrix)
         {
-            elem00.Text = Convert.ToString(matrix.GetData(0,0));
+            sizebox.SelectedItem = "2x2";
+            elem00.Text = Convert.ToString(matrix.GetData(0, 0));
             elem01.Text = Convert.ToString(matrix.GetData(0, 1));
             elem10.Text = Convert.ToString(matrix.GetData(1, 0));
             elem11.Text = Convert.ToString(matrix.GetData(1, 1));
             if (matrix.GetSize() > 2)
             {
+                sizebox.SelectedItem = "3x3";
                 elem02.Text = Convert.ToString(matrix.GetData(0, 2));
                 elem12.Text = Convert.ToString(matrix.GetData(1, 2));
                 elem20.Text = Convert.ToString(matrix.GetData(2, 0));
@@ -216,6 +233,7 @@ namespace CourseWork
                 elem22.Text = Convert.ToString(matrix.GetData(2, 2));
                 if (matrix.GetSize() > 3)
                 {
+                    sizebox.SelectedItem = "4x4";
                     elem03.Text = Convert.ToString(matrix.GetData(0, 3));
                     elem13.Text = Convert.ToString(matrix.GetData(1, 3));
                     elem23.Text = Convert.ToString(matrix.GetData(2, 3));
@@ -225,6 +243,7 @@ namespace CourseWork
                     elem33.Text = Convert.ToString(matrix.GetData(3, 3));
                     if (matrix.GetSize() > 4)
                     {
+                        sizebox.SelectedItem = "5x5";
                         elem04.Text = Convert.ToString(matrix.GetData(0, 4));
                         elem14.Text = Convert.ToString(matrix.GetData(1, 4));
                         elem24.Text = Convert.ToString(matrix.GetData(2, 4));
