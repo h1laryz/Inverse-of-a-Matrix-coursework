@@ -49,7 +49,88 @@ namespace CourseWork
             double eps = 1e-5;
             int m = 1;
             Indentity E = new Indentity(size);
+            Matrix transponated = new Matrix(this);
+            transponated.Transponant();
+            Matrix C1 = this * transponated;
+            double temp = 0;
+            for (int i = 0; i < C1.size; i++)
+            {
+                for (int j = 0; j < C1.size; j++)
+                {
+                    temp += Math.Pow(C1.data[i, j], 2);
+                }
+            }
+            Matrix U = new Matrix(transponated);
+            for (int i = 0; i < U.size; i++)
+            {
+                for (int j = 0; j < U.size; j++)
+                {
+                    U.data[i, j] = U.data[i, j] / temp;
+                }
+            }
 
+        }
+        public static Matrix operator +(Matrix a, Matrix b)
+        {
+            if (a.rows == b.rows && a.columns == b.columns)
+            {
+                Matrix temp = new Matrix(a.rows, a.columns);
+                for (int i = 0; i < a.rows; i++)
+                {
+                    for (int j = 0; j < a.columns; j++)
+                    {
+                        temp.data[i, j] = a.data[i, j] + b.data[i, j];
+                    }
+                }
+                return temp;
+            }
+            return null;
+        }
+        public static Matrix operator -(Matrix a, Matrix b)
+        {
+            if (a.rows == b.rows && a.columns == b.columns)
+            {
+                Matrix temp = new Matrix(a.rows, a.columns);
+                for (int i = 0; i < a.rows; i++)
+                {
+                    for (int j = 0; j < a.columns; j++)
+                    {
+                        temp.data[i, j] = a.data[i, j] - b.data[i, j];
+                    }
+                }
+                return temp;
+            }
+            return null;
+        }
+        public static Matrix operator *(Matrix a, Matrix b)
+        {
+            if (a.columns == b.rows)
+            {
+                Matrix temp = new Matrix(a.rows, b.columns);
+                for (int r = 0; r < a.columns; r++)
+                {
+                    for (int i = 0; i < a.rows; i++)
+                    {
+                        for (int j = 0; j < b.columns; j++)
+                        {
+                            temp.data[i, j] = a.data[i, r] * b.data[r, j];
+                        }
+                    }
+                }
+                return temp;
+            }
+            return null;
+        }
+        public void Transponant()
+        {
+            Matrix tempMatrix = new Matrix(this);
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < columns; j++)
+                {
+                    data[i, j] = tempMatrix.data[j, i];
+                }
+            }
         }
         public void JordanGauss()
         {
