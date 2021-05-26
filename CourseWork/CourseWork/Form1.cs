@@ -71,7 +71,7 @@ namespace CourseWork
                 {
                     try
                     {
-                        double temp = Convert.ToDouble(gridInputMatrix[i, j].Value);
+                        double temp = Convert.ToDouble(gridInputMatrix[j, i].Value);
                         matrix.SetData(i, j, temp);
                     }
                     catch
@@ -88,7 +88,7 @@ namespace CourseWork
             {
                 for (int j = 0; j < matrix.GetSize(); j++)
                 {
-                    dataGrid[i, j].Value = matrix.GetData(i, j).ToString();
+                    dataGrid[j, i].Value = matrix.GetData(i, j).ToString();
                 }
             }
         }
@@ -152,6 +152,7 @@ namespace CourseWork
             if (Convert.ToInt32(numericSize.Value) != 0 && method.SelectedItem != null)
             {
                 matrix = InputMatrixFromForm();
+                labelDeterminant.Text = matrix.Determinant().ToString();
                 if (matrix.ReversedExist())
                 {
                     if (method.SelectedItem.ToString() == "Шульца")

@@ -46,6 +46,8 @@ namespace CourseWork
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gridInputMatrix)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridResultMatrix)).BeginInit();
@@ -96,7 +98,7 @@ namespace CourseWork
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(19, 184);
+            this.label4.Location = new System.Drawing.Point(16, 184);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(66, 16);
             this.label4.TabIndex = 5;
@@ -125,10 +127,10 @@ namespace CourseWork
             // labelDeterminant
             // 
             this.labelDeterminant.AutoSize = true;
-            this.labelDeterminant.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelDeterminant.Location = new System.Drawing.Point(86, 187);
+            this.labelDeterminant.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelDeterminant.Location = new System.Drawing.Point(78, 185);
             this.labelDeterminant.Name = "labelDeterminant";
-            this.labelDeterminant.Size = new System.Drawing.Size(0, 16);
+            this.labelDeterminant.Size = new System.Drawing.Size(0, 15);
             this.labelDeterminant.TabIndex = 37;
             // 
             // openFileDialog1
@@ -137,7 +139,7 @@ namespace CourseWork
             // 
             // importButton
             // 
-            this.importButton.Location = new System.Drawing.Point(608, 523);
+            this.importButton.Location = new System.Drawing.Point(609, 553);
             this.importButton.Name = "importButton";
             this.importButton.Size = new System.Drawing.Size(75, 23);
             this.importButton.TabIndex = 38;
@@ -149,7 +151,7 @@ namespace CourseWork
             // 
             this.gridInputMatrix.AllowUserToOrderColumns = true;
             this.gridInputMatrix.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridInputMatrix.Location = new System.Drawing.Point(10, 15);
+            this.gridInputMatrix.Location = new System.Drawing.Point(10, 39);
             this.gridInputMatrix.Name = "gridInputMatrix";
             this.gridInputMatrix.Size = new System.Drawing.Size(318, 265);
             this.gridInputMatrix.TabIndex = 39;
@@ -166,7 +168,7 @@ namespace CourseWork
             // 
             this.gridResultMatrix.AllowUserToOrderColumns = true;
             this.gridResultMatrix.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridResultMatrix.Location = new System.Drawing.Point(343, 15);
+            this.gridResultMatrix.Location = new System.Drawing.Point(343, 39);
             this.gridResultMatrix.Name = "gridResultMatrix";
             this.gridResultMatrix.Size = new System.Drawing.Size(318, 265);
             this.gridResultMatrix.TabIndex = 41;
@@ -188,11 +190,13 @@ namespace CourseWork
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label6);
+            this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.gridInputMatrix);
             this.groupBox2.Controls.Add(this.gridResultMatrix);
-            this.groupBox2.Location = new System.Drawing.Point(12, 225);
+            this.groupBox2.Location = new System.Drawing.Point(12, 231);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(672, 292);
+            this.groupBox2.Size = new System.Drawing.Size(672, 316);
             this.groupBox2.TabIndex = 43;
             this.groupBox2.TabStop = false;
             // 
@@ -214,12 +218,32 @@ namespace CourseWork
             this.groupBox3.TabIndex = 46;
             this.groupBox3.TabStop = false;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label5.Location = new System.Drawing.Point(7, 18);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(138, 16);
+            this.label5.TabIndex = 42;
+            this.label5.Text = "Початкова матриця";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label6.Location = new System.Drawing.Point(340, 18);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(132, 16);
+            this.label6.TabIndex = 43;
+            this.label6.Text = "Обернена матриця";
+            // 
             // Form1
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(692, 554);
+            this.ClientSize = new System.Drawing.Size(690, 582);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -238,6 +262,7 @@ namespace CourseWork
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -262,6 +287,8 @@ namespace CourseWork
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
     }
 }
 

@@ -14,7 +14,7 @@ namespace CourseWork
         int size;
         public Matrix() { }
         public Matrix(int size) { data = new double[size, size]; this.size = size; rows = size; columns = size; }
-        public Matrix(int rows, int columns) { data = new double[rows, columns]; size = -1; this.rows = rows; this.columns = columns; }
+        public Matrix(int rows, int columns) { data = new double[rows, columns]; if (rows == columns) size = rows; else size = -1; this.rows = rows; this.columns = columns; }
         public Matrix(Matrix matrix)
         {
             size = matrix.size;
@@ -46,43 +46,68 @@ namespace CourseWork
         public void Schultz()
         {
             int k = 0;
-            double eps = 1e-5;
+            double eps = 0.0000000001;
             int m = 1;
             Indentity E = new Indentity(size);
             Matrix transponated = new Matrix(this);
             transponated.Transponant();
             Matrix C1 = this * transponated;
-            double temp = 0;
-            for (int i = 0; i < C1.size; i++)
+            Matrix currU = new Matrix(transponated);
+            // U^0
+            for (int i = 0; i < currU.size; i++)
             {
-                for (int j = 0; j < C1.size; j++)
+                for (int j = 0; j < currU.size; j++)
                 {
-                    temp += Math.Pow(C1.data[i, j], 2);
+                    currU.data[i, j] = currU.data[i, j] / C1.Norm();
                 }
             }
-            Matrix U = new Matrix(transponated);
-            for (int i = 0; i < U.size; i++)
+            List<Matrix> U = new List<Matrix>();
+            List<Matrix> Psi = new List<Matrix>();
+            do
             {
-                for (int j = 0; j < U.size; j++)
-                {
-                    U.data[i, j] = U.data[i, j] / temp;
-                }
-            }
+                U.Add(currU);
+                Psi.Add(E - this * U[k]);
+                currU = U[k] * (E + Psi[k]);
+                k++;
+            } while (Psi[k-1].Norm() >= eps);
 
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    if (!(Math.Abs((U[U.Count() - 1]).data[i, j]) <= 0.0000000001))
+                    {
+                        data[i, j] = (U[U.Count() - 1]).data[i, j];
+                    }
+                    else data[i, j] = 0;
+                }
+            }
+        }
+        public double Norm()
+        {
+            double result = 0;
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    result += Math.Pow(data[i, j], 2);
+                }
+            }
+            return Math.Sqrt(result);
         }
         public static Matrix operator +(Matrix a, Matrix b)
         {
             if (a.rows == b.rows && a.columns == b.columns)
             {
-                Matrix temp = new Matrix(a.rows, a.columns);
+                Matrix result = new Matrix(a.rows, a.columns);
                 for (int i = 0; i < a.rows; i++)
                 {
                     for (int j = 0; j < a.columns; j++)
                     {
-                        temp.data[i, j] = a.data[i, j] + b.data[i, j];
+                        result.data[i, j] = a.data[i, j] + b.data[i, j];
                     }
                 }
-                return temp;
+                return result;
             }
             return null;
         }
@@ -90,15 +115,15 @@ namespace CourseWork
         {
             if (a.rows == b.rows && a.columns == b.columns)
             {
-                Matrix temp = new Matrix(a.rows, a.columns);
+                Matrix result = new Matrix(a.rows, a.columns);
                 for (int i = 0; i < a.rows; i++)
                 {
                     for (int j = 0; j < a.columns; j++)
                     {
-                        temp.data[i, j] = a.data[i, j] - b.data[i, j];
+                        result.data[i, j] = a.data[i, j] - b.data[i, j];
                     }
                 }
-                return temp;
+                return result;
             }
             return null;
         }
@@ -106,18 +131,25 @@ namespace CourseWork
         {
             if (a.columns == b.rows)
             {
-                Matrix temp = new Matrix(a.rows, b.columns);
-                for (int r = 0; r < a.columns; r++)
+                Matrix result = new Matrix(a.rows, b.columns);
+                for (int i = 0; i < result.rows; i++)
                 {
-                    for (int i = 0; i < a.rows; i++)
+                    for (int j = 0; j < result.columns; j++)
                     {
-                        for (int j = 0; j < b.columns; j++)
+                        result.data[i, j] = 0;
+                    }
+                }
+                for (int i = 0; i < a.rows; i++)
+                {
+                    for (int j = 0; j < b.columns; j++)
+                    {
+                        for (int k = 0; k < a.columns; k++)
                         {
-                            temp.data[i, j] = a.data[i, r] * b.data[r, j];
+                            result.data[i, j] += a.data[i, k] * b.data[k, j];
                         }
                     }
                 }
-                return temp;
+                return result;
             }
             return null;
         }
