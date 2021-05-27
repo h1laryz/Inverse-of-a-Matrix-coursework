@@ -21,6 +21,7 @@ namespace CourseWork
         }
         private void Form1_Load(object sender, EventArgs e)
         {
+            solutionBox.ReadOnly = true;
             gridInputMatrix.AllowUserToAddRows = false;
             gridResultMatrix.AllowUserToAddRows = false;
             numericSize.Value = 2;
@@ -36,13 +37,17 @@ namespace CourseWork
             MaximizeBox = false;
             //MinimizeBox = false;
             StartPosition = FormStartPosition.CenterScreen;
-            richTextBox1.BorderStyle = BorderStyle.None;
+            solutionBox.BorderStyle = BorderStyle.None;
             //gridInputMatrix.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             /*gridInputMatrix.Width = 153;
             gridInputMatrix.Height = 65;*/
         }
         private void numericSize_ValueChanged(object sender, EventArgs e)
         {
+            if(numericSize.Value < 2)
+            {
+                numericSize.Value = 2;
+            }
             gridInputMatrix.Columns.Clear();
             gridResultMatrix.Columns.Clear();
             gridInputMatrix.Rows.Clear();
@@ -152,9 +157,14 @@ namespace CourseWork
             if (Convert.ToInt32(numericSize.Value) != 0 && method.SelectedItem != null)
             {
                 matrix = InputMatrixFromForm();
-                labelDeterminant.Text = matrix.Determinant().ToString();
+                // початкова матриця
+                solutionBox.Text = "Початкова матриця A: \n";
+                matrix.solutionBox = solutionBox;
+                matrix.Print();
                 if (matrix.ReversedExist())
                 {
+                    labelDeterminant.Text = matrix.GetDet().ToString();
+                    labelDeterminant.ForeColor = Color.Blue;
                     if (method.SelectedItem.ToString() == "Шульца")
                     {
                         matrix.Schultz();
@@ -169,22 +179,16 @@ namespace CourseWork
                 }
                 else
                 {
+                    labelDeterminant.Text = matrix.GetDet().ToString();
+                    labelDeterminant.ForeColor = Color.Red;
                     MessageBox.Show("Матрица не имеет решения");
                 }
             }
         }
-        private void buttonDet_Click(object sender, EventArgs e)
-        {
-            Matrix matrix = InputMatrixFromForm();
-            double det = matrix.Determinant();
-            labelDeterminant.Text = det.ToString();
-        }
-
         private void Form1_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.All;
         }
-
         private void Form1_DragDrop(object sender, DragEventArgs e)
         {
             string filePath = ((string[])(e.Data.GetData(DataFormats.FileDrop)))[0];

@@ -3,24 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CourseWork
 {
     public class Matrix
     {
+        public RichTextBox solutionBox { get; set; }
         double[,] data;
         int rows;
         int columns;
+        double det;
         int size;
         public Matrix() { }
-        public Matrix(int size) { data = new double[size, size]; this.size = size; rows = size; columns = size; }
-        public Matrix(int rows, int columns) { data = new double[rows, columns]; if (rows == columns) size = rows; else size = -1; this.rows = rows; this.columns = columns; }
+        public Matrix(int size) { data = new double[size, size]; this.size = size; rows = size; columns = size; solutionBox = null; }
+        public Matrix(int rows, int columns) { data = new double[rows, columns]; if (rows == columns) size = rows; else size = -1; this.rows = rows; this.columns = columns; solutionBox = null; }
         public Matrix(Matrix matrix)
         {
             size = matrix.size;
             columns = matrix.columns;
             rows = matrix.rows;
             data = new double[rows, columns];
+            solutionBox = matrix.solutionBox;
             if (rows == columns) size = rows;
             else size = -1;
             for (int i = 0; i < size; i++)
@@ -45,9 +49,9 @@ namespace CourseWork
         public int GetSize() { return size; }
         public void Schultz()
         {
+            
             int k = 0;
             double eps = 0.0000000001;
-            int m = 1;
             Indentity E = new Indentity(size);
             Matrix transponated = new Matrix(this);
             transponated.Transponant();
@@ -164,6 +168,23 @@ namespace CourseWork
                 }
             }
         }
+        public void Print()
+        {
+            if (solutionBox != null)
+            {
+                for (int i = 0; i < rows; i++)
+                {
+                    solutionBox.Text += "(";
+                    for (int j = 0; j < columns; j++)
+                    {
+                        solutionBox.Text += Math.Round(data[i, j], 3).ToString();
+                        if (j == columns - 1) continue;
+                        solutionBox.Text += "; ";
+                    }
+                    solutionBox.Text += ")\n";
+                }
+            }
+        }
         public void JordanGauss()
         {
             Matrix I = new Matrix(size, size * 2);
@@ -247,6 +268,10 @@ namespace CourseWork
                 }
             }
         }
+        public double GetDet()
+        {
+            return det;
+        }
         public void GenerateData()
         {
             Random random = new Random();
@@ -264,20 +289,33 @@ namespace CourseWork
         }
         public bool ReversedExist()
         {
-            bool check = false;
-            double det = Determinant();
+            det = Determinant();
             if (det != 0)
             {
-                check = true;
+                if (solutionBox != null)
+                {
+                    solutionBox.Text += "det(A) != 0\n";
+                    solutionBox.Text += "========================================\n";
+                }
+                return true;
             }
-            return check;
+            if (solutionBox != null)
+                solutionBox.Text += "det(A) = 0 -> рішення немає.\n";
+            return false;
         }
         public double Determinant()
         {
-            double det = 1;
+            if (solutionBox != null)
+            {
+                solutionBox.Text += "========================================\n";
+                solutionBox.Text += "ВИЗНАЧНИК МАТРИЦІ\n";
+            }
+            det = 1;
             if (size == 2)
             {
-                det = GetData(0, 0) * GetData(1, 1) - GetData(1, 0) * GetData(0, 1);
+                det = data[0, 0] * data[1, 1] - data[1, 0] * data[0, 1];
+                if (solutionBox != null)
+                    solutionBox.Text += $"det(A) = {data[0, 0]} * {data[1, 1]} - {data[1, 0]} * {data[0, 1]} = {det}\n";
             }
             else
             {
@@ -300,6 +338,7 @@ namespace CourseWork
                                     diagelem = copy.data[i, j];
                                     if (diagelem != 0)
                                     {
+                                        if (solutionBox != null) solutionBox.Text += $"row{i} <=> row{m}\n";
                                         break;
                                     }
                                     else
@@ -309,26 +348,51 @@ namespace CourseWork
                                 }
                                 if (diagelem == 0)
                                 {
+                                    if (solutionBox != null) solutionBox.Text += "немає рішення\n";
                                     return 0;
                                 }
                             }
                             for (int currrow = i + 1; currrow < size; currrow++)
                             {
                                 double ratio = -1 * copy.data[currrow, j] / copy.data[i, j];
+                                
                                 for (int currcolumn = 0; currcolumn < size; currcolumn++)
                                 {
                                     copy.data[currrow, currcolumn] = copy.data[i, currcolumn]*ratio + copy.data[currrow, currcolumn];
+                                    //solutionBox.Text += $"A[{currrow}, {currcolumn}] = A[{i}, {currcolumn}] * (-1)*A{"
                                 }
+                                if (solutionBox != null)
+                                {
+                                    solutionBox.Text += "========================================\n";
+                                    solutionBox.Text += $"{currrow + 1}р. = {i + 1}р. * ((-1)*A[{currrow + 1}, {j + 1}] / A[{i + 1}, {j + 1}]) + {currrow + 1}р.\n";
+                                    solutionBox.Text += $"{currrow + 1}р. = {i + 1}р. * ((-1)*{data[currrow, j]} / {data[i, j]}) + {currrow + 1}р.\n";
+                                }
+                                copy.Print();
+                                
                             }
                             break;
                         }
                     }
                 }
                 // finding det
+                if (solutionBox != null)
+                {
+                    solutionBox.Text += "========================================\n";
+                    solutionBox.Text += "det(A) = ";
+                }
                 for (int i = 0; i < size; i++)
                 {
                     det *= copy.data[i, i];
+                    if (solutionBox != null)
+                    {
+                        if (copy.data[i, i].ToString()[0] != '-') solutionBox.Text += copy.data[i, i].ToString();
+                        else solutionBox.Text += $"({copy.data[i, i]})";
+                        if (i == size - 1) continue;
+                        solutionBox.Text += "*";
+                    }
                 }
+                if (solutionBox != null)
+                    solutionBox.Text += $" = {det}\n";
             }
             return det;
         } 
