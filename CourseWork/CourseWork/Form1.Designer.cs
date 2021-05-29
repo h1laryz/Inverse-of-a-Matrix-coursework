@@ -34,8 +34,8 @@ namespace CourseWork
             this.label3 = new System.Windows.Forms.Label();
             this.method = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.solve = new System.Windows.Forms.Button();
-            this.generate = new System.Windows.Forms.Button();
+            this.solveButton = new System.Windows.Forms.Button();
+            this.generateButton = new System.Windows.Forms.Button();
             this.labelDeterminant = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.importButton = new System.Windows.Forms.Button();
@@ -49,6 +49,8 @@ namespace CourseWork
             this.solutionBox = new System.Windows.Forms.RichTextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.saveButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gridInputMatrix)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridResultMatrix)).BeginInit();
@@ -106,25 +108,25 @@ namespace CourseWork
             this.label4.TabIndex = 5;
             this.label4.Text = "det(A) = ";
             // 
-            // solve
+            // solveButton
             // 
-            this.solve.Location = new System.Drawing.Point(192, 86);
-            this.solve.Name = "solve";
-            this.solve.Size = new System.Drawing.Size(110, 35);
-            this.solve.TabIndex = 7;
-            this.solve.Text = "Розв\'язати";
-            this.solve.UseVisualStyleBackColor = true;
-            this.solve.Click += new System.EventHandler(this.solve_Click);
+            this.solveButton.Location = new System.Drawing.Point(192, 86);
+            this.solveButton.Name = "solveButton";
+            this.solveButton.Size = new System.Drawing.Size(110, 35);
+            this.solveButton.TabIndex = 7;
+            this.solveButton.Text = "Розв\'язати";
+            this.solveButton.UseVisualStyleBackColor = true;
+            this.solveButton.Click += new System.EventHandler(this.solveButton_Click);
             // 
-            // generate
+            // generateButton
             // 
-            this.generate.Location = new System.Drawing.Point(37, 89);
-            this.generate.Name = "generate";
-            this.generate.Size = new System.Drawing.Size(92, 32);
-            this.generate.TabIndex = 35;
-            this.generate.Text = "Згенерувати";
-            this.generate.UseVisualStyleBackColor = true;
-            this.generate.Click += new System.EventHandler(this.generate_Click);
+            this.generateButton.Location = new System.Drawing.Point(37, 89);
+            this.generateButton.Name = "generateButton";
+            this.generateButton.Size = new System.Drawing.Size(92, 32);
+            this.generateButton.TabIndex = 35;
+            this.generateButton.Text = "Згенерувати";
+            this.generateButton.UseVisualStyleBackColor = true;
+            this.generateButton.Click += new System.EventHandler(this.generateButton_Click);
             // 
             // labelDeterminant
             // 
@@ -180,10 +182,10 @@ namespace CourseWork
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.method);
             this.groupBox1.Controls.Add(this.numericSize);
-            this.groupBox1.Controls.Add(this.solve);
+            this.groupBox1.Controls.Add(this.solveButton);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.generate);
+            this.groupBox1.Controls.Add(this.generateButton);
             this.groupBox1.Location = new System.Drawing.Point(8, 4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(348, 146);
@@ -251,12 +253,23 @@ namespace CourseWork
             this.groupBox4.TabIndex = 47;
             this.groupBox4.TabStop = false;
             // 
+            // saveButton
+            // 
+            this.saveButton.Location = new System.Drawing.Point(526, 545);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(75, 23);
+            this.saveButton.TabIndex = 48;
+            this.saveButton.Text = "Зберегти";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            // 
             // Form1
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(688, 573);
+            this.Controls.Add(this.saveButton);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -288,8 +301,8 @@ namespace CourseWork
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox method;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button solve;
-        private System.Windows.Forms.Button generate;
+        private System.Windows.Forms.Button solveButton;
+        private System.Windows.Forms.Button generateButton;
         private System.Windows.Forms.Label labelDeterminant;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button importButton;
@@ -303,6 +316,8 @@ namespace CourseWork
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox4;
         public System.Windows.Forms.RichTextBox solutionBox;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.Button saveButton;
     }
 }
 
