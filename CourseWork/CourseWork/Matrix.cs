@@ -9,22 +9,21 @@ namespace CourseWork
 {
     public class Matrix
     {
-        public RichTextBox solutionBox { get; set; }
+        public static RichTextBox solutionBox { get; set; }
         double[,] data;
         int rows;
         int columns;
         double det;
         int size;
         public Matrix() { }
-        public Matrix(int size) { data = new double[size, size]; this.size = size; rows = size; columns = size; solutionBox = null; }
-        public Matrix(int rows, int columns) { data = new double[rows, columns]; if (rows == columns) size = rows; else size = -1; this.rows = rows; this.columns = columns; solutionBox = null; }
+        public Matrix(int size) { data = new double[size, size]; this.size = size; rows = size; columns = size; }
+        public Matrix(int rows, int columns) { data = new double[rows, columns]; if (rows == columns) size = rows; else size = -1; this.rows = rows; this.columns = columns; }
         public Matrix(Matrix matrix)
         {
             size = matrix.size;
             columns = matrix.columns;
             rows = matrix.rows;
             data = new double[rows, columns];
-            solutionBox = matrix.solutionBox;
             if (rows == columns) size = rows;
             else size = -1;
             for (int i = 0; i < size; i++)
@@ -49,55 +48,120 @@ namespace CourseWork
         public int GetSize() { return size; }
         public void Schultz()
         {
-            
             int k = 0;
-            double eps = 0.0000000001;
-            Indentity E = new Indentity(size);
+            //double eps = 0.0000000001;
+            double eps = 0.001;
+            IdentityMatrix E = new IdentityMatrix(size);
             Matrix transponated = new Matrix(this);
             transponated.Transponant();
-            Matrix C1 = this * transponated;
+            Matrix A1 = this * transponated;
             Matrix currU = new Matrix(transponated);
+            double norm;
+            if (solutionBox != null)
+            {
+                solutionBox.Text += "МЕТОД ШУЛЬЦА\n";
+                solutionBox.Text += "========================================\n";
+                solutionBox.Text += $"A1 = A*A^T\n";
+                A1.Print();
+                solutionBox.Text += "========================================\n";
+                norm = A1.Norm();
+                solutionBox.Text += "U1:\n";
+                for (int i = 0; i < currU.rows; i++)
+                {
+                    solutionBox.Text += "(";
+                    for (int j = 0; j < currU.columns; j++)
+                    {
+                        solutionBox.Text += $"{Math.Round(data[i, j], 3)}/{Math.Round(norm, 1)}";
+                        if (j == currU.columns - 1) continue;
+                        solutionBox.Text += "; ";
+                    }
+                    solutionBox.Text += ")\n";
+                }
+            }
+            else norm = A1.Norm();
             // U^0
             for (int i = 0; i < currU.size; i++)
             {
                 for (int j = 0; j < currU.size; j++)
                 {
-                    currU.data[i, j] = currU.data[i, j] / C1.Norm();
+                    currU.data[i, j] = currU.data[i, j] / norm;
                 }
             }
+
             List<Matrix> U = new List<Matrix>();
             List<Matrix> Psi = new List<Matrix>();
             do
             {
                 U.Add(currU);
                 Psi.Add(E - this * U[k]);
+                if (solutionBox != null)
+                {
+                    if (k != 0) solutionBox.Text += $"U{k+1} = U{k}*(E+Ψ{k})\n";
+                    solutionBox.Text += $"U{k+1}:\n";
+                    U[k].Print();
+                    solutionBox.Text += $"Ψ{k+1} = E-A*U{k+1}\n";
+                    solutionBox.Text += $"Ψ{k+1}:\n";
+                    Psi[k].Print();
+                }
                 currU = U[k] * (E + Psi[k]);
                 k++;
-            } while (Psi[k-1].Norm() >= eps);
+                norm = Psi[k - 1].Norm();
+                if (solutionBox != null)
+                {
+                    if (norm >= eps)
+                    {
+                        solutionBox.Text += $"Норма Ψ{k} >= {eps}\n{norm} >= {eps} ==> продовжуємо алгоритм\n";
+                    }
+                    else solutionBox.Text += $"Норма Ψ{k} < {eps}\n{norm} < {eps} ==> алгоритм закінчено\n";
+                    solutionBox.Text += "========================================\n";
+                }
+            } while (norm >= eps);
 
             for (int i = 0; i < size; i++)
             {
                 for (int j = 0; j < size; j++)
                 {
-                    if (!(Math.Abs((U[U.Count() - 1]).data[i, j]) <= 0.0000000001))
+                    if ((Math.Abs(Math.Truncate(U[U.Count() - 1].data[i, j])) + 1) - (Math.Abs(U[U.Count() - 1].data[i, j])) <= eps)
+                    {
+                        data[i, j] = Math.Round((U[U.Count() - 1]).data[i, j]);
+                    }
+                    else if (!(Math.Abs((U[U.Count() - 1]).data[i, j]) <= eps))
                     {
                         data[i, j] = (U[U.Count() - 1]).data[i, j];
                     }
                     else data[i, j] = 0;
                 }
             }
+            if (solutionBox != null) solutionBox.Text += "Результат:\n";
+            Print();
         }
         public double Norm()
         {
+            if (solutionBox != null) solutionBox.Text += "Норма матрицы = √(";
             double result = 0;
             for (int i = 0; i < size; i++)
             {
                 for (int j = 0; j < size; j++)
                 {
                     result += Math.Pow(data[i, j], 2);
+                    if (solutionBox != null)
+                    {
+                        if (Math.Abs(data[i, j]) >= 0.001)
+                            solutionBox.Text += $"({Math.Round(data[i, j], 3)})^2";
+                        else solutionBox.Text += $"({Math.Round(data[i, j], 5)})^2";
+
+                        if (i != size - 1 || j != size - 1) solutionBox.Text += "+";
+                        else solutionBox.Text += ")";
+                    }
                 }
             }
-            return Math.Sqrt(result);
+            result = Math.Sqrt(result);
+            if (solutionBox != null)
+            {
+                solutionBox.Text += $"={result}";
+                solutionBox.Text += "========================================\n";
+            }
+            return result;
         }
         public static Matrix operator +(Matrix a, Matrix b)
         {
@@ -177,7 +241,9 @@ namespace CourseWork
                     solutionBox.Text += "(";
                     for (int j = 0; j < columns; j++)
                     {
-                        solutionBox.Text += Math.Round(data[i, j], 3).ToString();
+                        if (Math.Abs(data[i, j]) >= 0.001)
+                            solutionBox.Text += Math.Round(data[i, j], 3).ToString();
+                        else solutionBox.Text += Math.Round(data[i, j], 5).ToString();
                         if (j == columns - 1) continue;
                         solutionBox.Text += "; ";
                     }
@@ -187,29 +253,16 @@ namespace CourseWork
         }
         public void JordanGauss()
         {
-            Matrix I = new Matrix(size, size * 2);
-            // слева обычная матрица
-            for (int i = 0; i < size; i++)
+            var I = new ExtendedMatrix(this);
+            if (solutionBox != null)
             {
-                for (int j = 0; j < size; j++)
-                {
-                    I.data[i, j] = data[i, j];
-                }
-            }
-            // справа единичная (I)
-            for (int i = 0; i < size; i++)
-            {
-                for (int j = 0; j < size; j++)
-                {
-                    if (i == j)
-                    {
-                        I.data[i, j + size] = 1;
-                    }
-                    else
-                    {
-                        I.data[i, j + size] = 0;
-                    }
-                }
+                solutionBox.Text += "МЕТОД ЖОРДАНА-ГАУСА\n";
+                solutionBox.Text += "========================================\n";
+                solutionBox.Text += "Початкова матриця:\n";
+                Print();
+                solutionBox.Text += "========================================\n";
+                solutionBox.Text += "Розширена матриця:\n";
+                I.Print();
             }
             double diagelem;
             for (int i = 0; i < size; i++)
@@ -240,19 +293,40 @@ namespace CourseWork
                                 return;
                             }
                         }
-                        for (int k = 0; k < size * 2; k++)
+                        if (diagelem != 1)
                         {
-                            I.data[i, k] = I.data[i, k] / diagelem;
+                            if (solutionBox != null)
+                            {
+                                solutionBox.Text += "========================================\n";
+                                solutionBox.Text += $"{i + 1}р. = {i + 1}р./{diagelem}\n";
+                            }
+                            for (int k = 0; k < size * 2; k++)
+                            {
+                                I.data[i, k] = I.data[i, k] / diagelem;
+                            }
+                            I.Print();
                         }
                         for (int currrow = 0; currrow < size; currrow++)
                         {
                             if (currrow != i)
                             {
-                                double ratio = I.data[currrow, j] / I.data[i, j];
+                                //double ratio = I.data[currrow, j] / I.data[i, j];
+                                double ratio = I.data[currrow, j];
+                                if (solutionBox != null)
+                                {
+                                    solutionBox.Text += "========================================\n";
+                                    //solutionBox.Text += $"ratio = I[{currrow+1}, {j+1}]/I[{i+1}, {j+1}]\n";
+                                    //solutionBox.Text += $"ratio = {I.data[currrow, j]}/{I.data[i, j]} = {ratio}\n";
+                                    solutionBox.Text += $"ratio = I[{currrow+1}, {j+1}]\n";
+                                    solutionBox.Text += $"ratio = {I.data[currrow, j]}\n";
+                                    solutionBox.Text += $"{currrow}р. = {currrow}р. - {i}р. * ratio\n";
+                                    solutionBox.Text += $"{currrow}р. = {currrow}р. - {i}р. * {ratio}\n";
+                                }
                                 for (int currcolumn = 0; currcolumn < size * 2; currcolumn++)
                                 {
                                     I.data[currrow, currcolumn] = I.data[currrow, currcolumn] - I.data[i, currcolumn] * ratio;
                                 }
+                                I.Print();
                             }
                         }
                         break;
@@ -266,6 +340,13 @@ namespace CourseWork
                 {
                     data[i, j] = I.data[i, j + size];
                 }
+            }
+            if (solutionBox != null)
+            {
+                solutionBox.Text += "========================================\n";
+                solutionBox.Text += "Результат:\n";
+                Print();
+                solutionBox.Text += "========================================\n";
             }
         }
         public double GetDet()
@@ -396,28 +477,5 @@ namespace CourseWork
             }
             return det;
         } 
-        public class Indentity : Matrix
-        {
-            public Indentity(int size)
-            {
-                data = new double[size, size]; this.size = size;
-                for (int i = 0; i < size; i++)
-                {
-                    for (int j = 0; j < size; j++)
-                    {
-                        if (i == j)
-                        {
-                            data[i, j] = 1;
-                        }
-                        else
-                        {
-                            data[i, j] = 0;
-                        }
-                    }
-                }
-                columns = size;
-                rows = size;
-            }
-        }
     }
 }

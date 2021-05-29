@@ -17,7 +17,6 @@ namespace CourseWork
         public Form1()
         {
             InitializeComponent();
-
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -35,12 +34,8 @@ namespace CourseWork
             method.Items.Add("Шульца");
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
-            //MinimizeBox = false;
             StartPosition = FormStartPosition.CenterScreen;
             solutionBox.BorderStyle = BorderStyle.None;
-            //gridInputMatrix.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            /*gridInputMatrix.Width = 153;
-            gridInputMatrix.Height = 65;*/
         }
         private void numericSize_ValueChanged(object sender, EventArgs e)
         {
@@ -56,7 +51,6 @@ namespace CourseWork
             {
                 gridInputMatrix.Columns.Add(Convert.ToString(i), Convert.ToString(i + 1));
                 gridResultMatrix.Columns.Add(Convert.ToString(i), Convert.ToString(i + 1));
-                //gridInputMatrix.Columns[i].Width = 30;
                 gridInputMatrix.Columns[i].Width = 40;
                 gridResultMatrix.Columns[i].Width = 40;
                 gridInputMatrix.Rows.Add();
@@ -103,9 +97,10 @@ namespace CourseWork
             FillMatrix(matrix);
             return matrix;
         }
-        private void generate_Click(object sender, EventArgs e)
+        private void generateButton_Click(object sender, EventArgs e)
         {
             Matrix matrix;
+            Matrix.solutionBox = null;
             if (Convert.ToInt32(numericSize.Value) != 0)
             {
                 int size = Convert.ToInt32(numericSize.Value);
@@ -119,6 +114,34 @@ namespace CourseWork
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 InputMatrixFromFile(openFileDialog1.FileName);
+            }
+        }
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            string time = DateTime.Now.ToString();
+            time = time.Replace(':', '.');
+            saveFileDialog1.FileName = $"Обернення матриці {time}.txt";
+            saveFileDialog1.Filter = "Text File | *.txt";
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                if (solutionBox.Text != "")
+                {
+                    File.WriteAllText(saveFileDialog1.FileName, solutionBox.Text);
+                    File.AppendAllText(saveFileDialog1.FileName, "Більш точний результат:\n");
+                    string currRow;
+                    for (int i = 0; i < gridResultMatrix.RowCount; i++)
+                    {
+                        currRow = "(";
+                        for (int j = 0; j < gridResultMatrix.ColumnCount; j++)
+                        {
+                            currRow += gridResultMatrix[j, i].Value.ToString();
+                            if (j != gridResultMatrix.ColumnCount - 1)
+                                currRow += "; ";
+                            else currRow += ")\n";
+                        }
+                        File.AppendAllText(saveFileDialog1.FileName, currRow);
+                    }
+                }
             }
         }
         private void InputMatrixFromFile(string path)
@@ -147,24 +170,19 @@ namespace CourseWork
                 FillElements(gridInputMatrix, matrix);
             }
         }
-        private void SaveSolutionToFile()
-        {
-
-        }
-        private void solve_Click(object sender, EventArgs e)
+        private void solveButton_Click(object sender, EventArgs e)
         {
             Matrix matrix;
             if (Convert.ToInt32(numericSize.Value) != 0 && method.SelectedItem != null)
             {
                 matrix = InputMatrixFromForm();
-                // початкова матриця
                 solutionBox.Text = "Початкова матриця A: \n";
-                matrix.solutionBox = solutionBox;
+                Matrix.solutionBox = solutionBox;
                 matrix.Print();
                 if (matrix.ReversedExist())
                 {
                     labelDeterminant.Text = matrix.GetDet().ToString();
-                    labelDeterminant.ForeColor = Color.Blue;
+                    labelDeterminant.ForeColor = Color.Black;
                     if (method.SelectedItem.ToString() == "Шульца")
                     {
                         matrix.Schultz();
@@ -172,7 +190,6 @@ namespace CourseWork
                     }
                     else if (method.SelectedItem.ToString() == "Жордана-Гауса")
                     {
-                        /*List<string> Text;*/
                         matrix.JordanGauss();
                         FillElements(gridResultMatrix, matrix);
                     }
