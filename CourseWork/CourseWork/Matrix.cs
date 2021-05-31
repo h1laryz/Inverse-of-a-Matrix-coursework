@@ -1,93 +1,107 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CourseWork
 {
     public class Matrix
     {
-        public static RichTextBox solutionBox { get; set; }
-        double[,] data;
+        public static RichTextBox SolutionBox { get; set; } // вивід результату
+        double[,] Data; // матриця коефіцієнтів
+        /// <summary>
+        /// Індексування матриці
+        /// </summary>
+        /// <param name="i">рядок</param>
+        /// <param name="j">стовпець</param>
+        /// <returns>A(i, j)</returns>
         public double this[int i, int j]
         {
-            get { return data[i, j]; }
-            set { data[i, j] = value; }
+            get { return Data[i, j]; }
+            set { Data[i, j] = value; }
         }
-        public int rows { get; private set; }
-        public int columns { get; private set; }
-        public double det { get; private set; }
-        public int size { get; private set; }
+        public int Rows { get; private set; } // к-ть рядків
+        public int Columns { get; private set; } // к-ть стовпців
+        public double Det { get; private set; } // детермінант матриці (заповнюється після виклику функції FindDeterminant())
+        public int Size { get; private set; } // розмір (якщо матриця квадратна, якщо ні = -1)
+        /// <summary>
+        /// Конструктори
+        /// </summary>
         public Matrix() { }
-        public Matrix(int size) { data = new double[size, size]; this.size = size; rows = size; columns = size; }
-        public Matrix(int rows, int columns) { data = new double[rows, columns]; if (rows == columns) size = rows; else size = -1; this.rows = rows; this.columns = columns; }
+        public Matrix(int Size) { Data = new double[Size, Size]; this.Size = Size; Rows = Size; Columns = Size; }
+        public Matrix(int Rows, int Columns) { Data = new double[Rows, Columns]; if (Rows == Columns) Size = Rows; else Size = -1; this.Rows = Rows; this.Columns = Columns; }
         public Matrix(Matrix matrix)
         {
-            size = matrix.size;
-            columns = matrix.columns;
-            rows = matrix.rows;
-            data = new double[rows, columns];
-            det = matrix.det;
-            if (rows == columns) size = rows;
-            else size = -1;
-            for (int i = 0; i < size; i++)
+            Size = matrix.Size;
+            Columns = matrix.Columns;
+            Rows = matrix.Rows;
+            Data = new double[Rows, Columns];
+            Det = matrix.Det;
+            if (Rows == Columns) Size = Rows;
+            else Size = -1;
+            for (int i = 0; i < Size; i++)
             {
-                for (int j = 0; j < size; j++)
+                for (int j = 0; j < Size; j++)
                 {
-                    data[i, j] = matrix.data[i, j];
+                    Data[i, j] = matrix.Data[i, j];
                 }
             }
         }
+        /// <summary>
+        /// Заміняє два рядки місцями
+        /// </summary>
+        /// <param name="firstrow">Перший рядок</param>
+        /// <param name="secondrow">Другий рядок</param>
         private void SwapRows(int firstrow, int secondrow)
         {
-            for (int j = 0; j < columns; j++)
+            for (int j = 0; j < Columns; j++)
             {
-                double temp = data[firstrow, j];
-                data[firstrow, j] = data[secondrow, j];
-                data[secondrow, j] = temp;
+                double temp = Data[firstrow, j];
+                Data[firstrow, j] = Data[secondrow, j];
+                Data[secondrow, j] = temp;
             }
         }
+        /// <summary>
+        /// Обернення матриці ітераційним методом Шульца
+        /// </summary>
         public void Schultz()
         {
-            int k = 0;
-            //double eps = 0.0000000001;
-            double eps = 0.001;
-            IdentityMatrix E = new IdentityMatrix(size);
-            Matrix transponated = new Matrix(this);
+            int k = 0; // індекс ітерації
+            double eps = 0.001; // точність методу Шульца
+            IdentityMatrix E = new IdentityMatrix(Size); // одинична матриця
+            Matrix transponated = new Matrix(this); // транспонована матриця
             transponated.Transponant();
-            Matrix A1 = this * transponated;
-            Matrix currU = new Matrix(transponated);
-            double norm;
-            if (solutionBox != null)
+            Matrix A1 = this * transponated; 
+            Matrix currU = new Matrix(transponated); // теперішнє U
+            double norm; // норма матриці
+            if (SolutionBox != null)
             {
-                solutionBox.Text += "МЕТОД ШУЛЬЦА\n";
-                solutionBox.Text += "========================================\n";
-                solutionBox.Text += $"A1 = A*A^T\n";
+                SolutionBox.Text += "МЕТОД ШУЛЬЦА\n";
+                SolutionBox.Text += "========================================\n";
+                SolutionBox.Text += $"A1 = A*A^T\n";
                 A1.Print();
-                solutionBox.Text += "========================================\n";
+                SolutionBox.Text += "========================================\n";
                 norm = A1.Norm();
-                solutionBox.Text += "U1:\n";
-                for (int i = 0; i < currU.rows; i++)
+                SolutionBox.Text += "U1:\n";
+                for (int i = 0; i < currU.Rows; i++)
                 {
-                    solutionBox.Text += "(";
-                    for (int j = 0; j < currU.columns; j++)
+                    SolutionBox.Text += "(";
+                    for (int j = 0; j < currU.Columns; j++)
                     {
-                        solutionBox.Text += $"{Math.Round(data[i, j], 3)}/{Math.Round(norm, 1)}";
-                        if (j == currU.columns - 1) continue;
-                        solutionBox.Text += "; ";
+                        SolutionBox.Text += $"{Math.Round(Data[i, j], 3)}/{Math.Round(norm, 1)}";
+                        if (j == currU.Columns - 1) continue;
+                        SolutionBox.Text += "; ";
                     }
-                    solutionBox.Text += ")\n";
+                    SolutionBox.Text += ")\n";
                 }
             }
             else norm = A1.Norm();
-            // U^0
-            for (int i = 0; i < currU.size; i++)
+            // знаходження U^0 (для користувача "U1")
+            for (int i = 0; i < currU.Size; i++)
             {
-                for (int j = 0; j < currU.size; j++)
+                for (int j = 0; j < currU.Size; j++)
                 {
-                    currU.data[i, j] = currU.data[i, j] / norm;
+                    currU.Data[i, j] = currU.Data[i, j] / norm;
                 }
             }
             List<Matrix> U = new List<Matrix>();
@@ -96,126 +110,156 @@ namespace CourseWork
             {
                 U.Add(currU);
                 Psi.Add(E - this * U[k]);
-                if (solutionBox != null)
+                if (SolutionBox != null)
                 {
-                    if (k != 0) solutionBox.Text += $"U{k+1} = U{k}*(E+Ψ{k})\n";
-                    solutionBox.Text += $"U{k+1}:\n";
+                    if (k != 0) SolutionBox.Text += $"U{k+1} = U{k}*(E+Ψ{k})\n";
+                    SolutionBox.Text += $"U{k+1}:\n";
                     U[k].Print();
-                    solutionBox.Text += $"Ψ{k+1} = E-A*U{k+1}\n";
-                    solutionBox.Text += $"Ψ{k+1}:\n";
+                    SolutionBox.Text += $"Ψ{k+1} = E-A*U{k+1}\n";
+                    SolutionBox.Text += $"Ψ{k+1}:\n";
                     Psi[k].Print();
                 }
                 currU = U[k] * (E + Psi[k]);
                 k++;
                 norm = Psi[k - 1].Norm();
-                if (solutionBox != null)
+                if (SolutionBox != null)
                 {
                     if (norm >= eps)
                     {
-                        solutionBox.Text += $"Норма Ψ{k} >= {eps}\n{norm} >= {eps} ==> продовжуємо алгоритм\n";
+                        SolutionBox.Text += $"Норма Ψ{k} >= {eps}\n{norm} >= {eps} ==> продовжуємо алгоритм\n";
                     }
-                    else solutionBox.Text += $"Норма Ψ{k} < {eps}\n{norm} < {eps} ==> алгоритм закінчено\n";
-                    solutionBox.Text += "========================================\n";
+                    else SolutionBox.Text += $"Норма Ψ{k} < {eps}\n{norm} < {eps} ==> алгоритм закінчено\n";
+                    SolutionBox.Text += "========================================\n";
                 }
             } while (norm >= eps);
 
-            for (int i = 0; i < size; i++)
+            // модифікація відповіді + повернення відповіді
+            for (int i = 0; i < Size; i++)
             {
-                for (int j = 0; j < size; j++)
+                for (int j = 0; j < Size; j++)
                 {
-                    if ((Math.Abs(Math.Truncate(U[U.Count() - 1].data[i, j])) + 1) - (Math.Abs(U[U.Count() - 1].data[i, j])) <= eps)
+                    if ((Math.Abs(Math.Truncate(U[U.Count() - 1].Data[i, j])) + 1) - (Math.Abs(U[U.Count() - 1].Data[i, j])) <= eps)
                     {
-                        data[i, j] = Math.Round((U[U.Count() - 1]).data[i, j]);
+                        // якщо наприклад 13 - 12.9999 <= 0.001, то округлити дані
+                        Data[i, j] = Math.Round((U[U.Count() - 1]).Data[i, j]);
                     }
-                    else if (!(Math.Abs((U[U.Count() - 1]).data[i, j]) <= eps))
+                    else if (!(Math.Abs((U[U.Count() - 1]).Data[i, j]) <= eps))
                     {
-                        data[i, j] = (U[U.Count() - 1]).data[i, j];
+                        // якщо модуль числа > 0.001, то залишити, як є
+                        Data[i, j] = (U[U.Count() - 1]).Data[i, j];
                     }
-                    else data[i, j] = 0;
+                    // інакше якщо модуль числа <= 0.001, то замінити нулем
+                    else if (!(Math.Abs((U[U.Count() - 1]).Data[i, j]) > eps)) Data[i, j] = 0;
                 }
             }
-            if (solutionBox != null) solutionBox.Text += "Результат:\n";
-            Print();
+            if (SolutionBox != null)
+            {
+                SolutionBox.Text += "Результат:\n";
+                Print();
+                SolutionBox.Text += "========================================\n";
+            }
         }
+        /// <summary>
+        /// Знаходження норми матриці
+        /// </summary>
+        /// <returns>Повертається норма матриці</returns>
         public double Norm()
         {
-            if (solutionBox != null) solutionBox.Text += "Норма матрицы = √(";
+            if (SolutionBox != null) SolutionBox.Text += "Норма матрицы = √(";
             double result = 0;
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < Size; i++)
             {
-                for (int j = 0; j < size; j++)
+                for (int j = 0; j < Size; j++)
                 {
-                    result += Math.Pow(data[i, j], 2);
-                    if (solutionBox != null)
+                    result += Math.Pow(Data[i, j], 2);
+                    if (SolutionBox != null)
                     {
-                        if (Math.Abs(data[i, j]) >= 0.001)
-                            solutionBox.Text += $"({Math.Round(data[i, j], 3)})^2";
-                        else solutionBox.Text += $"({Math.Round(data[i, j], 5)})^2";
+                        if (Math.Abs(Data[i, j]) >= 0.001)
+                            SolutionBox.Text += $"({Math.Round(Data[i, j], 3)})^2";
+                        else SolutionBox.Text += $"({Math.Round(Data[i, j], 5)})^2";
 
-                        if (i != size - 1 || j != size - 1) solutionBox.Text += "+";
-                        else solutionBox.Text += ")";
+                        if (i != Size - 1 || j != Size - 1) SolutionBox.Text += "+";
+                        else SolutionBox.Text += ")";
                     }
                 }
             }
             result = Math.Sqrt(result);
-            if (solutionBox != null)
+            if (SolutionBox != null)
             {
-                solutionBox.Text += $"={result}\n";
-                solutionBox.Text += "========================================\n";
+                SolutionBox.Text += $"={result}\n";
+                SolutionBox.Text += "========================================\n";
             }
             return result;
         }
+        /// <summary>
+        /// Додавання матриць
+        /// </summary>
+        /// <param name="a">Перша матриця</param>
+        /// <param name="b">Друга матриця</param>
+        /// <returns>a+b</returns>
         public static Matrix operator +(Matrix a, Matrix b)
         {
-            if (a.rows == b.rows && a.columns == b.columns)
+            if (a.Rows == b.Rows && a.Columns == b.Columns)
             {
-                Matrix result = new Matrix(a.rows, a.columns);
-                for (int i = 0; i < a.rows; i++)
+                Matrix result = new Matrix(a.Rows, a.Columns);
+                for (int i = 0; i < a.Rows; i++)
                 {
-                    for (int j = 0; j < a.columns; j++)
+                    for (int j = 0; j < a.Columns; j++)
                     {
-                        result.data[i, j] = a.data[i, j] + b.data[i, j];
+                        result.Data[i, j] = a.Data[i, j] + b.Data[i, j];
                     }
                 }
                 return result;
             }
             return null;
         }
+        /// <summary>
+        /// Віднімання матриць
+        /// </summary>
+        /// <param name="a">Перша матриця</param>
+        /// <param name="b">Друга матриця</param>
+        /// <returns>a-b</returns>
         public static Matrix operator -(Matrix a, Matrix b)
         {
-            if (a.rows == b.rows && a.columns == b.columns)
+            if (a.Rows == b.Rows && a.Columns == b.Columns)
             {
-                Matrix result = new Matrix(a.rows, a.columns);
-                for (int i = 0; i < a.rows; i++)
+                Matrix result = new Matrix(a.Rows, a.Columns);
+                for (int i = 0; i < a.Rows; i++)
                 {
-                    for (int j = 0; j < a.columns; j++)
+                    for (int j = 0; j < a.Columns; j++)
                     {
-                        result.data[i, j] = a.data[i, j] - b.data[i, j];
+                        result.Data[i, j] = a.Data[i, j] - b.Data[i, j];
                     }
                 }
                 return result;
             }
             return null;
         }
+        /// <summary>
+        /// Множення матриць
+        /// </summary>
+        /// <param name="a">Перша матриця</param>
+        /// <param name="b">Друга матриця</param>
+        /// <returns>a*b</returns>
         public static Matrix operator *(Matrix a, Matrix b)
         {
-            if (a.columns == b.rows)
+            if (a.Columns == b.Rows)
             {
-                Matrix result = new Matrix(a.rows, b.columns);
-                for (int i = 0; i < result.rows; i++)
+                Matrix result = new Matrix(a.Rows, b.Columns);
+                for (int i = 0; i < result.Rows; i++)
                 {
-                    for (int j = 0; j < result.columns; j++)
+                    for (int j = 0; j < result.Columns; j++)
                     {
-                        result.data[i, j] = 0;
+                        result.Data[i, j] = 0;
                     }
                 }
-                for (int i = 0; i < a.rows; i++)
+                for (int i = 0; i < a.Rows; i++)
                 {
-                    for (int j = 0; j < b.columns; j++)
+                    for (int j = 0; j < b.Columns; j++)
                     {
-                        for (int k = 0; k < a.columns; k++)
+                        for (int k = 0; k < a.Columns; k++)
                         {
-                            result.data[i, j] += a.data[i, k] * b.data[k, j];
+                            result.Data[i, j] += a.Data[i, k] * b.Data[k, j];
                         }
                     }
                 }
@@ -223,63 +267,72 @@ namespace CourseWork
             }
             return null;
         }
+        /// <summary>
+        /// Транспонування матриці
+        /// </summary>
         public void Transponant()
         {
             Matrix tempMatrix = new Matrix(this);
-            for (int i = 0; i < rows; i++)
+            for (int i = 0; i < Rows; i++)
             {
-                for (int j = 0; j < columns; j++)
+                for (int j = 0; j < Columns; j++)
                 {
-                    data[i, j] = tempMatrix.data[j, i];
+                    Data[i, j] = tempMatrix.Data[j, i];
                 }
             }
         }
+        /// <summary>
+        /// Вивід матриці у TextRichBox (SolutionBox)
+        /// </summary>
         public void Print()
         {
-            if (solutionBox != null)
+            if (SolutionBox != null)
             {
-                for (int i = 0; i < rows; i++)
+                for (int i = 0; i < Rows; i++)
                 {
-                    solutionBox.Text += "(";
-                    for (int j = 0; j < columns; j++)
+                    SolutionBox.Text += "(";
+                    for (int j = 0; j < Columns; j++)
                     {
-                        if (Math.Abs(data[i, j]) >= 0.001)
-                            solutionBox.Text += Math.Round(data[i, j], 3).ToString();
-                        else solutionBox.Text += Math.Round(data[i, j], 5).ToString();
-                        if (j == columns - 1) continue;
-                        solutionBox.Text += "; ";
+                        if (Math.Abs(Data[i, j]) >= 0.001)
+                            SolutionBox.Text += Math.Round(Data[i, j], 3).ToString();
+                        else SolutionBox.Text += Math.Round(Data[i, j], 5).ToString();
+                        if (j == Columns - 1) continue;
+                        SolutionBox.Text += "; ";
                     }
-                    solutionBox.Text += ")\n";
+                    SolutionBox.Text += ")\n";
                 }
             }
         }
+        /// <summary>
+        /// Обернення матриці методом Жордана-Гауса
+        /// </summary>
         public void JordanGauss()
         {
-            var I = new ExtendedMatrix(this);
-            if (solutionBox != null)
+            var I = new ExtendedMatrix(this); // роширена матриця (A|E)
+            if (SolutionBox != null)
             {
-                solutionBox.Text += "МЕТОД ЖОРДАНА-ГАУСА\n";
-                solutionBox.Text += "========================================\n";
-                solutionBox.Text += "Початкова матриця:\n";
+                SolutionBox.Text += "МЕТОД ЖОРДАНА-ГАУСА\n";
+                SolutionBox.Text += "========================================\n";
+                SolutionBox.Text += "Початкова матриця:\n";
                 Print();
-                solutionBox.Text += "========================================\n";
-                solutionBox.Text += "Розширена матриця:\n";
+                SolutionBox.Text += "========================================\n";
+                SolutionBox.Text += "Розширена матриця:\n";
                 I.Print();
             }
-            double diagelem;
-            for (int i = 0; i < size; i++)
+            double diagelem; // теперішній діагональний елемент
+            for (int i = 0; i < Size; i++)
             {
-                for (int j = 0; j < size; j++)
+                for (int j = 0; j < Size; j++)
                 {
                     if (i == j)
                     {
-                        diagelem = I.data[i, j];
+                        diagelem = I.Data[i, j];
                         if (diagelem == 0)
                         {
-                            for (int m = i + 1; m < size; m++)
+                            for (int m = i + 1; m < Size; m++) // якщо діагональний елемент = 0, міняти рядки місцями з нижніми
                             {
                                 I.SwapRows(i, m);
-                                diagelem = I.data[i, j];
+                                diagelem = I.Data[i, j];
                                 if (diagelem != 0)
                                 {
                                     break;
@@ -291,72 +344,80 @@ namespace CourseWork
                             }
                             if (diagelem == 0)
                             {
-                                return;
+                                // якщо діагональний елемент, що не дорівнює нулю після зміни рядків не знайшовся - рішення немає
+                                // при det(A) != 0, це неможливо
+                                return; 
                             }
                         }
                         if (diagelem != 1)
                         {
-                            if (solutionBox != null)
+                            if (SolutionBox != null)
                             {
-                                solutionBox.Text += "========================================\n";
-                                solutionBox.Text += $"{i + 1}р. = {i + 1}р./{diagelem}\n";
+                                SolutionBox.Text += "========================================\n";
+                                SolutionBox.Text += $"{i + 1}р. = {i + 1}р./{diagelem}\n";
                             }
-                            for (int k = 0; k < size * 2; k++)
+                            for (int k = 0; k < I.Columns; k++)
                             {
-                                I.data[i, k] = I.data[i, k] / diagelem;
+                                // ділимо весь рядок на діагональний елемент
+                                I.Data[i, k] = I.Data[i, k] / diagelem;
                             }
                             I.Print();
                         }
-                        for (int currrow = 0; currrow < size; currrow++)
+                        for (int currrow = 0; currrow < I.Rows; currrow++)
                         {
                             if (currrow != i)
                             {
-                                double ratio = I.data[currrow, j] /* / I.data[i, j] */;
-                                if (solutionBox != null)
+                                double ratio = I.Data[currrow, j]; // коефіцієнт домноження рядка
+                                if (SolutionBox != null)
                                 {
-                                    solutionBox.Text += "========================================\n";
-                                    //solutionBox.Text += $"ratio = I[{currrow+1}, {j+1}]/I[{i+1}, {j+1}]\n";
-                                    //solutionBox.Text += $"ratio = {I.data[currrow, j]}/{I.data[i, j]} = {ratio}\n";
-                                    solutionBox.Text += $"ratio = I[{currrow+1}, {j+1}]\n";
-                                    solutionBox.Text += $"ratio = {I.data[currrow, j]}\n";
-                                    solutionBox.Text += $"{currrow+1}р. = {currrow+1}р. - {i+1}р. * ratio\n";
-                                    solutionBox.Text += $"{currrow+1}р. = {currrow+1}р. - {i+1}р. * {ratio}\n";
+                                    SolutionBox.Text += "========================================\n";
+                                    SolutionBox.Text += $"ratio = I[{currrow+1}, {j+1}]\n";
+                                    SolutionBox.Text += $"ratio = {I.Data[currrow, j]}\n";
+                                    SolutionBox.Text += $"{currrow+1}р. = {currrow+1}р. - {i+1}р. * ratio\n";
+                                    SolutionBox.Text += $"{currrow+1}р. = {currrow+1}р. - {i+1}р. * {ratio}\n";
                                 }
-                                for (int currcolumn = 0; currcolumn < size * 2; currcolumn++)
+                                // віднімається рядок від того, де знаходиться теперішній діагональний елемент * коефінієнт, щоб зробити нулі
+                                // над та під діагональним елементом
+                                for (int currcolumn = 0; currcolumn < I.Columns; currcolumn++)
                                 {
-                                    I.data[currrow, currcolumn] = I.data[currrow, currcolumn] - I.data[i, currcolumn] * ratio;
+                                    I.Data[currrow, currcolumn] = I.Data[currrow, currcolumn] - I.Data[i, currcolumn] * ratio;
                                 }
                                 I.Print();
                             }
                         }
+                        // після того як знайшло діагональний елемент в певному рядку, 
+                        // щоб не ітерувалось просто так далі, цикл ломається
                         break;
                     }
                 }
             }
-            // return inversed matrix
-            for (int i = 0; i < size; i++)
+            // повернення інвертованої матриці
+            for (int i = 0; i < Size; i++)
             {
-                for (int j = 0; j < size; j++)
+                for (int j = 0; j < Size; j++)
                 {
-                    data[i, j] = I.data[i, j + size];
+                    Data[i, j] = I.Data[i, j + Size];
                 }
             }
-            if (solutionBox != null)
+            if (SolutionBox != null)
             {
-                solutionBox.Text += "========================================\n";
-                solutionBox.Text += "Результат:\n";
+                SolutionBox.Text += "========================================\n";
+                SolutionBox.Text += "Результат:\n";
                 Print();
-                solutionBox.Text += "========================================\n";
+                SolutionBox.Text += "========================================\n";
             }
         }
+        /// <summary>
+        /// Генерація випадкової матриці
+        /// </summary>
         public void GenerateData()
         {
             Random random = new Random();
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < Size; i++)
             {
-                for (int j = 0; j < size; j++)
+                for (int j = 0; j < Size; j++)
                 {
-                    data[i, j] = random.Next(20);
+                    Data[i, j] = random.Next(20);
                 }
             }
             if (!ReversedExist())
@@ -364,61 +425,69 @@ namespace CourseWork
                 GenerateData();
             }
         }
+        /// <summary>
+        /// Перевірка на те, чи існує обернена матриця
+        /// </summary>
+        /// <returns>Повертає true або false</returns>
         public bool ReversedExist()
         {
-            det = Determinant();
-            if (det != 0)
+            Det = FindDeterminant();
+            if (Det != 0)
             {
-                if (solutionBox != null)
+                if (SolutionBox != null)
                 {
-                    solutionBox.Text += "det(A) != 0\n";
-                    solutionBox.Text += "========================================\n";
+                    SolutionBox.Text += "det(A) != 0\n";
+                    SolutionBox.Text += "========================================\n";
                 }
                 return true;
             }
-            else if (solutionBox != null)
+            else if (SolutionBox != null)
             {
-                solutionBox.Text += "det(A) = 0 -> рішення немає.\n";
-                solutionBox.Text += "========================================\n";
+                SolutionBox.Text += "det(A) = 0 -> рішення немає.\n";
+                SolutionBox.Text += "========================================\n";
             }
             return false;
         }
-        public double Determinant()
+        /// <summary>
+        /// Знаходження детермінанту методом прямого обходу Гауса
+        /// </summary>
+        /// <returns>Повертає детермінант</returns>
+        public double FindDeterminant()
         {
-            if (solutionBox != null)
+            if (SolutionBox != null)
             {
-                solutionBox.Text += "========================================\n";
-                solutionBox.Text += "ВИЗНАЧНИК МАТРИЦІ\n";
+                SolutionBox.Text += "========================================\n";
+                SolutionBox.Text += "ВИЗНАЧНИК МАТРИЦІ\n";
             }
-            det = 1;
-            if (size == 2)
+            Det = 1;
+            if (Size == 2)
             {
-                det = data[0, 0] * data[1, 1] - data[1, 0] * data[0, 1];
-                if (solutionBox != null)
-                    solutionBox.Text += $"det(A) = {data[0, 0]} * {data[1, 1]} - {data[1, 0]} * {data[0, 1]} = {det}\n";
+                Det = Data[0, 0] * Data[1, 1] - Data[1, 0] * Data[0, 1];
+                if (SolutionBox != null)
+                    SolutionBox.Text += $"det(A) = {Data[0, 0]} * {Data[1, 1]} - {Data[1, 0]} * {Data[0, 1]} = {Det}\n";
             }
             else
             {
-                // straight gauss
+                // прямий обхід Гауса, щоб зробити матрицю нижньо-трикутною
                 double diagelem = 0;
                 Matrix copy = new Matrix(this);
-                for (int i = 0; i < size; i++)
+                for (int i = 0; i < Size; i++)
                 {
-                    for (int j = 0; j < size; j++)
+                    for (int j = 0; j < Size; j++)
                     {
                         if (i == j)
                         {
-                            diagelem = copy.data[i, j];
+                            diagelem = copy.Data[i, j];
                             if (diagelem == 0)
                             {
                                 int m;
-                                for (m = i + 1; m < size; m++)
+                                for (m = i + 1; m < Size; m++)
                                 {
                                     SwapRows(i, m);
-                                    diagelem = copy.data[i, j];
+                                    diagelem = copy.Data[i, j];
                                     if (diagelem != 0)
                                     {
-                                        if (solutionBox != null) solutionBox.Text += $"row{i} <=> row{m}\n";
+                                        if (SolutionBox != null) SolutionBox.Text += $"row{i} <=> row{m}\n";
                                         break;
                                     }
                                     else
@@ -428,24 +497,23 @@ namespace CourseWork
                                 }
                                 if (diagelem == 0)
                                 {
-                                    if (solutionBox != null) solutionBox.Text += "немає рішення\n";
+                                    if (SolutionBox != null) SolutionBox.Text += "немає рішення\n";
                                     return 0;
                                 }
                             }
-                            for (int currrow = i + 1; currrow < size; currrow++)
+                            for (int currrow = i + 1; currrow < Size; currrow++)
                             {
-                                double ratio = -1 * copy.data[currrow, j] / copy.data[i, j];
+                                double ratio = -1 * copy.Data[currrow, j] / copy.Data[i, j];
                                 
-                                for (int currcolumn = 0; currcolumn < size; currcolumn++)
+                                for (int currcolumn = 0; currcolumn < Size; currcolumn++)
                                 {
-                                    copy.data[currrow, currcolumn] = copy.data[i, currcolumn]*ratio + copy.data[currrow, currcolumn];
-                                    //solutionBox.Text += $"A[{currrow}, {currcolumn}] = A[{i}, {currcolumn}] * (-1)*A{"
+                                    copy.Data[currrow, currcolumn] = copy.Data[i, currcolumn]*ratio + copy.Data[currrow, currcolumn];
                                 }
-                                if (solutionBox != null)
+                                if (SolutionBox != null)
                                 {
-                                    solutionBox.Text += "========================================\n";
-                                    solutionBox.Text += $"{currrow + 1}р. = {i + 1}р. * ((-1)*A[{currrow + 1}, {j + 1}] / A[{i + 1}, {j + 1}]) + {currrow + 1}р.\n";
-                                    solutionBox.Text += $"{currrow + 1}р. = {i + 1}р. * ((-1)*{data[currrow, j]} / {data[i, j]}) + {currrow + 1}р.\n";
+                                    SolutionBox.Text += "========================================\n";
+                                    SolutionBox.Text += $"{currrow + 1}р. = {i + 1}р. * ((-1)*A[{currrow + 1}, {j + 1}] / A[{i + 1}, {j + 1}]) + {currrow + 1}р.\n";
+                                    SolutionBox.Text += $"{currrow + 1}р. = {i + 1}р. * ((-1)*{Data[currrow, j]} / {Data[i, j]}) + {currrow + 1}р.\n";
                                 }
                                 copy.Print();
                                 
@@ -454,27 +522,27 @@ namespace CourseWork
                         }
                     }
                 }
-                // finding det
-                if (solutionBox != null)
+                if (SolutionBox != null)
                 {
-                    solutionBox.Text += "========================================\n";
-                    solutionBox.Text += "det(A) = ";
+                    SolutionBox.Text += "========================================\n";
+                    SolutionBox.Text += "det(A) = ";
                 }
-                for (int i = 0; i < size; i++)
+                // det = перемноження діагоналі
+                for (int i = 0; i < Size; i++)
                 {
-                    det *= copy.data[i, i];
-                    if (solutionBox != null)
+                    Det *= copy.Data[i, i];
+                    if (SolutionBox != null)
                     {
-                        if (copy.data[i, i].ToString()[0] != '-') solutionBox.Text += copy.data[i, i].ToString();
-                        else solutionBox.Text += $"({copy.data[i, i]})";
-                        if (i == size - 1) continue;
-                        solutionBox.Text += "*";
+                        if (copy.Data[i, i].ToString()[0] != '-') SolutionBox.Text += copy.Data[i, i].ToString();
+                        else SolutionBox.Text += $"({copy.Data[i, i]})";
+                        if (i == Size - 1) continue;
+                        SolutionBox.Text += "*";
                     }
                 }
-                if (solutionBox != null)
-                    solutionBox.Text += $" = {det}\n";
+                if (SolutionBox != null)
+                    SolutionBox.Text += $" = {Det}\n";
             }
-            return det;
+            return Det;
         } 
     }
 }

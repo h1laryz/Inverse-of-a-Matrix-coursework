@@ -46,7 +46,7 @@ namespace CourseWork
         {
             solutionBox.Text = "";
             labelDeterminant.Text = "";
-            if(numericSize.Value < 2)
+            if (numericSize.Value < 2)
             {
                 numericSize.Value = 2;
             }
@@ -84,10 +84,10 @@ namespace CourseWork
         // метод, що заповнює елементи у таблицю з матриці
         private void FillElements(DataGridView dataGrid, Matrix matrix)
         {
-            numericSize.Value = matrix.size;
-            for (int i = 0; i < matrix.size; i++)
+            numericSize.Value = matrix.Size;
+            for (int i = 0; i < matrix.Size; i++)
             {
-                for (int j = 0; j < matrix.size; j++)
+                for (int j = 0; j < matrix.Size; j++)
                 {
                     dataGrid[j, i].Value = matrix[i, j].ToString();
                 }
@@ -97,7 +97,7 @@ namespace CourseWork
         private void generateButton_Click(object sender, EventArgs e)
         {
             Matrix matrix;
-            Matrix.solutionBox = null;
+            Matrix.SolutionBox = null;
             if (Convert.ToInt32(numericSize.Value) != 0)
             {
                 int size = Convert.ToInt32(numericSize.Value);
@@ -135,13 +135,15 @@ namespace CourseWork
                             {
                                 double temp = Convert.ToDouble(gridResultMatrix[j, i].Value);
                                 if (temp != Math.Round(temp, 3))
+                                // якщо результат з RichTextBox != результат з матриці gridResultView
                                 {
-                                    lowAccuracy = true;
-                                    break;
+                                    lowAccuracy = true; // помічена низька точність
+                                    break; // щоб просто так не ітерувалось алгоритм ломається при першому знаходженні низької точності
                                 }
                             }
-                            if (lowAccuracy) break;
+                            if (lowAccuracy) break; // аналогічно з верхнім break 
                         }
+                        // запис більш точної відповіді у файл
                         if (lowAccuracy)
                         {
                             File.AppendAllText(saveFileDialog1.FileName, "Більш точний результат:\n");
@@ -172,6 +174,7 @@ namespace CourseWork
                 if (new FileInfo(path).Length != 0)
                 {
                     String[] str = File.ReadAllLines(path);
+                    // очищення файлу від зайвих пробілів
                     for (int i = 0; i < str.Length; i++)
                     {
                         string temp = str[i];
@@ -182,6 +185,7 @@ namespace CourseWork
                         }
                         str[i] = temp;
                     }
+                    // перевірка на квадратність даних
                     for (int i = 0; i < str.Length; i++)
                     {
                         string temp = str[i];
@@ -195,11 +199,13 @@ namespace CourseWork
                     for (int i = 0; i < str.Length; i++)
                     {
                         string curr = str[i];
+                        // якщо знаходиться буква - алгоритм закінчується
                         if (Regex.Matches(curr, @"[a-zA-Z]").Count != 0)
                         {
                             MessageBox.Show("Імпортуйте файл з коректними даними");
                             return;
                         }
+                        // запис у матрицю даних зі стрінгу
                         for (int j = 0; j < str.Length; j++)
                         {
                             if (curr.IndexOf(' ') >= 0)
@@ -238,11 +244,11 @@ namespace CourseWork
                 try { FillMatrix(matrix); }
                 catch { MessageBox.Show("Введіть коректні дані в таблицю"); return; }
                 solutionBox.Text = "Початкова матриця A: \n";
-                Matrix.solutionBox = solutionBox;
+                Matrix.SolutionBox = solutionBox;
                 matrix.Print();
                 if (matrix.ReversedExist())
                 {
-                    labelDeterminant.Text = matrix.det.ToString();
+                    labelDeterminant.Text = matrix.Det.ToString();
                     labelDeterminant.ForeColor = Color.Black;
                     if (method.SelectedItem.ToString() == "Шульца")
                     {
@@ -257,7 +263,7 @@ namespace CourseWork
                 }
                 else
                 {
-                    labelDeterminant.Text = matrix.det.ToString();
+                    labelDeterminant.Text = matrix.Det.ToString();
                     labelDeterminant.ForeColor = Color.Red;
                     MessageBox.Show("Матриця не має рішення");
                 }

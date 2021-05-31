@@ -8,28 +8,28 @@ namespace CourseWork
 {
     public class ExtendedMatrix : Matrix
     {
-        public ExtendedMatrix(Matrix matrix) : base(matrix.size, matrix.size*2)
+        public ExtendedMatrix(Matrix matrix) : base(matrix.Size, matrix.Size*2)
         {
             // слева обычная матрица
-            for (int i = 0; i < matrix.size; i++)
+            for (int i = 0; i < matrix.Size; i++)
             {
-                for (int j = 0; j < matrix.size; j++)
+                for (int j = 0; j < matrix.Size; j++)
                 {
                     this[i, j] = matrix[i, j];
                 }
             }
             // единичная матрица справа
-            for (int i = 0; i < matrix.size; i++)
+            for (int i = 0; i < matrix.Size; i++)
             {
-                for (int j = 0; j < matrix.size; j++)
+                for (int j = 0; j < matrix.Size; j++)
                 {
                     if (i == j)
                     {
-                        this[i, j + matrix.size] = 1; 
+                        this[i, j + matrix.Size] = 1; 
                     }
                     else
                     {
-                        this[i, j + matrix.size] = 0;
+                        this[i, j + matrix.Size] = 0;
                     }
                 }
             }
