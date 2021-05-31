@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-
+using System.Text.RegularExpressions;
 
 namespace CourseWork
 {
@@ -18,6 +18,7 @@ namespace CourseWork
         {
             InitializeComponent();
         }
+        // метод задання стандартних параметрів для форми
         private void Form1_Load(object sender, EventArgs e)
         {
             solutionBox.ReadOnly = true;
@@ -30,6 +31,7 @@ namespace CourseWork
             gridResultMatrix.BorderStyle = BorderStyle.None;
             gridInputMatrix.RowHeadersWidth = 54;
             gridResultMatrix.RowHeadersWidth = 54;
+            gridResultMatrix.ReadOnly = true;
             method.Items.Add("Жордана-Гауса");
             method.Items.Add("Шульца");
             FormBorderStyle = FormBorderStyle.FixedDialog;
@@ -37,6 +39,7 @@ namespace CourseWork
             StartPosition = FormStartPosition.CenterScreen;
             solutionBox.BorderStyle = BorderStyle.None;
         }
+        // метод, що підбиває розмір таблиць до обраного користувачем
         private void numericSize_ValueChanged(object sender, EventArgs e)
         {
             if(numericSize.Value < 2)
@@ -62,24 +65,19 @@ namespace CourseWork
                 gridResultMatrix.Rows[i].HeaderCell.Value = (i + 1).ToString();
             }
         }
-        public void FillMatrix(Matrix matrix)
+        // метод, що заповнює матрицю з вхідної таблиці
+        private void FillMatrix(Matrix matrix)
         {
             for (int i = 0; i < numericSize.Value; i++)
             {
                 for (int j = 0; j < numericSize.Value; j++)
                 {
-                    try
-                    {
-                        double temp = Convert.ToDouble(gridInputMatrix[j, i].Value);
-                        matrix.SetData(i, j, temp);
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Введіть коректні дані, будь ласка");
-                    }
+                    double temp = Convert.ToDouble(gridInputMatrix[j, i].Value);
+                    matrix.SetData(i, j, temp);
                 }
             }
         }
+        // метод, що заповнює елементи у таблицю з матриці
         private void FillElements(DataGridView dataGrid, Matrix matrix)
         {
             numericSize.Value = matrix.GetSize();
@@ -91,12 +89,7 @@ namespace CourseWork
                 }
             }
         }
-        private Matrix InputMatrixFromForm()
-        {
-            Matrix matrix = new Matrix(Convert.ToInt32(numericSize.Value));
-            FillMatrix(matrix);
-            return matrix;
-        }
+        // метод реалізації кнопки генерації даних
         private void generateButton_Click(object sender, EventArgs e)
         {
             Matrix matrix;
@@ -109,6 +102,7 @@ namespace CourseWork
                 FillElements(gridInputMatrix, matrix);
             }
         }
+        // метод реалізації кнопки імпорт даних
         private void importButton_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -116,66 +110,129 @@ namespace CourseWork
                 InputMatrixFromFile(openFileDialog1.FileName);
             }
         }
+        // метод реалізації кнопки зберігання розв'язку у файл
         private void saveButton_Click(object sender, EventArgs e)
         {
-            string time = DateTime.Now.ToString();
-            time = time.Replace(':', '.');
-            saveFileDialog1.FileName = $"Обернення матриці {time}.txt";
-            saveFileDialog1.Filter = "Text File | *.txt";
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            if (solutionBox.Text != "")
             {
-                if (solutionBox.Text != "")
+                string time = DateTime.Now.ToString();
+                time = time.Replace(':', '.');
+                saveFileDialog1.FileName = $"Обернення матриці {time}.txt";
+                saveFileDialog1.Filter = "Text File | *.txt";
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    File.WriteAllText(saveFileDialog1.FileName, solutionBox.Text);
-                    File.AppendAllText(saveFileDialog1.FileName, "Більш точний результат:\n");
-                    string currRow;
-                    for (int i = 0; i < gridResultMatrix.RowCount; i++)
+                    if (solutionBox.Text != "")
                     {
-                        currRow = "(";
-                        for (int j = 0; j < gridResultMatrix.ColumnCount; j++)
+                        File.WriteAllText(saveFileDialog1.FileName, solutionBox.Text);
+                        bool lowAccuracy = false;
+                        for (int i = 0; i < gridResultMatrix.RowCount; i++)
                         {
-                            currRow += gridResultMatrix[j, i].Value.ToString();
-                            if (j != gridResultMatrix.ColumnCount - 1)
-                                currRow += "; ";
-                            else currRow += ")\n";
+                            for (int j = 0; j < gridResultMatrix.ColumnCount; j++)
+                            {
+                                double temp = Convert.ToDouble(gridResultMatrix[j, i].Value);
+                                if (temp != Math.Round(temp, 3))
+                                {
+                                    lowAccuracy = true;
+                                    break;
+                                }
+                            }
+                            if (lowAccuracy) break;
                         }
-                        File.AppendAllText(saveFileDialog1.FileName, currRow);
+                        if (lowAccuracy)
+                        {
+                            File.AppendAllText(saveFileDialog1.FileName, "Більш точний результат:\n");
+                            string currRow;
+                            for (int i = 0; i < gridResultMatrix.RowCount; i++)
+                            {
+                                currRow = "(";
+                                for (int j = 0; j < gridResultMatrix.ColumnCount; j++)
+                                {
+                                    currRow += gridResultMatrix[j, i].Value.ToString();
+                                    if (j != gridResultMatrix.ColumnCount - 1)
+                                        currRow += "; ";
+                                    else currRow += ")\n";
+                                }
+                                File.AppendAllText(saveFileDialog1.FileName, currRow);
+                            }
+                        }
                     }
                 }
             }
+            else MessageBox.Show("Програма ще не знаходила рішень");
         }
+        // метод імпортування матриці з файлу
         private void InputMatrixFromFile(string path)
         {
-            if (new FileInfo(path).Length != 0)
+            if (path.Contains(".txt"))
             {
-                String[] str = File.ReadAllLines(path);
-                Matrix matrix = new Matrix(str.Length);
-                for (int i = 0; i < str.Length; i++)
+                if (new FileInfo(path).Length != 0)
                 {
-                    string curr = str[i];
-                    for (int j = 0; j < str.Length; j++)
+                    String[] str = File.ReadAllLines(path);
+                    for (int i = 0; i < str.Length; i++)
                     {
-                        if (curr.IndexOf(' ') >= 0)
+                        string temp = str[i];
+                        while (temp[temp.Length - 1] == ' ') temp = temp.Remove(temp.Length - 1, 1);
+                        while (temp.Contains("  "))
                         {
-                            matrix.SetData(i, j, Convert.ToDouble(curr.Substring(0, curr.IndexOf(' '))));
-                            curr = curr.Remove(0, curr.IndexOf(' ') + 1);
+                            temp = temp.Replace("  ", " ");
                         }
-                        else
+                        str[i] = temp;
+                    }
+                    for (int i = 0; i < str.Length; i++)
+                    {
+                        string temp = str[i];
+                        if (str.Length != temp.Length + 1 - temp.Replace(" ", "").Length)
                         {
-                            matrix.SetData(i, j, Convert.ToDouble(curr.Substring(0, curr.Length)));
-                            curr = curr.Remove(0, curr.Length);
+                            MessageBox.Show("Імпортуйте файл з коректними даними");
+                            return;
                         }
                     }
+                    Matrix matrix = new Matrix(str.Length);
+                    for (int i = 0; i < str.Length; i++)
+                    {
+                        string curr = str[i];
+                        if (Regex.Matches(curr, @"[a-zA-Z]").Count != 0)
+                        {
+                            MessageBox.Show("Імпортуйте файл з коректними даними");
+                            return;
+                        }
+                        for (int j = 0; j < str.Length; j++)
+                        {
+                            if (curr.IndexOf(' ') >= 0)
+                            {
+                                matrix.SetData(i, j, Convert.ToDouble(curr.Substring(0, curr.IndexOf(' '))));
+                                curr = curr.Remove(0, curr.IndexOf(' ') + 1);
+                            }
+                            else
+                            {
+                                matrix.SetData(i, j, Convert.ToDouble(curr.Substring(0, curr.Length)));
+                                curr = curr.Remove(0, curr.Length);
+                            }
+                        }
+                    }
+                    FillElements(gridInputMatrix, matrix);
                 }
-                FillElements(gridInputMatrix, matrix);
+                else
+                {
+                    MessageBox.Show("Імпорт неможливий: файл є пустим");
+                    return;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Програмне забезпечення підтримує імпорт файлів тільки формату \".txt\"");
+                return;
             }
         }
+        // метод реалізації кнопки розв'язку
         private void solveButton_Click(object sender, EventArgs e)
         {
             Matrix matrix;
             if (Convert.ToInt32(numericSize.Value) != 0 && method.SelectedItem != null)
             {
-                matrix = InputMatrixFromForm();
+                matrix = new Matrix(Convert.ToInt32(numericSize.Value));
+                try { FillMatrix(matrix); }
+                catch { MessageBox.Show("Введіть коректні дані в таблицю"); return; }
                 solutionBox.Text = "Початкова матриця A: \n";
                 Matrix.solutionBox = solutionBox;
                 matrix.Print();
@@ -198,10 +255,12 @@ namespace CourseWork
                 {
                     labelDeterminant.Text = matrix.GetDet().ToString();
                     labelDeterminant.ForeColor = Color.Red;
-                    MessageBox.Show("Матрица не имеет решения");
+                    MessageBox.Show("Матриця не має рішення");
                 }
             }
+            else MessageBox.Show("Оберіть метод розв'язання");
         }
+        // методи реалізації перетягування файлу на програму 
         private void Form1_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.All;

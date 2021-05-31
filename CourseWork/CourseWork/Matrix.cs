@@ -158,7 +158,7 @@ namespace CourseWork
             result = Math.Sqrt(result);
             if (solutionBox != null)
             {
-                solutionBox.Text += $"={result}";
+                solutionBox.Text += $"={result}\n";
                 solutionBox.Text += "========================================\n";
             }
             return result;
@@ -274,10 +274,9 @@ namespace CourseWork
                         diagelem = I.data[i, j];
                         if (diagelem == 0)
                         {
-                            int m;
-                            for (m = i + 1; m < size; m++)
+                            for (int m = i + 1; m < size; m++)
                             {
-                                SwapRows(i, m);
+                                I.SwapRows(i, m);
                                 diagelem = I.data[i, j];
                                 if (diagelem != 0)
                                 {
@@ -285,7 +284,7 @@ namespace CourseWork
                                 }
                                 else
                                 {
-                                    SwapRows(i, m);
+                                    I.SwapRows(i, m);
                                 }
                             }
                             if (diagelem == 0)
@@ -310,8 +309,7 @@ namespace CourseWork
                         {
                             if (currrow != i)
                             {
-                                //double ratio = I.data[currrow, j] / I.data[i, j];
-                                double ratio = I.data[currrow, j];
+                                double ratio = I.data[currrow, j] /* / I.data[i, j] */;
                                 if (solutionBox != null)
                                 {
                                     solutionBox.Text += "========================================\n";
@@ -319,8 +317,8 @@ namespace CourseWork
                                     //solutionBox.Text += $"ratio = {I.data[currrow, j]}/{I.data[i, j]} = {ratio}\n";
                                     solutionBox.Text += $"ratio = I[{currrow+1}, {j+1}]\n";
                                     solutionBox.Text += $"ratio = {I.data[currrow, j]}\n";
-                                    solutionBox.Text += $"{currrow}р. = {currrow}р. - {i}р. * ratio\n";
-                                    solutionBox.Text += $"{currrow}р. = {currrow}р. - {i}р. * {ratio}\n";
+                                    solutionBox.Text += $"{currrow+1}р. = {currrow+1}р. - {i+1}р. * ratio\n";
+                                    solutionBox.Text += $"{currrow+1}р. = {currrow+1}р. - {i+1}р. * {ratio}\n";
                                 }
                                 for (int currcolumn = 0; currcolumn < size * 2; currcolumn++)
                                 {
@@ -380,8 +378,11 @@ namespace CourseWork
                 }
                 return true;
             }
-            if (solutionBox != null)
+            else if (solutionBox != null)
+            {
                 solutionBox.Text += "det(A) = 0 -> рішення немає.\n";
+                solutionBox.Text += "========================================\n";
+            }
             return false;
         }
         public double Determinant()
