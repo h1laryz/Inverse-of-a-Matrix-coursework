@@ -21,6 +21,7 @@ namespace CourseWork
         // метод задання стандартних параметрів для форми
         private void Form1_Load(object sender, EventArgs e)
         {
+            numericSize.Minimum = 2;
             solutionBox.ReadOnly = true;
             gridInputMatrix.AllowUserToAddRows = false;
             gridResultMatrix.AllowUserToAddRows = false;
@@ -46,10 +47,6 @@ namespace CourseWork
         {
             solutionBox.Text = "";
             labelDeterminant.Text = "";
-            if (numericSize.Value < 2)
-            {
-                numericSize.Value = 2;
-            }
             gridInputMatrix.Columns.Clear();
             gridResultMatrix.Columns.Clear();
             gridInputMatrix.Rows.Clear();

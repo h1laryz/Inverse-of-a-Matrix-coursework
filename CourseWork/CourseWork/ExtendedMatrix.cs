@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace CourseWork
 {
+    /// <summary>
+    /// Розширена матриця
+    /// </summary>
     public class ExtendedMatrix : Matrix
     {
         public ExtendedMatrix(Matrix matrix) : base(matrix.Size, matrix.Size*2)

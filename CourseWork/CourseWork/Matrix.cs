@@ -308,7 +308,7 @@ namespace CourseWork
         /// </summary>
         public void JordanGauss()
         {
-            var I = new ExtendedMatrix(this); // роширена матриця (A|E)
+            var AE = new ExtendedMatrix(this); // роширена матриця (A|E)
             if (SolutionBox != null)
             {
                 SolutionBox.Text += "МЕТОД ЖОРДАНА-ГАУСА\n";
@@ -317,7 +317,7 @@ namespace CourseWork
                 Print();
                 SolutionBox.Text += "========================================\n";
                 SolutionBox.Text += "Розширена матриця:\n";
-                I.Print();
+                AE.Print();
             }
             double diagelem; // теперішній діагональний елемент
             for (int i = 0; i < Size; i++)
@@ -326,20 +326,20 @@ namespace CourseWork
                 {
                     if (i == j)
                     {
-                        diagelem = I.Data[i, j];
+                        diagelem = AE.Data[i, j];
                         if (diagelem == 0)
                         {
                             for (int m = i + 1; m < Size; m++) // якщо діагональний елемент = 0, міняти рядки місцями з нижніми
                             {
-                                I.SwapRows(i, m);
-                                diagelem = I.Data[i, j];
+                                AE.SwapRows(i, m);
+                                diagelem = AE.Data[i, j];
                                 if (diagelem != 0)
                                 {
                                     break;
                                 }
                                 else
                                 {
-                                    I.SwapRows(i, m);
+                                    AE.SwapRows(i, m);
                                 }
                             }
                             if (diagelem == 0)
@@ -356,33 +356,33 @@ namespace CourseWork
                                 SolutionBox.Text += "========================================\n";
                                 SolutionBox.Text += $"{i + 1}р. = {i + 1}р./{diagelem}\n";
                             }
-                            for (int k = 0; k < I.Columns; k++)
+                            for (int k = 0; k < AE.Columns; k++)
                             {
                                 // ділимо весь рядок на діагональний елемент
-                                I.Data[i, k] = I.Data[i, k] / diagelem;
+                                AE.Data[i, k] = AE.Data[i, k] / diagelem;
                             }
-                            I.Print();
+                            AE.Print();
                         }
-                        for (int currrow = 0; currrow < I.Rows; currrow++)
+                        for (int currrow = 0; currrow < AE.Rows; currrow++)
                         {
                             if (currrow != i)
                             {
-                                double ratio = I.Data[currrow, j]; // коефіцієнт домноження рядка
+                                double ratio = AE.Data[currrow, j]; // коефіцієнт домноження рядка
                                 if (SolutionBox != null)
                                 {
                                     SolutionBox.Text += "========================================\n";
-                                    SolutionBox.Text += $"ratio = I[{currrow+1}, {j+1}]\n";
-                                    SolutionBox.Text += $"ratio = {I.Data[currrow, j]}\n";
+                                    SolutionBox.Text += $"ratio = [{currrow+1}, {j+1}]\n";
+                                    SolutionBox.Text += $"ratio = {AE.Data[currrow, j]}\n";
                                     SolutionBox.Text += $"{currrow+1}р. = {currrow+1}р. - {i+1}р. * ratio\n";
                                     SolutionBox.Text += $"{currrow+1}р. = {currrow+1}р. - {i+1}р. * {ratio}\n";
                                 }
                                 // віднімається рядок від того, де знаходиться теперішній діагональний елемент * коефінієнт, щоб зробити нулі
                                 // над та під діагональним елементом
-                                for (int currcolumn = 0; currcolumn < I.Columns; currcolumn++)
+                                for (int currcolumn = 0; currcolumn < AE.Columns; currcolumn++)
                                 {
-                                    I.Data[currrow, currcolumn] = I.Data[currrow, currcolumn] - I.Data[i, currcolumn] * ratio;
+                                    AE.Data[currrow, currcolumn] = AE.Data[currrow, currcolumn] - AE.Data[i, currcolumn] * ratio;
                                 }
-                                I.Print();
+                                AE.Print();
                             }
                         }
                         // після того як знайшло діагональний елемент в певному рядку, 
@@ -396,7 +396,7 @@ namespace CourseWork
             {
                 for (int j = 0; j < Size; j++)
                 {
-                    Data[i, j] = I.Data[i, j + Size];
+                    Data[i, j] = AE.Data[i, j + Size];
                 }
             }
             if (SolutionBox != null)

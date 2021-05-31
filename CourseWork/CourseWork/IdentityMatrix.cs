@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace CourseWork
 {
+    /// <summary>
+    /// Одинична матриця
+    /// </summary>
     public class IdentityMatrix : Matrix
     {
         public IdentityMatrix(int size) : base(size)
