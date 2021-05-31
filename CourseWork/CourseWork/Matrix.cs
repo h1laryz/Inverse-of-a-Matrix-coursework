@@ -11,10 +11,15 @@ namespace CourseWork
     {
         public static RichTextBox solutionBox { get; set; }
         double[,] data;
-        int rows;
-        int columns;
-        double det;
-        int size;
+        public double this[int i, int j]
+        {
+            get { return data[i, j]; }
+            set { data[i, j] = value; }
+        }
+        public int rows { get; private set; }
+        public int columns { get; private set; }
+        public double det { get; private set; }
+        public int size { get; private set; }
         public Matrix() { }
         public Matrix(int size) { data = new double[size, size]; this.size = size; rows = size; columns = size; }
         public Matrix(int rows, int columns) { data = new double[rows, columns]; if (rows == columns) size = rows; else size = -1; this.rows = rows; this.columns = columns; }
@@ -24,6 +29,7 @@ namespace CourseWork
             columns = matrix.columns;
             rows = matrix.rows;
             data = new double[rows, columns];
+            det = matrix.det;
             if (rows == columns) size = rows;
             else size = -1;
             for (int i = 0; i < size; i++)
@@ -34,8 +40,6 @@ namespace CourseWork
                 }
             }
         }
-        public void SetData(int i, int j, double value) { data[i, j] = value; }
-        public double GetData(int i, int j) { return data[i, j]; }
         private void SwapRows(int firstrow, int secondrow)
         {
             for (int j = 0; j < columns; j++)
@@ -45,7 +49,6 @@ namespace CourseWork
                 data[secondrow, j] = temp;
             }
         }
-        public int GetSize() { return size; }
         public void Schultz()
         {
             int k = 0;
@@ -87,7 +90,6 @@ namespace CourseWork
                     currU.data[i, j] = currU.data[i, j] / norm;
                 }
             }
-
             List<Matrix> U = new List<Matrix>();
             List<Matrix> Psi = new List<Matrix>();
             do
@@ -346,10 +348,6 @@ namespace CourseWork
                 Print();
                 solutionBox.Text += "========================================\n";
             }
-        }
-        public double GetDet()
-        {
-            return det;
         }
         public void GenerateData()
         {

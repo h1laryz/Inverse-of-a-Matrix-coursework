@@ -38,10 +38,14 @@ namespace CourseWork
             MaximizeBox = false;
             StartPosition = FormStartPosition.CenterScreen;
             solutionBox.BorderStyle = BorderStyle.None;
+            openFileDialog1.Filter = "Text File | *.txt";
+            saveFileDialog1.Filter = "Text File | *.txt";
         }
         // метод, що підбиває розмір таблиць до обраного користувачем
         private void numericSize_ValueChanged(object sender, EventArgs e)
         {
+            solutionBox.Text = "";
+            labelDeterminant.Text = "";
             if(numericSize.Value < 2)
             {
                 numericSize.Value = 2;
@@ -73,19 +77,19 @@ namespace CourseWork
                 for (int j = 0; j < numericSize.Value; j++)
                 {
                     double temp = Convert.ToDouble(gridInputMatrix[j, i].Value);
-                    matrix.SetData(i, j, temp);
+                    matrix[i, j] = temp;
                 }
             }
         }
         // метод, що заповнює елементи у таблицю з матриці
         private void FillElements(DataGridView dataGrid, Matrix matrix)
         {
-            numericSize.Value = matrix.GetSize();
-            for (int i = 0; i < matrix.GetSize(); i++)
+            numericSize.Value = matrix.size;
+            for (int i = 0; i < matrix.size; i++)
             {
-                for (int j = 0; j < matrix.GetSize(); j++)
+                for (int j = 0; j < matrix.size; j++)
                 {
-                    dataGrid[j, i].Value = matrix.GetData(i, j).ToString();
+                    dataGrid[j, i].Value = matrix[i, j].ToString();
                 }
             }
         }
@@ -105,6 +109,7 @@ namespace CourseWork
         // метод реалізації кнопки імпорт даних
         private void importButton_Click(object sender, EventArgs e)
         {
+            openFileDialog1.FileName = "";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 InputMatrixFromFile(openFileDialog1.FileName);
@@ -118,7 +123,6 @@ namespace CourseWork
                 string time = DateTime.Now.ToString();
                 time = time.Replace(':', '.');
                 saveFileDialog1.FileName = $"Обернення матриці {time}.txt";
-                saveFileDialog1.Filter = "Text File | *.txt";
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     if (solutionBox.Text != "")
@@ -200,12 +204,12 @@ namespace CourseWork
                         {
                             if (curr.IndexOf(' ') >= 0)
                             {
-                                matrix.SetData(i, j, Convert.ToDouble(curr.Substring(0, curr.IndexOf(' '))));
+                                matrix[i, j] = Convert.ToDouble(curr.Substring(0, curr.IndexOf(' ')));
                                 curr = curr.Remove(0, curr.IndexOf(' ') + 1);
                             }
                             else
                             {
-                                matrix.SetData(i, j, Convert.ToDouble(curr.Substring(0, curr.Length)));
+                                matrix[i, j] = Convert.ToDouble(curr.Substring(0, curr.Length));
                                 curr = curr.Remove(0, curr.Length);
                             }
                         }
@@ -238,7 +242,7 @@ namespace CourseWork
                 matrix.Print();
                 if (matrix.ReversedExist())
                 {
-                    labelDeterminant.Text = matrix.GetDet().ToString();
+                    labelDeterminant.Text = matrix.det.ToString();
                     labelDeterminant.ForeColor = Color.Black;
                     if (method.SelectedItem.ToString() == "Шульца")
                     {
@@ -253,7 +257,7 @@ namespace CourseWork
                 }
                 else
                 {
-                    labelDeterminant.Text = matrix.GetDet().ToString();
+                    labelDeterminant.Text = matrix.det.ToString();
                     labelDeterminant.ForeColor = Color.Red;
                     MessageBox.Show("Матриця не має рішення");
                 }
@@ -269,6 +273,19 @@ namespace CourseWork
         {
             string filePath = ((string[])(e.Data.GetData(DataFormats.FileDrop)))[0];
             InputMatrixFromFile(filePath);
+        }
+        // метод, який спрацьовує, коли дані в матриці були змінені (стирає усі рішення)
+        private void gridInputMatrix_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            labelDeterminant.Text = "";
+            solutionBox.Text = "";
+            for (int i = 0; i < gridResultMatrix.RowCount; i++)
+            {
+                for (int j = 0; j < gridResultMatrix.ColumnCount; j++)
+                {
+                    gridResultMatrix[j, i].Value = "";
+                }
+            }
         }
     }
 }

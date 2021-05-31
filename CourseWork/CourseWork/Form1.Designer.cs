@@ -159,6 +159,7 @@ namespace CourseWork
             this.gridInputMatrix.Name = "gridInputMatrix";
             this.gridInputMatrix.Size = new System.Drawing.Size(318, 265);
             this.gridInputMatrix.TabIndex = 39;
+            this.gridInputMatrix.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(gridInputMatrix_CellValueChanged);
             // 
             // numericSize
             // 
