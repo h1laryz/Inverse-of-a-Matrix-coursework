@@ -469,7 +469,7 @@ namespace CourseWork
             else
             {
                 // прямий обхід Гауса, щоб зробити матрицю нижньо-трикутною
-                double diagelem = 0;
+                double diagelem;
                 Matrix copy = new Matrix(this);
                 for (int i = 0; i < Size; i++)
                 {
@@ -497,7 +497,11 @@ namespace CourseWork
                                 }
                                 if (diagelem == 0)
                                 {
-                                    if (SolutionBox != null) SolutionBox.Text += "немає рішення\n";
+                                    if (SolutionBox != null)
+                                    {
+                                        SolutionBox.Text += "немає рішення в даній ситуації\n";
+                                        SolutionBox.Text += "========================================\n";
+                                    }
                                     return 0;
                                 }
                             }
