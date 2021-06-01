@@ -41,6 +41,14 @@ namespace CourseWork
             solutionBox.BorderStyle = BorderStyle.None;
             openFileDialog1.Filter = "Text File | *.txt";
             saveFileDialog1.Filter = "Text File | *.txt";
+            gridInputMatrix.AllowUserToOrderColumns = false;
+            gridResultMatrix.AllowUserToOrderColumns = false;
+            gridInputMatrix.AllowUserToAddRows = false;
+            gridResultMatrix.AllowUserToAddRows = false;
+            gridInputMatrix.AllowUserToDeleteRows = false;
+            gridResultMatrix.AllowUserToDeleteRows = false;
+            gridInputMatrix.AllowUserToResizeRows = false;
+            gridResultMatrix.AllowUserToResizeRows = false;
         }
         // метод, що підбиває розмір таблиць до обраного користувачем
         private void numericSize_ValueChanged(object sender, EventArgs e)
@@ -114,7 +122,9 @@ namespace CourseWork
         // метод реалізації кнопки зберігання розв'язку у файл
         private void saveButton_Click(object sender, EventArgs e)
         {
-            if (solutionBox.Text != "")
+            bool isEmpty = true;
+            if (gridResultMatrix[0, 0].Value.ToString() != "") isEmpty = false;
+            if (!isEmpty)
             {
                 string time = DateTime.Now.ToString();
                 time = time.Replace(':', '.');
@@ -126,53 +136,53 @@ namespace CourseWork
                     {
                         File.WriteAllText(saveFileDialog1.FileName, solutionBox.Text);
                         bool lowAccuracy = false;
-                        bool isEmpty = true;
                         for (int i = 0; i < gridResultMatrix.RowCount; i++)
                         {
                             for (int j = 0; j < gridResultMatrix.ColumnCount; j++)
                             {
-                                if (Convert.ToString(gridResultMatrix[j,i].Value) != "")
+                                double temp = Convert.ToDouble(gridResultMatrix[j, i].Value);
+                                if (temp != Math.Round(temp, 3))
+                                // якщо результат з RichTextBox != результат з матриці gridResultView
                                 {
-                                    isEmpty = false;
-                                    break;
+                                    lowAccuracy = true; // помічена низька точність
+                                    break; // щоб просто так не ітерувалось алгоритм ломається при першому знаходженні низької точності
                                 }
                             }
-                            if (!isEmpty) break;
+                            if (lowAccuracy) break; // аналогічно з верхнім break 
                         }
-                        if (!isEmpty)
+                        // запис більш точної відповіді у файл
+                        if (lowAccuracy)
                         {
+                            File.AppendAllText(saveFileDialog1.FileName, "Більш точний результат:\n");
+                            string currRow;
                             for (int i = 0; i < gridResultMatrix.RowCount; i++)
                             {
+                                currRow = "(";
                                 for (int j = 0; j < gridResultMatrix.ColumnCount; j++)
                                 {
-                                    double temp = Convert.ToDouble(gridResultMatrix[j, i].Value);
-                                    if (temp != Math.Round(temp, 3))
-                                    // якщо результат з RichTextBox != результат з матриці gridResultView
-                                    {
-                                        lowAccuracy = true; // помічена низька точність
-                                        break; // щоб просто так не ітерувалось алгоритм ломається при першому знаходженні низької точності
-                                    }
+                                    currRow += gridResultMatrix[j, i].Value.ToString();
+                                    if (j != gridResultMatrix.ColumnCount - 1)
+                                        currRow += "; ";
+                                    else currRow += ")\n";
                                 }
-                                if (lowAccuracy) break; // аналогічно з верхнім break 
+                                File.AppendAllText(saveFileDialog1.FileName, currRow);
                             }
-                            // запис більш точної відповіді у файл
-                            if (lowAccuracy)
+                        }
+                    }
+                    else
+                    {
+                        string currRow;
+                        for (int i = 0; i < gridResultMatrix.RowCount; i++)
+                        {
+                            currRow = "(";
+                            for (int j = 0; j < gridResultMatrix.ColumnCount; j++)
                             {
-                                File.AppendAllText(saveFileDialog1.FileName, "Більш точний результат:\n");
-                                string currRow;
-                                for (int i = 0; i < gridResultMatrix.RowCount; i++)
-                                {
-                                    currRow = "(";
-                                    for (int j = 0; j < gridResultMatrix.ColumnCount; j++)
-                                    {
-                                        currRow += gridResultMatrix[j, i].Value.ToString();
-                                        if (j != gridResultMatrix.ColumnCount - 1)
-                                            currRow += "; ";
-                                        else currRow += ")\n";
-                                    }
-                                    File.AppendAllText(saveFileDialog1.FileName, currRow);
-                                }
+                                currRow += gridResultMatrix[j, i].Value.ToString();
+                                if (j != gridResultMatrix.ColumnCount - 1)
+                                    currRow += "; ";
+                                else currRow += ")\n";
                             }
+                            File.AppendAllText(saveFileDialog1.FileName, currRow);
                         }
                     }
                 }
@@ -256,8 +266,16 @@ namespace CourseWork
                 matrix = new Matrix(Convert.ToInt32(numericSize.Value));
                 try { FillMatrix(matrix); }
                 catch { MessageBox.Show("Введіть коректні дані в таблицю"); return; }
-                solutionBox.Text = "Початкова матриця A: \n";
-                Matrix.SolutionBox = solutionBox;
+                if (checkShowSolution.Checked)
+                {
+                    solutionBox.Text = "Початкова матриця A: \n";
+                    Matrix.SolutionBox = solutionBox;
+                }
+                else
+                {
+                    Matrix.SolutionBox = null;
+                    solutionBox.Text = "";
+                }
                 matrix.Print();
                 if (matrix.ReversedExist())
                 {
