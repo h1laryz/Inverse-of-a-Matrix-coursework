@@ -97,9 +97,9 @@ namespace CourseWork
             }
             else norm = A1.Norm();
             // знаходження U^0 (для користувача "U1")
-            for (int i = 0; i < currU.Size; i++)
+            for (int i = 0; i < currU.Rows; i++)
             {
-                for (int j = 0; j < currU.Size; j++)
+                for (int j = 0; j < currU.Columns; j++)
                 {
                     currU.Data[i, j] = currU.Data[i, j] / norm;
                 }
@@ -120,8 +120,8 @@ namespace CourseWork
                     Psi[k].Print();
                 }
                 currU = U[k] * (E + Psi[k]);
+                norm = Psi[k].Norm();
                 k++;
-                norm = Psi[k - 1].Norm();
                 if (SolutionBox != null)
                 {
                     if (norm >= eps)
@@ -451,7 +451,7 @@ namespace CourseWork
         /// <summary>
         /// Знаходження детермінанту методом прямого обходу Гауса
         /// </summary>
-        /// <returns>Повертає детермінант</returns>
+        /// <returns>Повертає детермінант</returns>А
         public double FindDeterminant()
         {
             if (SolutionBox != null)

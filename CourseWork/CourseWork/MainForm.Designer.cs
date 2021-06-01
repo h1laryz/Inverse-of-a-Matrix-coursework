@@ -1,7 +1,7 @@
 ﻿
 namespace CourseWork
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -43,6 +43,7 @@ namespace CourseWork
             this.numericSize = new System.Windows.Forms.NumericUpDown();
             this.gridResultMatrix = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkShowSolution = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -51,7 +52,6 @@ namespace CourseWork
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.saveButton = new System.Windows.Forms.Button();
-            this.checkShowSolution = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.gridInputMatrix)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridResultMatrix)).BeginInit();
@@ -195,6 +195,16 @@ namespace CourseWork
             this.groupBox1.TabIndex = 42;
             this.groupBox1.TabStop = false;
             // 
+            // checkShowSolution
+            // 
+            this.checkShowSolution.AutoSize = true;
+            this.checkShowSolution.Location = new System.Drawing.Point(104, 136);
+            this.checkShowSolution.Name = "checkShowSolution";
+            this.checkShowSolution.Size = new System.Drawing.Size(117, 17);
+            this.checkShowSolution.TabIndex = 41;
+            this.checkShowSolution.Text = "Виводити рішення";
+            this.checkShowSolution.UseVisualStyleBackColor = true;
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.label6);
@@ -266,17 +276,7 @@ namespace CourseWork
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
-            // checkShowSolution
-            // 
-            this.checkShowSolution.AutoSize = true;
-            this.checkShowSolution.Location = new System.Drawing.Point(104, 136);
-            this.checkShowSolution.Name = "checkShowSolution";
-            this.checkShowSolution.Size = new System.Drawing.Size(117, 17);
-            this.checkShowSolution.TabIndex = 41;
-            this.checkShowSolution.Text = "Виводити рішення";
-            this.checkShowSolution.UseVisualStyleBackColor = true;
-            // 
-            // Form1
+            // MainForm
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -289,11 +289,11 @@ namespace CourseWork
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.importButton);
             this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "Обернення матриці";
-            this.Load += new System.EventHandler(this.Form1_Load);
-            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form1_DragDrop);
-            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form1_DragEnter);
+            this.Load += new System.EventHandler(this.MainForm_Load);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainForm_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainForm_DragEnter);
             ((System.ComponentModel.ISupportInitialize)(this.gridInputMatrix)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericSize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridResultMatrix)).EndInit();
