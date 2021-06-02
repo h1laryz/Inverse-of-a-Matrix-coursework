@@ -6,30 +6,33 @@ using System.Threading.Tasks;
 
 namespace CourseWork
 {
+    /// <summary>
+    /// Розширена матриця
+    /// </summary>
     public class ExtendedMatrix : Matrix
     {
-        public ExtendedMatrix(Matrix matrix) : base(matrix.GetSize(), matrix.GetSize()*2)
+        public ExtendedMatrix(Matrix matrix) : base(matrix.Size, matrix.Size*2)
         {
             // слева обычная матрица
-            for (int i = 0; i < matrix.GetSize(); i++)
+            for (int i = 0; i < matrix.Size; i++)
             {
-                for (int j = 0; j < matrix.GetSize(); j++)
+                for (int j = 0; j < matrix.Size; j++)
                 {
-                    SetData(i, j, matrix.GetData(i, j));
+                    this[i, j] = matrix[i, j];
                 }
             }
             // единичная матрица справа
-            for (int i = 0; i < matrix.GetSize(); i++)
+            for (int i = 0; i < matrix.Size; i++)
             {
-                for (int j = 0; j < matrix.GetSize(); j++)
+                for (int j = 0; j < matrix.Size; j++)
                 {
                     if (i == j)
                     {
-                        SetData(i, j + matrix.GetSize(), 1);
+                        this[i, j + matrix.Size] = 1; 
                     }
                     else
                     {
-                        SetData(i, j + matrix.GetSize(), 0);
+                        this[i, j + matrix.Size] = 0;
                     }
                 }
             }

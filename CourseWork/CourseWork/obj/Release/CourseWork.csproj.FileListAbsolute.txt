@@ -2,9 +2,9 @@ D:\github\coursework\CourseWork\CourseWork\bin\Release\CourseWork.exe.config
 D:\github\coursework\CourseWork\CourseWork\bin\Release\CourseWork.exe
 D:\github\coursework\CourseWork\CourseWork\bin\Release\CourseWork.pdb
 D:\github\coursework\CourseWork\CourseWork\obj\Release\CourseWork.csprojAssemblyReference.cache
-D:\github\coursework\CourseWork\CourseWork\obj\Release\CourseWork.Form1.resources
 D:\github\coursework\CourseWork\CourseWork\obj\Release\CourseWork.Properties.Resources.resources
 D:\github\coursework\CourseWork\CourseWork\obj\Release\CourseWork.csproj.GenerateResource.cache
 D:\github\coursework\CourseWork\CourseWork\obj\Release\CourseWork.csproj.CoreCompileInputs.cache
 D:\github\coursework\CourseWork\CourseWork\obj\Release\CourseWork.exe
 D:\github\coursework\CourseWork\CourseWork\obj\Release\CourseWork.pdb
+D:\github\coursework\CourseWork\CourseWork\obj\Release\CourseWork.MainForm.resources

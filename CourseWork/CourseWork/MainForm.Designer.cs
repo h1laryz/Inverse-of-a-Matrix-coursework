@@ -1,7 +1,7 @@
 ﻿
 namespace CourseWork
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -43,6 +43,7 @@ namespace CourseWork
             this.numericSize = new System.Windows.Forms.NumericUpDown();
             this.gridResultMatrix = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkShowSolution = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -102,7 +103,7 @@ namespace CourseWork
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(14, 26);
+            this.label4.Location = new System.Drawing.Point(14, 13);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(66, 16);
             this.label4.TabIndex = 5;
@@ -132,7 +133,7 @@ namespace CourseWork
             // 
             this.labelDeterminant.AutoSize = true;
             this.labelDeterminant.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelDeterminant.Location = new System.Drawing.Point(77, 27);
+            this.labelDeterminant.Location = new System.Drawing.Point(77, 14);
             this.labelDeterminant.Name = "labelDeterminant";
             this.labelDeterminant.Size = new System.Drawing.Size(0, 16);
             this.labelDeterminant.TabIndex = 37;
@@ -159,6 +160,7 @@ namespace CourseWork
             this.gridInputMatrix.Name = "gridInputMatrix";
             this.gridInputMatrix.Size = new System.Drawing.Size(318, 265);
             this.gridInputMatrix.TabIndex = 39;
+            this.gridInputMatrix.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridInputMatrix_CellValueChanged);
             // 
             // numericSize
             // 
@@ -179,6 +181,7 @@ namespace CourseWork
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.checkShowSolution);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.method);
             this.groupBox1.Controls.Add(this.numericSize);
@@ -188,9 +191,19 @@ namespace CourseWork
             this.groupBox1.Controls.Add(this.generateButton);
             this.groupBox1.Location = new System.Drawing.Point(8, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(348, 146);
+            this.groupBox1.Size = new System.Drawing.Size(348, 167);
             this.groupBox1.TabIndex = 42;
             this.groupBox1.TabStop = false;
+            // 
+            // checkShowSolution
+            // 
+            this.checkShowSolution.AutoSize = true;
+            this.checkShowSolution.Location = new System.Drawing.Point(104, 136);
+            this.checkShowSolution.Name = "checkShowSolution";
+            this.checkShowSolution.Size = new System.Drawing.Size(117, 17);
+            this.checkShowSolution.TabIndex = 41;
+            this.checkShowSolution.Text = "Виводити рішення";
+            this.checkShowSolution.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -247,9 +260,9 @@ namespace CourseWork
             // 
             this.groupBox4.Controls.Add(this.label4);
             this.groupBox4.Controls.Add(this.labelDeterminant);
-            this.groupBox4.Location = new System.Drawing.Point(8, 156);
+            this.groupBox4.Location = new System.Drawing.Point(10, 177);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(348, 61);
+            this.groupBox4.Size = new System.Drawing.Size(348, 40);
             this.groupBox4.TabIndex = 47;
             this.groupBox4.TabStop = false;
             // 
@@ -263,7 +276,7 @@ namespace CourseWork
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
-            // Form1
+            // MainForm
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -276,11 +289,11 @@ namespace CourseWork
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.importButton);
             this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "Обернення матриці";
-            this.Load += new System.EventHandler(this.Form1_Load);
-            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form1_DragDrop);
-            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form1_DragEnter);
+            this.Load += new System.EventHandler(this.MainForm_Load);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainForm_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainForm_DragEnter);
             ((System.ComponentModel.ISupportInitialize)(this.gridInputMatrix)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericSize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridResultMatrix)).EndInit();
@@ -318,6 +331,7 @@ namespace CourseWork
         public System.Windows.Forms.RichTextBox solutionBox;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.Button saveButton;
+        private System.Windows.Forms.CheckBox checkShowSolution;
     }
 }
 

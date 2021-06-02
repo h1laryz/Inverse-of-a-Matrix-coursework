@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace CourseWork
 {
+    /// <summary>
+    /// Одинична матриця
+    /// </summary>
     public class IdentityMatrix : Matrix
     {
         public IdentityMatrix(int size) : base(size)
@@ -16,11 +19,11 @@ namespace CourseWork
                 {
                     if (i == j)
                     {
-                        SetData(i, j, 1);
+                        this[i, j] = 1;
                     }
                     else
                     {
-                        SetData(i, j, 0);
+                        this[i, j] = 0;
                     }
                 }
             }
