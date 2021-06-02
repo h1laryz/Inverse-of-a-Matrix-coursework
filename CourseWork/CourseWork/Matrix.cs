@@ -7,6 +7,9 @@ namespace CourseWork
 {
     public class Matrix
     {
+        public static int iterations { get; set; }
+        public static int comparations { get; set; }
+
         public static RichTextBox SolutionBox { get; set; } // вивід результату
         double[,] Data; // матриця коефіцієнтів
         /// <summary>
@@ -39,9 +42,9 @@ namespace CourseWork
             Det = matrix.Det;
             if (Rows == Columns) Size = Rows;
             else Size = -1;
-            for (int i = 0; i < Size; i++)
+            for (int i = 0; i < Size; i++, comparations++, iterations++)
             {
-                for (int j = 0; j < Size; j++)
+                for (int j = 0; j < Size; j++, comparations++, iterations++)
                 {
                     Data[i, j] = matrix.Data[i, j];
                 }
@@ -54,7 +57,7 @@ namespace CourseWork
         /// <param name="secondrow">Другий рядок</param>
         private void SwapRows(int firstrow, int secondrow)
         {
-            for (int j = 0; j < Columns; j++)
+            for (int j = 0; j < Columns; j++, comparations++, iterations++)
             {
                 double temp = Data[firstrow, j];
                 Data[firstrow, j] = Data[secondrow, j];
@@ -83,12 +86,13 @@ namespace CourseWork
                 SolutionBox.Text += "========================================\n";
                 A1.PrintNorm();
                 SolutionBox.Text += "U1:\n";
-                for (int i = 0; i < currU.Rows; i++)
+                for (int i = 0; i < currU.Rows; i++, comparations++, iterations++)
                 {
                     SolutionBox.Text += "(";
-                    for (int j = 0; j < currU.Columns; j++)
+                    for (int j = 0; j < currU.Columns; j++, comparations++, iterations++)
                     {
                         SolutionBox.Text += $"{Math.Round(Data[i, j], 3)}/{Math.Round(norm, 1)}";
+                        comparations++;
                         if (j == currU.Columns - 1) continue;
                         SolutionBox.Text += "; ";
                     }
@@ -96,9 +100,9 @@ namespace CourseWork
                 }
             }
             // знаходження U^0 (для користувача "U1")
-            for (int i = 0; i < currU.Rows; i++)
+            for (int i = 0; i < currU.Rows; i++, comparations++, iterations++)
             {
-                for (int j = 0; j < currU.Columns; j++)
+                for (int j = 0; j < currU.Columns; j++, comparations++, iterations++)
                 {
                     currU.Data[i, j] = currU.Data[i, j] / norm;
                 }
@@ -112,6 +116,8 @@ namespace CourseWork
                 currU = U[k] * (E + Psi[k]);
                 norm = Psi[k].Norm();
                 k++;
+                iterations++;
+                comparations++;
                 if (SolutionBox != null)
                 {
                     if (k - 1 != 0) SolutionBox.Text += $"U{k} = U{k - 1}*(E+Ψ{k - 1})\n";
@@ -121,6 +127,7 @@ namespace CourseWork
                     SolutionBox.Text += $"Ψ{k}:\n";
                     Psi[k - 1].Print();
                     Psi[k - 1].PrintNorm();
+                    comparations++;
                     if (norm >= eps)
                     {
                         SolutionBox.Text += $"Норма Ψ{k} >= {eps}\n{norm} >= {eps} ==> продовжуємо алгоритм\n";
@@ -128,13 +135,15 @@ namespace CourseWork
                     else SolutionBox.Text += $"Норма Ψ{k} < {eps}\n{norm} < {eps} ==> алгоритм закінчено\n";
                     SolutionBox.Text += "========================================\n";
                 }
+                comparations++;
             } while (norm >= eps);
 
             // модифікація відповіді + повернення відповіді
-            for (int i = 0; i < Size; i++)
+            for (int i = 0; i < Size; i++, comparations++, iterations++)
             {
-                for (int j = 0; j < Size; j++)
+                for (int j = 0; j < Size; j++, comparations++, iterations++)
                 {
+                    comparations++;
                     if ((Math.Abs(Math.Truncate(U[U.Count() - 1].Data[i, j])) + 1) - (Math.Abs(U[U.Count() - 1].Data[i, j])) <= eps)
                     {
                         // якщо наприклад 13 - 12.9999 <= 0.001, то округлити дані
@@ -144,11 +153,17 @@ namespace CourseWork
                     {
                         // якщо модуль числа > 0.001, то залишити, як є
                         Data[i, j] = (U[U.Count() - 1]).Data[i, j];
+                        comparations++;
                     }
                     // інакше якщо модуль числа <= 0.001, то замінити нулем
-                    else if (!(Math.Abs((U[U.Count() - 1]).Data[i, j]) > eps)) Data[i, j] = 0;
+                    else if (!(Math.Abs((U[U.Count() - 1]).Data[i, j]) > eps)) 
+                    {
+                        comparations = comparations + 2;
+                        Data[i, j] = 0;
+                    }
                 }
             }
+            comparations++;
             if (SolutionBox != null)
             {
                 SolutionBox.Text += "Результат:\n";
@@ -163,9 +178,9 @@ namespace CourseWork
         public double Norm()
         {
             double result = 0;
-            for (int i = 0; i < Size; i++)
+            for (int i = 0; i < Size; i++, comparations++, iterations++)
             {
-                for (int j = 0; j < Size; j++)
+                for (int j = 0; j < Size; j++, comparations++, iterations++)
                 {
                     result += Math.Pow(Data[i, j], 2);
                 }
@@ -179,14 +194,16 @@ namespace CourseWork
             {
                 SolutionBox.Text += "Норма матрицы = √(";
                 double result = 0;
-                for (int i = 0; i < Size; i++)
+                for (int i = 0; i < Size; i++, comparations++, iterations++)
                 {
-                    for (int j = 0; j < Size; j++)
+                    for (int j = 0; j < Size; j++, comparations++, iterations++)
                     {
                         result += Math.Pow(Data[i, j], 2);
+                        comparations++;
                         if (Math.Abs(Data[i, j]) >= 0.001)
                             SolutionBox.Text += $"({Math.Round(Data[i, j], 3)})^2";
                         else SolutionBox.Text += $"({Math.Round(Data[i, j], 5)})^2";
+                        comparations++;
                         if (i != Size - 1 || j != Size - 1) SolutionBox.Text += "+";
                         else SolutionBox.Text += ")";
                     }
@@ -207,9 +224,9 @@ namespace CourseWork
             if (a.Rows == b.Rows && a.Columns == b.Columns)
             {
                 Matrix result = new Matrix(a.Rows, a.Columns);
-                for (int i = 0; i < a.Rows; i++)
+                for (int i = 0; i < a.Rows; i++, comparations++, iterations++)
                 {
-                    for (int j = 0; j < a.Columns; j++)
+                    for (int j = 0; j < a.Columns; j++, comparations++, iterations++)
                     {
                         result.Data[i, j] = a.Data[i, j] + b.Data[i, j];
                     }
@@ -229,9 +246,9 @@ namespace CourseWork
             if (a.Rows == b.Rows && a.Columns == b.Columns)
             {
                 Matrix result = new Matrix(a.Rows, a.Columns);
-                for (int i = 0; i < a.Rows; i++)
+                for (int i = 0; i < a.Rows; i++, comparations++, iterations++)
                 {
-                    for (int j = 0; j < a.Columns; j++)
+                    for (int j = 0; j < a.Columns; j++, comparations++, iterations++)
                     {
                         result.Data[i, j] = a.Data[i, j] - b.Data[i, j];
                     }
@@ -251,18 +268,18 @@ namespace CourseWork
             if (a.Columns == b.Rows)
             {
                 Matrix result = new Matrix(a.Rows, b.Columns);
-                for (int i = 0; i < result.Rows; i++)
+                for (int i = 0; i < result.Rows; i++, comparations++, iterations++)
                 {
-                    for (int j = 0; j < result.Columns; j++)
+                    for (int j = 0; j < result.Columns; j++, comparations++, iterations++)
                     {
                         result.Data[i, j] = 0;
                     }
                 }
-                for (int i = 0; i < a.Rows; i++)
+                for (int i = 0; i < a.Rows; i++, comparations++, iterations++)
                 {
-                    for (int j = 0; j < b.Columns; j++)
+                    for (int j = 0; j < b.Columns; j++, comparations++, iterations++)
                     {
-                        for (int k = 0; k < a.Columns; k++)
+                        for (int k = 0; k < a.Columns; k++, comparations++, iterations++)
                         {
                             result.Data[i, j] += a.Data[i, k] * b.Data[k, j];
                         }
@@ -278,9 +295,9 @@ namespace CourseWork
         public void Transponant()
         {
             Matrix tempMatrix = new Matrix(this);
-            for (int i = 0; i < Rows; i++)
+            for (int i = 0; i < Rows; i++, comparations++, iterations++)
             {
-                for (int j = 0; j < Columns; j++)
+                for (int j = 0; j < Columns; j++, comparations++, iterations++)
                 {
                     Data[i, j] = tempMatrix.Data[j, i];
                 }
@@ -291,16 +308,19 @@ namespace CourseWork
         /// </summary>
         public void Print()
         {
+            comparations++;
             if (SolutionBox != null)
             {
-                for (int i = 0; i < Rows; i++)
+                for (int i = 0; i < Rows; i++, comparations++, iterations++)
                 {
                     SolutionBox.Text += "(";
-                    for (int j = 0; j < Columns; j++)
+                    for (int j = 0; j < Columns; j++, comparations++, iterations++)
                     {
+                        comparations++;
                         if (Math.Abs(Data[i, j]) >= 0.001)
                             SolutionBox.Text += Math.Round(Data[i, j], 3).ToString();
                         else SolutionBox.Text += Math.Round(Data[i, j], 5).ToString();
+                        comparations++;
                         if (j == Columns - 1) continue;
                         SolutionBox.Text += "; ";
                     }
@@ -325,19 +345,22 @@ namespace CourseWork
                 AE.Print();
             }
             double diagelem; // теперішній діагональний елемент
-            for (int i = 0; i < Size; i++)
+            for (int i = 0; i < Size; i++, comparations++, iterations++)
             {
-                for (int j = 0; j < Size; j++)
+                for (int j = 0; j < Size; j++, comparations++, iterations++)
                 {
+                    comparations++;
                     if (i == j)
                     {
                         diagelem = AE.Data[i, j];
+                        comparations++;
                         if (diagelem == 0)
                         {
-                            for (int m = i + 1; m < Size; m++) // якщо діагональний елемент = 0, міняти рядки місцями з нижніми
+                            for (int m = i + 1; m < Size; m++, comparations++, iterations++) // якщо діагональний елемент = 0, міняти рядки місцями з нижніми
                             {
                                 AE.SwapRows(i, m);
                                 diagelem = AE.Data[i, j];
+                                comparations++;
                                 if (diagelem != 0)
                                 {
                                     break;
@@ -347,6 +370,7 @@ namespace CourseWork
                                     AE.SwapRows(i, m);
                                 }
                             }
+                            comparations++;
                             if (diagelem == 0)
                             {
                                 // якщо діагональний елемент, що не дорівнює нулю після зміни рядків не знайшовся - рішення немає
@@ -354,25 +378,29 @@ namespace CourseWork
                                 return; 
                             }
                         }
+                        comparations++;
                         if (diagelem != 1)
                         {
+                            comparations++;
                             if (SolutionBox != null)
                             {
                                 SolutionBox.Text += "========================================\n";
                                 SolutionBox.Text += $"{i + 1}р. = {i + 1}р./{diagelem}\n";
                             }
-                            for (int k = 0; k < AE.Columns; k++)
+                            for (int k = 0; k < AE.Columns; k++, comparations++, iterations++)
                             {
                                 // ділимо весь рядок на діагональний елемент
                                 AE.Data[i, k] = AE.Data[i, k] / diagelem;
                             }
                             AE.Print();
                         }
-                        for (int currrow = 0; currrow < AE.Rows; currrow++)
+                        for (int currrow = 0; currrow < AE.Rows; currrow++, comparations++, iterations++)
                         {
+                            comparations++;
                             if (currrow != i)
                             {
                                 double ratio = AE.Data[currrow, j]; // коефіцієнт домноження рядка
+                                comparations++;
                                 if (SolutionBox != null)
                                 {
                                     SolutionBox.Text += "========================================\n";
@@ -383,7 +411,7 @@ namespace CourseWork
                                 }
                                 // віднімається рядок від того, де знаходиться теперішній діагональний елемент * коефінієнт, щоб зробити нулі
                                 // над та під діагональним елементом
-                                for (int currcolumn = 0; currcolumn < AE.Columns; currcolumn++)
+                                for (int currcolumn = 0; currcolumn < AE.Columns; currcolumn++, comparations++, iterations++)
                                 {
                                     AE.Data[currrow, currcolumn] = AE.Data[currrow, currcolumn] - AE.Data[i, currcolumn] * ratio;
                                 }
@@ -397,13 +425,14 @@ namespace CourseWork
                 }
             }
             // повернення інвертованої матриці
-            for (int i = 0; i < Size; i++)
+            for (int i = 0; i < Size; i++, comparations++, iterations++)
             {
-                for (int j = 0; j < Size; j++)
+                for (int j = 0; j < Size; j++, comparations++, iterations++)
                 {
                     Data[i, j] = AE.Data[i, j + Size];
                 }
             }
+            comparations++;
             if (SolutionBox != null)
             {
                 SolutionBox.Text += "========================================\n";
@@ -418,9 +447,9 @@ namespace CourseWork
         public void GenerateData()
         {
             Random random = new Random();
-            for (int i = 0; i < Size; i++)
+            for (int i = 0; i < Size; i++, comparations++, iterations++)
             {
-                for (int j = 0; j < Size; j++)
+                for (int j = 0; j < Size; j++, comparations++, iterations++)
                 {
                     Data[i, j] = random.Next(20);
                 }
@@ -437,8 +466,10 @@ namespace CourseWork
         public bool ReversedExist()
         {
             Det = FindDeterminant();
+            comparations++;
             if (Det != 0)
             {
+                comparations++;
                 if (SolutionBox != null)
                 {
                     SolutionBox.Text += "det(A) != 0\n";
@@ -448,6 +479,7 @@ namespace CourseWork
             }
             else if (SolutionBox != null)
             {
+                comparations++;
                 SolutionBox.Text += "det(A) = 0 -> рішення немає.\n";
                 SolutionBox.Text += "========================================\n";
             }
@@ -459,12 +491,14 @@ namespace CourseWork
         /// <returns>Повертає детермінант</returns>А
         public double FindDeterminant()
         {
+            comparations++;
             if (SolutionBox != null)
             {
                 SolutionBox.Text += "========================================\n";
                 SolutionBox.Text += "ВИЗНАЧНИК МАТРИЦІ\n";
             }
             Det = 1;
+            comparations++;
             if (Size == 2)
             {
                 Det = Data[0, 0] * Data[1, 1] - Data[1, 0] * Data[0, 1];
@@ -476,22 +510,26 @@ namespace CourseWork
                 // прямий обхід Гауса, щоб зробити матрицю нижньо-трикутною
                 double diagelem;
                 Matrix copy = new Matrix(this);
-                for (int i = 0; i < Size; i++)
+                for (int i = 0; i < Size; i++, comparations++, iterations++)
                 {
-                    for (int j = 0; j < Size; j++)
+                    for (int j = 0; j < Size; j++, comparations++, iterations++)
                     {
+                        comparations++;
                         if (i == j)
                         {
                             diagelem = copy.Data[i, j];
+                            comparations++;
                             if (diagelem == 0)
                             {
                                 int m;
-                                for (m = i + 1; m < Size; m++)
+                                for (m = i + 1; m < Size; m++, comparations++, iterations++)
                                 {
                                     SwapRows(i, m);
                                     diagelem = copy.Data[i, j];
+                                    comparations++;
                                     if (diagelem != 0)
                                     {
+                                        comparations++;
                                         if (SolutionBox != null) SolutionBox.Text += $"row{i} <=> row{m}\n";
                                         break;
                                     }
@@ -500,8 +538,10 @@ namespace CourseWork
                                         SwapRows(i, m);
                                     }
                                 }
+                                comparations++;
                                 if (diagelem == 0)
                                 {
+                                    comparations++;
                                     if (SolutionBox != null)
                                     {
                                         SolutionBox.Text += "немає рішення в даній ситуації\n";
@@ -510,14 +550,15 @@ namespace CourseWork
                                     return 0;
                                 }
                             }
-                            for (int currrow = i + 1; currrow < Size; currrow++)
+                            for (int currrow = i + 1; currrow < Size; currrow++, comparations++, iterations++)
                             {
                                 double ratio = -1 * copy.Data[currrow, j] / copy.Data[i, j];
                                 
-                                for (int currcolumn = 0; currcolumn < Size; currcolumn++)
+                                for (int currcolumn = 0; currcolumn < Size; currcolumn++, comparations++, iterations++)
                                 {
                                     copy.Data[currrow, currcolumn] = copy.Data[i, currcolumn]*ratio + copy.Data[currrow, currcolumn];
                                 }
+                                comparations++;
                                 if (SolutionBox != null)
                                 {
                                     SolutionBox.Text += "========================================\n";
@@ -531,23 +572,28 @@ namespace CourseWork
                         }
                     }
                 }
+                comparations++;
                 if (SolutionBox != null)
                 {
                     SolutionBox.Text += "========================================\n";
                     SolutionBox.Text += "det(A) = ";
                 }
                 // det = перемноження діагоналі
-                for (int i = 0; i < Size; i++)
+                for (int i = 0; i < Size; i++, comparations++, iterations++)
                 {
                     Det *= copy.Data[i, i];
+                    comparations++;
                     if (SolutionBox != null)
                     {
+                        comparations++;
                         if (copy.Data[i, i].ToString()[0] != '-') SolutionBox.Text += copy.Data[i, i].ToString();
                         else SolutionBox.Text += $"({copy.Data[i, i]})";
+                        comparations++;
                         if (i == Size - 1) continue;
                         SolutionBox.Text += "*";
                     }
                 }
+                comparations++;
                 if (SolutionBox != null)
                     SolutionBox.Text += $" = {Det}\n";
             }
