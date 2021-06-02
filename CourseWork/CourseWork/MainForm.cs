@@ -203,12 +203,18 @@ namespace CourseWork
                     for (int i = 0; i < str.Length; i++)
                     {
                         string temp = str[i];
-                        while (temp[temp.Length - 1] == ' ') temp = temp.Remove(temp.Length - 1, 1);
+                        while (temp.Length != 0 && temp[temp.Length - 1] == ' ') temp = temp.Remove(temp.Length - 1, 1);
+                        while (temp.Length != 0 && temp[0] == ' ') temp = temp.Remove(0, 1);
                         while (temp.Contains("  "))
                         {
                             temp = temp.Replace("  ", " ");
                         }
-                        str[i] = temp;
+                        if (temp != "") str[i] = temp;
+                        else
+                        {
+                            MessageBox.Show("Знайдений пустий рядок у файлі");
+                            return;
+                        }
                     }
                     // перевірка на квадратність даних
                     for (int i = 0; i < str.Length; i++)
