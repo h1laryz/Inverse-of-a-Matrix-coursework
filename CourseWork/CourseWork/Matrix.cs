@@ -73,7 +73,7 @@ namespace CourseWork
             transponated.Transponant();
             Matrix A1 = this * transponated; 
             Matrix currU = new Matrix(transponated); // теперішнє U
-            double norm; // норма матриці
+            double norm = A1.Norm(); ; // норма матриці
             if (SolutionBox != null)
             {
                 SolutionBox.Text += "МЕТОД ШУЛЬЦА\n";
@@ -81,7 +81,7 @@ namespace CourseWork
                 SolutionBox.Text += $"A1 = A*A^T\n";
                 A1.Print();
                 SolutionBox.Text += "========================================\n";
-                norm = A1.Norm();
+                A1.PrintNorm();
                 SolutionBox.Text += "U1:\n";
                 for (int i = 0; i < currU.Rows; i++)
                 {
@@ -95,7 +95,6 @@ namespace CourseWork
                     SolutionBox.Text += ")\n";
                 }
             }
-            else norm = A1.Norm();
             // знаходження U^0 (для користувача "U1")
             for (int i = 0; i < currU.Rows; i++)
             {
@@ -110,20 +109,18 @@ namespace CourseWork
             {
                 U.Add(currU);
                 Psi.Add(E - this * U[k]);
-                if (SolutionBox != null)
-                {
-                    if (k != 0) SolutionBox.Text += $"U{k+1} = U{k}*(E+Ψ{k})\n";
-                    SolutionBox.Text += $"U{k+1}:\n";
-                    U[k].Print();
-                    SolutionBox.Text += $"Ψ{k+1} = E-A*U{k+1}\n";
-                    SolutionBox.Text += $"Ψ{k+1}:\n";
-                    Psi[k].Print();
-                }
                 currU = U[k] * (E + Psi[k]);
                 norm = Psi[k].Norm();
                 k++;
                 if (SolutionBox != null)
                 {
+                    if (k - 1 != 0) SolutionBox.Text += $"U{k} = U{k - 1}*(E+Ψ{k - 1})\n";
+                    SolutionBox.Text += $"U{k}:\n";
+                    U[k - 1].Print();
+                    SolutionBox.Text += $"Ψ{k} = E-A*U{k}\n";
+                    SolutionBox.Text += $"Ψ{k}:\n";
+                    Psi[k - 1].Print();
+                    Psi[k - 1].PrintNorm();
                     if (norm >= eps)
                     {
                         SolutionBox.Text += $"Норма Ψ{k} >= {eps}\n{norm} >= {eps} ==> продовжуємо алгоритм\n";
@@ -165,31 +162,39 @@ namespace CourseWork
         /// <returns>Повертається норма матриці</returns>
         public double Norm()
         {
-            if (SolutionBox != null) SolutionBox.Text += "Норма матрицы = √(";
             double result = 0;
             for (int i = 0; i < Size; i++)
             {
                 for (int j = 0; j < Size; j++)
                 {
                     result += Math.Pow(Data[i, j], 2);
-                    if (SolutionBox != null)
+                }
+            }
+            result = Math.Sqrt(result);
+            return result;
+        }
+        public void PrintNorm()
+        {
+            if (SolutionBox != null)
+            {
+                SolutionBox.Text += "Норма матрицы = √(";
+                double result = 0;
+                for (int i = 0; i < Size; i++)
+                {
+                    for (int j = 0; j < Size; j++)
                     {
+                        result += Math.Pow(Data[i, j], 2);
                         if (Math.Abs(Data[i, j]) >= 0.001)
                             SolutionBox.Text += $"({Math.Round(Data[i, j], 3)})^2";
                         else SolutionBox.Text += $"({Math.Round(Data[i, j], 5)})^2";
-
                         if (i != Size - 1 || j != Size - 1) SolutionBox.Text += "+";
                         else SolutionBox.Text += ")";
                     }
                 }
-            }
-            result = Math.Sqrt(result);
-            if (SolutionBox != null)
-            {
+                result = Math.Sqrt(result);
                 SolutionBox.Text += $"={result}\n";
                 SolutionBox.Text += "========================================\n";
             }
-            return result;
         }
         /// <summary>
         /// Додавання матриць
