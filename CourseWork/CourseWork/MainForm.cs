@@ -14,6 +14,7 @@ namespace CourseWork
 {
     public partial class MainForm : Form
     {
+        // для статистики
         public static int comparations = 0;
         public static int iterations = 0;
         public MainForm()
@@ -119,7 +120,8 @@ namespace CourseWork
             openFileDialog1.FileName = "";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                InputMatrixFromFile(openFileDialog1.FileName);
+                try { InputMatrixFromFile(openFileDialog1.FileName); }
+                catch { MessageBox.Show("Помилка при імпортуванні"); }
             }
         }
         // метод реалізації кнопки зберігання розв'язку у файл
@@ -214,6 +216,11 @@ namespace CourseWork
                 {
                     String[] str = File.ReadAllLines(path);
                     // очищення файлу від зайвих пробілів
+                    if (str.Length > 100) 
+                    { 
+                        MessageBox.Show("Програма підтримує максимальний розмір матриці 100");
+                        return;
+                    }
                     for (int i = 0; i < str.Length; i++, comparations++, iterations++)
                     {
                         string temp = str[i];
@@ -377,9 +384,10 @@ namespace CourseWork
         {
             if (gridResultMatrix[0, 0].Value.ToString() != "")
             {
-                MessageBox.Show($"Сравниваний: {comparations}\nИтераций: {iterations}");
+                MessageBox.Show($"Порівнянь: {comparations}\nІтерацій: {iterations}");
             }
-            else MessageBox.Show("Еще не находилась обратная матрица");
+            else MessageBox.Show("Ще не знаходилась обернена матриця");
         }
+
     }
 }

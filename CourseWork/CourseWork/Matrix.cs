@@ -7,6 +7,7 @@ namespace CourseWork
 {
     public class Matrix
     {
+        // для статистики
         public static int iterations { get; set; }
         public static int comparations { get; set; }
 
@@ -188,6 +189,9 @@ namespace CourseWork
             result = Math.Sqrt(result);
             return result;
         }
+        /// <summary>
+        /// Виводить норму матриці
+        /// </summary>
         public void PrintNorm()
         {
             if (SolutionBox != null)
