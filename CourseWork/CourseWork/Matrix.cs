@@ -206,7 +206,7 @@ namespace CourseWork
                         comparations++;
                         if (Math.Abs(Data[i, j]) >= 0.001)
                             SolutionBox.Text += $"({Math.Round(Data[i, j], 3)})^2";
-                        else SolutionBox.Text += $"({Math.Round(Data[i, j], 5)})^2";
+                        else SolutionBox.Text += $"({Math.Round(Data[i, j], 6)})^2";
                         comparations++;
                         if (i != Size - 1 || j != Size - 1) SolutionBox.Text += "+";
                         else SolutionBox.Text += ")";
@@ -315,6 +315,44 @@ namespace CourseWork
             comparations++;
             if (SolutionBox != null)
             {
+                bool tooSmallValues = false;
+                comparations++;
+                if (Rows == Columns)
+                {
+                    for (int i = 0; i < Rows; i++, iterations++, comparations++)
+                    {
+                        for (int j = 0; j < Columns; j++, iterations++, comparations++)
+                        {
+                            comparations++;
+                            if (Math.Round(Math.Abs(Data[i, j]), 6) == 0 && Data[i, j] != 0)
+                            {
+                                tooSmallValues = true;
+                            }
+                        }
+                    }
+                }
+                else if (Columns == Rows*2)
+                {
+                    for (int i = 0; i < Rows; i++, iterations++, comparations++)
+                    {
+                        for (int j = Columns/2; j < Columns; j++, iterations++, comparations++)
+                        {
+                            comparations++;
+                            if (Math.Round(Math.Abs(Data[i, j]), 6) == 0 && Data[i, j] != 0)
+                            {
+                                tooSmallValues = true;
+                            }
+                        }
+                    }
+                }
+                comparations++;
+                if (tooSmallValues)
+                {
+                    SolutionBox.Text += "========================================\n";
+                    SolutionBox.Text += "Були помічені дуже малі числа, програма в ході розв'язання автоматично округлила їх до нуля\n";
+                    SolutionBox.Text += "========================================\n";
+                }
+
                 for (int i = 0; i < Rows; i++, comparations++, iterations++)
                 {
                     SolutionBox.Text += "(";
@@ -323,7 +361,7 @@ namespace CourseWork
                         comparations++;
                         if (Math.Abs(Data[i, j]) >= 0.001)
                             SolutionBox.Text += Math.Round(Data[i, j], 3).ToString();
-                        else SolutionBox.Text += Math.Round(Data[i, j], 5).ToString();
+                        else SolutionBox.Text += Math.Round(Data[i, j], 6).ToString();
                         comparations++;
                         if (j == Columns - 1) continue;
                         SolutionBox.Text += "; ";
@@ -367,6 +405,7 @@ namespace CourseWork
                                 comparations++;
                                 if (diagelem != 0)
                                 {
+                                    if (SolutionBox != null) SolutionBox.Text += $"row{i} <=> row{m}\n";
                                     break;
                                 }
                                 else
@@ -528,7 +567,7 @@ namespace CourseWork
                                 int m;
                                 for (m = i + 1; m < Size; m++, comparations++, iterations++)
                                 {
-                                    SwapRows(i, m);
+                                    copy.SwapRows(i, m);
                                     diagelem = copy.Data[i, j];
                                     comparations++;
                                     if (diagelem != 0)
