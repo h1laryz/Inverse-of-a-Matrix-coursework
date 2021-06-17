@@ -349,7 +349,7 @@ namespace CourseWork
                 if (tooSmallValues)
                 {
                     SolutionBox.Text += "========================================\n";
-                    SolutionBox.Text += "Були помічені дуже малі числа, програма в ході розв'язання автоматично округлила їх до нуля\n";
+                    SolutionBox.Text += "Були помічені дуже малі числа, програма автоматично округлила їх до нуля(у виведенні)\n";
                     SolutionBox.Text += "========================================\n";
                 }
 
@@ -405,7 +405,7 @@ namespace CourseWork
                                 comparations++;
                                 if (diagelem != 0)
                                 {
-                                    if (SolutionBox != null) SolutionBox.Text += $"row{i} <=> row{m}\n";
+                                    if (SolutionBox != null) SolutionBox.Text += $"row{i+1} <=> row{m+1}\n";
                                     break;
                                 }
                                 else
@@ -573,7 +573,7 @@ namespace CourseWork
                                     if (diagelem != 0)
                                     {
                                         comparations++;
-                                        if (SolutionBox != null) SolutionBox.Text += $"row{i} <=> row{m}\n";
+                                        if (SolutionBox != null) SolutionBox.Text += $"row{i+1} <=> row{m+1}\n";
                                         break;
                                     }
                                     else

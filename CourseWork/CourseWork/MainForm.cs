@@ -388,6 +388,5 @@ namespace CourseWork
             }
             else MessageBox.Show("Ще не знаходилась обернена матриця");
         }
-
     }
 }
