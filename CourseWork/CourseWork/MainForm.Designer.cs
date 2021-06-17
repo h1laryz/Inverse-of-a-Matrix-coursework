@@ -52,6 +52,7 @@ namespace CourseWork
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.saveButton = new System.Windows.Forms.Button();
+            this.statsButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gridInputMatrix)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridResultMatrix)).BeginInit();
@@ -276,12 +277,23 @@ namespace CourseWork
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
+            // statsButton
+            // 
+            this.statsButton.Location = new System.Drawing.Point(445, 545);
+            this.statsButton.Name = "statsButton";
+            this.statsButton.Size = new System.Drawing.Size(75, 23);
+            this.statsButton.TabIndex = 49;
+            this.statsButton.Text = "Статистика";
+            this.statsButton.UseVisualStyleBackColor = true;
+            this.statsButton.Click += new System.EventHandler(this.statsButton_Click);
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(688, 573);
+            this.Controls.Add(this.statsButton);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -332,6 +344,7 @@ namespace CourseWork
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.CheckBox checkShowSolution;
+        private System.Windows.Forms.Button statsButton;
     }
 }
 
