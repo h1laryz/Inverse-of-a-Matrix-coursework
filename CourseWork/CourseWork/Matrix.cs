@@ -640,6 +640,12 @@ namespace CourseWork
                 if (SolutionBox != null)
                     SolutionBox.Text += $" = {Det}\n";
             }
+            if (1e-8 > Math.Abs(Det))
+            {
+                Det = 0;
+                if (SolutionBox != null)
+                    SolutionBox.Text += $"Детермінант стрімко падає до нуля за методом Гауса. Програма округлила його до нуля\n";
+            }
             return Det;
         } 
     }

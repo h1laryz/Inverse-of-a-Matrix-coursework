@@ -84,6 +84,8 @@ namespace CourseWork
             {
                 for (int j = 0; j < numericSize.Value; j++, comparations++, iterations++)
                 {
+                    if (gridInputMatrix[j, i].Value.ToString().Length > 9) 
+                        throw new Exception("Замечены слишком большие числа, максимальная длина числа = 9");
                     matrix[i, j] = Convert.ToDouble(gridInputMatrix[j, i].Value);
                 }
             }
@@ -310,7 +312,7 @@ namespace CourseWork
             {
                 matrix = new Matrix(Convert.ToInt32(numericSize.Value));
                 try { FillMatrix(matrix); }
-                catch { MessageBox.Show("Введіть коректні дані в таблицю"); return; }
+                catch (Exception ex) { MessageBox.Show($"Введіть коректні дані в таблицю. {ex.Message}") ; return; }
                 comparations++;
                 if (checkShowSolution.Checked)
                 {
