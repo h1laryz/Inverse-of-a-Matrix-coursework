@@ -84,8 +84,19 @@ namespace CourseWork
             {
                 for (int j = 0; j < numericSize.Value; j++, comparations++, iterations++)
                 {
+                    if (gridInputMatrix[j, i].Value == null)
+                        throw new Exception("Знайдені пусті елементи в таблиці");
                     if (gridInputMatrix[j, i].Value.ToString().Length > 9) 
-                        throw new Exception("Замечены слишком большие числа, максимальная длина числа = 9");
+                        throw new Exception("Замечены слишком большие числа, максимальная длина числа в символах = 9");
+                    string currvalue = gridInputMatrix[j, i].Value.ToString();
+                    for (int k = 0; k < currvalue.Length; k++)
+                    {
+                        if (!((currvalue[k] >= 48 && currvalue[k] <= 57) || currvalue[k] == 44 || (k == 0 && currvalue[k] == 45)))
+                        {
+                            throw new Exception("Помічені недопустимі символи.");
+                        }
+                    }
+
                     matrix[i, j] = Convert.ToDouble(gridInputMatrix[j, i].Value);
                 }
             }

@@ -140,6 +140,31 @@ namespace CourseWork
             } while (norm >= eps);
 
             // модифікація відповіді + повернення відповіді
+            //ModificatedShchultzAnswer(U, eps);
+
+            for (int i = 0; i < Size; i++, comparations++, iterations++)
+            {
+                for (int j = 0; j < Size; j++, comparations++, iterations++)
+                {
+                     Data[i, j] = (U[U.Count() - 1]).Data[i, j];
+                }
+            }
+
+            comparations++;
+            if (SolutionBox != null)
+            {
+                SolutionBox.Text += "Результат:\n";
+                Print();
+                SolutionBox.Text += "========================================\n";
+            }
+        }
+        /// <summary>
+        /// Модифицированных ответ обратной матрицы
+        /// </summary>
+        /// <param name="U">список матриц U</param>
+        /// <param name="eps">точность метода шульца</param>
+        private void ModificatedShchultzAnswer(List<Matrix> U, double eps)
+        {
             for (int i = 0; i < Size; i++, comparations++, iterations++)
             {
                 for (int j = 0; j < Size; j++, comparations++, iterations++)
@@ -157,19 +182,12 @@ namespace CourseWork
                         comparations++;
                     }
                     // інакше якщо модуль числа <= 0.001, то замінити нулем
-                    else if (!(Math.Abs((U[U.Count() - 1]).Data[i, j]) > eps)) 
+                    else if (!(Math.Abs((U[U.Count() - 1]).Data[i, j]) > eps))
                     {
                         comparations = comparations + 2;
                         Data[i, j] = 0;
                     }
                 }
-            }
-            comparations++;
-            if (SolutionBox != null)
-            {
-                SolutionBox.Text += "Результат:\n";
-                Print();
-                SolutionBox.Text += "========================================\n";
             }
         }
         /// <summary>
@@ -206,7 +224,9 @@ namespace CourseWork
                         comparations++;
                         if (Math.Abs(Data[i, j]) >= 0.001)
                             SolutionBox.Text += $"({Math.Round(Data[i, j], 3)})^2";
-                        else SolutionBox.Text += $"({Math.Round(Data[i, j], 6)})^2";
+                        else if (Math.Abs(Data[i, j]) >= 0.000001)
+                            SolutionBox.Text += $"({Math.Round(Data[i, j], 6)})^2";
+                        else SolutionBox.Text += $"({Data[i, j]})^2";
                         comparations++;
                         if (i != Size - 1 || j != Size - 1) SolutionBox.Text += "+";
                         else SolutionBox.Text += ")";
@@ -348,25 +368,40 @@ namespace CourseWork
                 comparations++;
                 if (tooSmallValues)
                 {
-                    SolutionBox.Text += "========================================\n";
-                    SolutionBox.Text += "Були помічені дуже малі числа, програма автоматично округлила їх до нуля(у виведенні)\n";
-                    SolutionBox.Text += "========================================\n";
-                }
+                    /* SolutionBox.Text += "========================================\n";
+                     SolutionBox.Text += "Були помічені дуже малі числа, програма автоматично округлила їх до нуля(у виведенні)\n";
+                     SolutionBox.Text += "========================================\n";*/
 
-                for (int i = 0; i < Rows; i++, comparations++, iterations++)
-                {
-                    SolutionBox.Text += "(";
-                    for (int j = 0; j < Columns; j++, comparations++, iterations++)
+                    for (int i = 0; i < Rows; i++, comparations++, iterations++)
                     {
-                        comparations++;
-                        if (Math.Abs(Data[i, j]) >= 0.001)
-                            SolutionBox.Text += Math.Round(Data[i, j], 3).ToString();
-                        else SolutionBox.Text += Math.Round(Data[i, j], 6).ToString();
-                        comparations++;
-                        if (j == Columns - 1) continue;
-                        SolutionBox.Text += "; ";
+                        SolutionBox.Text += "(";
+                        for (int j = 0; j < Columns; j++, comparations++, iterations++)
+                        {
+                            SolutionBox.Text += Math.Round(Data[i, j], 13).ToString();
+                            comparations++;
+                            if (j == Columns - 1) continue;
+                            SolutionBox.Text += "; ";
+                        }
+                        SolutionBox.Text += ")\n";
                     }
-                    SolutionBox.Text += ")\n";
+                }
+                else
+                {
+                    for (int i = 0; i < Rows; i++, comparations++, iterations++)
+                    {
+                        SolutionBox.Text += "(";
+                        for (int j = 0; j < Columns; j++, comparations++, iterations++)
+                        {
+                            comparations++;
+                            if (Math.Abs(Data[i, j]) >= 0.001)
+                                SolutionBox.Text += Math.Round(Data[i, j], 3).ToString();
+                            else SolutionBox.Text += Math.Round(Data[i, j], 6).ToString();
+                            comparations++;
+                            if (j == Columns - 1) continue;
+                            SolutionBox.Text += "; ";
+                        }
+                        SolutionBox.Text += ")\n";
+                    }
                 }
             }
         }
@@ -494,7 +529,7 @@ namespace CourseWork
             {
                 for (int j = 0; j < Size; j++, comparations++, iterations++)
                 {
-                    Data[i, j] = random.Next(20);
+                    Data[i, j] = random.Next(-10000, 10000) / 10.0;
                 }
             }
             if (!ReversedExist())
@@ -640,11 +675,11 @@ namespace CourseWork
                 if (SolutionBox != null)
                     SolutionBox.Text += $" = {Det}\n";
             }
-            if (1e-8 > Math.Abs(Det))
+            if (1e-10 > Math.Abs(Det))
             {
                 Det = 0;
                 if (SolutionBox != null)
-                    SolutionBox.Text += $"Детермінант стрімко падає до нуля за методом Гауса. Програма округлила його до нуля\n";
+                    SolutionBox.Text += $"Детермінант дуже близький до нуля за методом Гауса. Програма округлила його до нуля\n";
             }
             return Det;
         } 

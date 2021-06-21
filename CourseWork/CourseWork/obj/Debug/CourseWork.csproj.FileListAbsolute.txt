@@ -1,7 +1,6 @@
 D:\github\coursework\CourseWork\CourseWork\bin\Debug\CourseWork.exe.config
 D:\github\coursework\CourseWork\CourseWork\bin\Debug\CourseWork.exe
 D:\github\coursework\CourseWork\CourseWork\bin\Debug\CourseWork.pdb
-D:\github\coursework\CourseWork\CourseWork\obj\Debug\CourseWork.csprojAssemblyReference.cache
 D:\github\coursework\CourseWork\CourseWork\obj\Debug\CourseWork.Properties.Resources.resources
 D:\github\coursework\CourseWork\CourseWork\obj\Debug\CourseWork.csproj.GenerateResource.cache
 D:\github\coursework\CourseWork\CourseWork\obj\Debug\CourseWork.csproj.CoreCompileInputs.cache
