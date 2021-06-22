@@ -377,7 +377,7 @@ namespace CourseWork
                         SolutionBox.Text += "(";
                         for (int j = 0; j < Columns; j++, comparations++, iterations++)
                         {
-                            SolutionBox.Text += Math.Round(Data[i, j], 13).ToString();
+                            SolutionBox.Text += Data[i, j].ToString();
                             comparations++;
                             if (j == Columns - 1) continue;
                             SolutionBox.Text += "; ";
@@ -675,7 +675,7 @@ namespace CourseWork
                 if (SolutionBox != null)
                     SolutionBox.Text += $" = {Det}\n";
             }
-            if (1e-10 > Math.Abs(Det))
+            if (1e-15 > Math.Abs(Det))
             {
                 Det = 0;
                 if (SolutionBox != null)

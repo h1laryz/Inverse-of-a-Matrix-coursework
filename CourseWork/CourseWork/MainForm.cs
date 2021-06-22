@@ -91,7 +91,7 @@ namespace CourseWork
                     string currvalue = gridInputMatrix[j, i].Value.ToString();
                     for (int k = 0; k < currvalue.Length; k++)
                     {
-                        if (!((currvalue[k] >= 48 && currvalue[k] <= 57) || currvalue[k] == 44 || (k == 0 && currvalue[k] == 45)))
+                        if (!((currvalue[k] >= 48 && currvalue[k] <= 57) || currvalue[k] == 44 || currvalue[k] == 46 || (k == 0 && currvalue[k] == 45)))
                         {
                             throw new Exception("Помічені недопустимі символи.");
                         }

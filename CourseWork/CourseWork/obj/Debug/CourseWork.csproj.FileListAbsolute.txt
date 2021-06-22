@@ -7,3 +7,4 @@ D:\github\coursework\CourseWork\CourseWork\obj\Debug\CourseWork.csproj.CoreCompi
 D:\github\coursework\CourseWork\CourseWork\obj\Debug\CourseWork.exe
 D:\github\coursework\CourseWork\CourseWork\obj\Debug\CourseWork.pdb
 D:\github\coursework\CourseWork\CourseWork\obj\Debug\CourseWork.MainForm.resources
+D:\github\coursework\CourseWork\CourseWork\obj\Debug\CourseWork.csproj.AssemblyReference.cache
